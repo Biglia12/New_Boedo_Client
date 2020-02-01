@@ -14,31 +14,31 @@
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <com.google.android.material.appbar.CollapsingToolbarLayout
-        android:id="@+id/collapsing"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:fitsSystemWindows="true"
-        app:contentScrim="#0e0d0e"
-        app:expandedTitleTextAppearance="@android:color/transparent"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="#0e0d0e"
+            app:expandedTitleTextAppearance="@android:color/transparent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-    <ImageView
-        android:id="@+id/food_imagen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@null"
-        android:scaleType="centerCrop"
-        app:layout_collapseMode="parallax" />
+            <ImageView
+                android:id="@+id/food_imagen"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax" />
 
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_collapseMode="parallax"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Nombre de Comida"></androidx.appcompat.widget.Toolbar>
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="parallax"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="Nombre de Comida" />
 
-    </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -51,9 +51,7 @@
         app:layout_anchor="@id/app_bar_layout"
         app:layout_anchorGravity="bottom|right|end"
         app:pressedTranslationZ="12dp"
-        app:useCompatPadding="true"
-
-        />
+        app:useCompatPadding="true" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
@@ -63,95 +61,147 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="5dp"
-        app:cardUseCompatPadding="true">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/food_nombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:padding="12dp"
-        android:text="Nombre de comida"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:id="@+id/layout_price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:src="@drawable/ic_attach_money_black_24dp" />
-
-    <TextView
-        android:id="@+id/food_precio"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="9"
-        android:text="1,000"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
-        android:id="@+id/number_button"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="18dp"
-        app:backGroundColor="@color/colorAccent"
-        app:finalNumber="20"
-        app:initialNumber="1"
-        app:textSize="8sp">
-    </com.cepheuen.elegantnumberbutton.view.ElegantNumberButton>
-    </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="5dp"
-            app:cardUseCompatPadding="true">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/food_descripcion"
-                android:layout_width="wrap_content"
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:lineSpacingMultiplier="1.5"
-                android:padding="12dp"
-                android:text="Descripción"
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
+                android:elevation="5dp"
+                app:cardUseCompatPadding="true">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/food_nombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        tools:text="Nombre de comida"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/food_nombre">
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:src="@drawable/ic_attach_money_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/food_precio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="9"
+                            android:text="0,00"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            tools:text="150,00" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@color/colorAccent"
+                        android:orientation="horizontal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/layout_price">
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/buttonRemove"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:background="@color/fbutton_color_transparent"
+                            android:tint="@color/white"
+                            android:padding="5dp"
+                            android:paddingStart="15dp"
+                            android:paddingEnd="15dp"
+                            app:srcCompat="@drawable/ic_remove_24dp" />
+
+                        <TextView
+                            android:id="@+id/tvUnitProduct"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:gravity="center_vertical"
+                            tools:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/buttonAdd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:background="@color/fbutton_color_transparent"
+                            android:src="@drawable/ic_add_24dp"
+                            android:padding="5dp"
+                            android:paddingStart="15dp"
+                            android:paddingEnd="15dp"
+                            android:tint="@color/white" />
+
+
+                    </LinearLayout>
+
+                    <!-- <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                         android:id="@+id/number_button"
+                         android:layout_width="100dp"
+                         android:layout_height="30dp"
+                         app:backGroundColor="@color/colorAccent"
+                         app:finalNumber="20"
+                         app:initialNumber="1"
+                         app:layout_constraintBottom_toBottomOf="parent"
+                         app:textSize="8sp"
+                         tools:layout_editor_absoluteX="162dp" />-->
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true">
+
+                <TextView
+                    android:id="@+id/food_descripcion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:lineSpacingMultiplier="1.5"
+                    android:padding="12dp"
+                    android:text="Descripción"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -95,6 +95,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         //escoger nombre para el usuario
         View headerView = navigationView.getHeaderView(0);
         txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
+        if (Common.currentuser.getName() !=null)
         txtFullName.setText(Common.currentuser.getName());
 
         //cargar menu
