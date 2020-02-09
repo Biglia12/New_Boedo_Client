@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,9 +42,10 @@ public class FoodList extends AppCompatActivity {
     FirebaseRecyclerAdapter<Food, FoodViewHolder> adapter;
     String categoriaId="";
 
-
-
-
+    //Funcionalidad buscar
+    FirebaseRecyclerAdapter<Food, FoodViewHolder> searchAdapter;
+    List<String>suggestList= new ArrayList<>();
+    MaterialSearchBar materialSearchBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,110 @@ public class FoodList extends AppCompatActivity {
                 return;
             }
         }
+
+        // Search
+        materialSearchBar = findViewById(R.id.searchBar);
+        materialSearchBar.setHint("Ingrese su comida/bebida");
+        loadSuggest(); //  escribir funcion de sugerencia para carga de firebase
+        materialSearchBar.setLastSuggestions(suggestList);
+        materialSearchBar.setCardViewElevation(10);
+        materialSearchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //cuando un usuario escriba su texto, nostoros cambiaremos la sgugerencia de lista
+
+                List<String> suggest = new ArrayList<String>();
+             for (String search:suggestList)//lazo en lista se sugerir
+             {
+              if (search.toLowerCase().contains(materialSearchBar.getText().toLowerCase()))
+                  suggest.add(search);
+             }
+               materialSearchBar.setLastSuggestions(suggest);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
+            @Override
+            public void onSearchStateChanged(boolean enabled) {
+                //cuando searchbar esta cerrado
+                //restaurar la sugerencia original
+                if (!enabled)
+                    recyclerView.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onSearchConfirmed(CharSequence text) {
+                //cuando el buscador finaliza
+                //muestra resultado del search adapter
+                startSearch(text);
+
+            }
+
+            @Override
+            public void onButtonClicked(int buttonCode) {
+
+            }
+        });
+    }
+
+    private void startSearch(CharSequence text) {
+      FirebaseRecyclerOptions<Food>options =
+              new FirebaseRecyclerOptions.Builder<Food>().setQuery(foodList.orderByChild("Nombre").equalTo(text.toString()),Food.class).build();
+
+      searchAdapter=new FirebaseRecyclerAdapter<Food, FoodViewHolder>(options) {
+          @Override
+          protected void onBindViewHolder(@NonNull FoodViewHolder holder, int position, @NonNull Food model) {
+              holder.comida_name.setText(model.getNombre());
+              Picasso.get().load(model.getImagen()).into(holder.comida_image);
+
+              holder.setItemClickListener(new ItemClickListener() {
+                  @Override
+                  public void onClick(View view, int position, boolean isLongClick) {
+                      //empezar actividad de la food details
+                      Intent foodDetails = new Intent(FoodList.this,FoodDetail.class);
+                      foodDetails.putExtra("ComidaId",searchAdapter.getRef(position).getKey());//enviar comidaid a nueva actividad
+                      startActivity(foodDetails);
+                  }
+              });
+          }
+
+          @NonNull
+          @Override
+          public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+              View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_item, parent, false);
+              return new FoodViewHolder(view);
+          }
+      };
+        searchAdapter.startListening();
+        searchAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(searchAdapter);
+    }
+
+    private void loadSuggest() {
+        foodList.orderByChild("menuId").equalTo(categoriaId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot:dataSnapshot.getChildren()) {
+                    Food item = postSnapshot.getValue(Food.class);
+                    suggestList.add(item.getNombre());//agregar nombre de comida para la sugerencia de la lista
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

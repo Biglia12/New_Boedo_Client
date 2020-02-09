@@ -11,16 +11,16 @@ import com.example.androidfood.R;
 
 public class OrderviewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public TextView txtOrderId,txtOrderStatus,txtOrderPhone,txtOrderAdress;
+    public TextView txtOrderId,txtOrderEstados,txtOrderTelefono,txtOrderDireccion;
 
     private ItemClickListener itemClickListener;
 
     public OrderviewHolder(@NonNull View itemView) {
         super(itemView);
-        txtOrderAdress = (TextView)itemView.findViewById(R.id.order_address);
-        txtOrderId = (TextView)itemView.findViewById(R.id.order_id);
-        txtOrderStatus = (TextView)itemView.findViewById(R.id.order_status);
-        txtOrderPhone = (TextView)itemView.findViewById(R.id.order_phone);
+        txtOrderDireccion = itemView.findViewById(R.id.order_direccion);
+        txtOrderId = itemView.findViewById(R.id.order_id);
+        txtOrderEstados = itemView.findViewById(R.id.order_estados);
+        txtOrderTelefono = itemView.findViewById(R.id.order_telefono);
 
         itemView.setOnClickListener(this);
 

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -48,22 +49,22 @@ public class OrderStatus extends AppCompatActivity {
     }
 
     private void loadOrders(String phone) {
-        FirebaseRecyclerOptions<Request> options = new FirebaseRecyclerOptions.Builder<Request>().setQuery(requests.orderByChild("phone").equalTo(phone), Request.class).build();
+        FirebaseRecyclerOptions<Request> options = new FirebaseRecyclerOptions.Builder<Request>().setQuery(requests.orderByChild("telefono").equalTo(phone), Request.class).build();
 
         adapter=new FirebaseRecyclerAdapter<Request, OrderviewHolder>(options) {
            @Override
            protected void onBindViewHolder(@NonNull OrderviewHolder holder, int position, @NonNull Request model) {
                holder.txtOrderId.setText(adapter.getRef(position).getKey());
-               holder.txtOrderStatus.setText(convertCodeToStatus(model.getStatus()));
-               holder.txtOrderAdress.setText(model.getAdress());
-               holder.txtOrderPhone.setText(model.getPhone());
+               holder.txtOrderEstados.setText(convertCodeToStatus(model.getEstados()));
+               holder.txtOrderDireccion.setText(model.getDireccion());
+               holder.txtOrderTelefono.setText(model.getTelefono());
                holder.setItemClickListener(new ItemClickListener() {
                    @Override
                    public void onClick(View view, int position, boolean isLongClick) {
 
                    }
                });
-           recyclerView.setAdapter(adapter);
+
 
            }
 
@@ -79,10 +80,14 @@ public class OrderStatus extends AppCompatActivity {
             @NonNull
            @Override
            public OrderviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-               return null;
+               View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_layout,parent,false);
+               return new OrderviewHolder(view);
            }
        };
-
+        //Adaptador
+        adapter.startListening();
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
 
     }
 }

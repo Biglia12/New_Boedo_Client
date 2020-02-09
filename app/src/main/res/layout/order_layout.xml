@@ -32,17 +32,17 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/order_status"
+                android:id="@+id/order_estados"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical|start"
-                android:text="Estado"
+                android:text="Estados"
                 android:textAllCaps="true"
                 android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/order_phone"
+                android:id="@+id/order_telefono"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -52,7 +52,7 @@
                 android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/order_address"
+                android:id="@+id/order_direccion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -63,7 +63,6 @@
 
 
         </LinearLayout>
-
 
 
 

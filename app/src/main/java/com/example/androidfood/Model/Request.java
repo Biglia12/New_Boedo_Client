@@ -3,55 +3,55 @@ package com.example.androidfood.Model;
 import java.util.List;
 
 public class Request {
-    private String phone;
-    private String name;
-    private String adress;
+    private String telefono;
+    private String nombre;
+    private String direccion;
     private String total;
-    private String status;
-    private List<Order>foods; // lista de comida ordenada
+    private String estados;
+    private List<Order>comidas; // lista de comida ordenada
 
     public Request() {
     }
 
-    public Request(String phone, String name, String adress, String total, List<Order> foods) {
-        this.phone = phone;
-        this.name = name;
-        this.adress = adress;
+    public Request(String telefono, String nombre, String direccion, String total, List<Order> comidas) {
+        this.telefono = telefono;
+        this.nombre = nombre;
+        this.direccion = direccion;
         this.total = total;
-        this.foods = foods;
-        this.status="0";//Default es 0, 0: lugar,1: envio,2: enviado
+        this.comidas = comidas;
+        this.estados="0";//Default es 0, 0: lugar,1: envio,2: enviado
     }
 
-    public String getStatus() {
-        return status;
+    public String getEstados() {
+        return estados;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setEstados(String estados) {
+        this.estados = estados;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
-    public String getName() {
-        return name;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public String getTotal() {
@@ -62,11 +62,11 @@ public class Request {
         this.total = total;
     }
 
-    public List<Order> getFoods() {
-        return foods;
+    public List<Order> getComidas() {
+        return comidas;
     }
 
-    public void setFoods(List<Order> foods) {
-        this.foods = foods;
+    public void setComidas(List<Order> comidas) {
+        this.comidas = comidas;
     }
 }
