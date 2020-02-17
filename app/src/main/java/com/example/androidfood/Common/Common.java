@@ -10,14 +10,6 @@ public class Common {
 
     public static User currentuser;
 
-    public static String convertCodeToStatus(String status) {
-        if (status.equals("0"))
-            return "En lugar";
-        else if (status.equals("1"))
-            return "En camino";
-        else
-            return "Enviado";
-    }
     public static boolean isConnectedToInternet(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
@@ -32,5 +24,3 @@ public class Common {
         return false;
     }
 }
-
-

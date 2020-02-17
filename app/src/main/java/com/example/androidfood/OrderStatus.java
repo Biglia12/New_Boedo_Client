@@ -43,12 +43,8 @@ public class OrderStatus extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-     if (getIntent()==null)
-      loadOrders(Common.currentuser.getPhone());
-     else
-         loadOrders(getIntent().getStringExtra("userPhone"));
 
-     loadOrders(Common.currentuser.getPhone());
+      loadOrders(Common.currentuser.getPhone());
 
     }
 
@@ -59,7 +55,7 @@ public class OrderStatus extends AppCompatActivity {
            @Override
            protected void onBindViewHolder(@NonNull OrderviewHolder holder, int position, @NonNull Request model) {
                holder.txtOrderId.setText(adapter.getRef(position).getKey());
-               holder.txtOrderEstados.setText(Common.convertCodeToStatus(model.getEstados()));
+               holder.txtOrderEstados.setText(convertCodeToStatus(model.getEstados()));
                holder.txtOrderDireccion.setText(model.getDireccion());
                holder.txtOrderTelefono.setText(model.getTelefono());
                holder.setItemClickListener(new ItemClickListener() {
@@ -72,7 +68,14 @@ public class OrderStatus extends AppCompatActivity {
 
            }
 
-
+            private String convertCodeToStatus(String status) {
+               if (status.equals("0"))
+                   return "En lugar";
+               else if (status.equals("1"))
+                   return "En camino";
+               else
+                   return "Enviado";
+            }
 
             @NonNull
            @Override
