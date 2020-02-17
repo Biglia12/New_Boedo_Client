@@ -8,7 +8,6 @@ import android.os.Bundle;
 import com.example.androidfood.Common.Common;
 import com.example.androidfood.Interface.ItemClickListener;
 import com.example.androidfood.Model.Categoria;
-import com.example.androidfood.Service.ListenOrder;
 import com.example.androidfood.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -60,7 +59,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
-    FirebaseRecyclerAdapter<Categoria, MenuViewHolder> adapter;
+    FirebaseRecyclerAdapter<Categoria, MenuViewHolder>adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +79,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent cartIntent = new Intent(Home.this, Cart.class);
-                startActivity(cartIntent);
+               Intent cartIntent = new Intent(Home.this,Cart.class);
+               startActivity(cartIntent);
             }
         });
         //Abrire los cuadrados de la derecha para que se abra el panel
@@ -96,8 +95,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         //escoger nombre para el usuario
         View headerView = navigationView.getHeaderView(0);
         txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
-        if (Common.currentuser.getName() != null)
-            txtFullName.setText(Common.currentuser.getName());
+        if (Common.currentuser.getName() !=null)
+        txtFullName.setText(Common.currentuser.getName());
 
         //cargar menu
         recycler_menu = (RecyclerView) findViewById(R.id.recycler_menu);
@@ -106,20 +105,15 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         recycler_menu.setLayoutManager(layoutManager);
 
         loadMenu();
-
-        //registrar servicio
-        Intent service=new Intent(Home.this, ListenOrder.class);
-        startService(service);
     }
-
-    //se cargara lo de firebase
+//se cargara lo de firebase
     private void loadMenu() {
         FirebaseRecyclerOptions<Categoria> options =
                 new FirebaseRecyclerOptions.Builder<Categoria>()
                         .setQuery(categoria, Categoria.class)
                         .build();
 
-        adapter = new FirebaseRecyclerAdapter<Categoria, MenuViewHolder>(options) {
+            adapter= new FirebaseRecyclerAdapter<Categoria, MenuViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull MenuViewHolder holder, int i, @NonNull Categoria model) {
                 holder.txtMenuNombre.setText(model.getNombre());
@@ -140,10 +134,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        //Obtener Categoria ID y enviar a nueva actividad
-                        Intent foodList = new Intent(Home.this, FoodList.class);
+                       //Obtener Categoria ID y enviar a nueva actividad
+                        Intent foodList = new Intent(Home.this,FoodList.class);
                         //por que lña categoriaid es la key, asiq ahora nosotros obtenemos la key de este item
-                        foodList.putExtra("CategoriaId", adapter.getRef(position).getKey());
+                        foodList.putExtra("CategoriaId",adapter.getRef(position).getKey());
                         startActivity(foodList);
 
                     }
@@ -182,7 +176,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         return true;
     }
 
-    //esto fue creado cuando se implementa setanavigationitemselected. es la ocpion dos y asi se puede abrir los cuadrados
+//esto fue creado cuando se implementa setanavigationitemselected. es la ocpion dos y asi se puede abrir los cuadrados
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -191,16 +185,16 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
 
         } else if (id == R.id.nav_cart) {
-            Intent cartIntent = new Intent(Home.this, Cart.class);
-            startActivity(cartIntent);
+           Intent cartIntent=new Intent(Home.this,Cart.class);
+           startActivity(cartIntent);
 
         } else if (id == R.id.nav_orders) {
-            Intent orderIntent = new Intent(Home.this, OrderStatus.class);
+            Intent orderIntent=new Intent(Home.this,OrderStatus.class);
             startActivity(orderIntent);
 
         } else if (id == R.id.nav_log_out) {
-            //LogOut
-            Intent signIn = new Intent(Home.this, SignIn.class);
+          //LogOut
+            Intent signIn=new Intent(Home.this,SignIn.class);
             signIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(signIn);
 
