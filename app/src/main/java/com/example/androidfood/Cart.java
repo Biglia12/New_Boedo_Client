@@ -1,25 +1,15 @@
 package com.example.androidfood;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,8 +40,14 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
-import info.hoang8f.widget.FButton;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,12 +60,10 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
     FirebaseDatabase database;
     DatabaseReference requests;
 
-   public TextView txtTotalPrice;
+    public TextView txtTotalPrice;
     Button btnPlace;
 
-    private String address;
-
-    List<Order> cart= new ArrayList<>();
+    List<Order> cart = new ArrayList<>();
 
     CartAdapter adapter;
 
@@ -77,49 +71,69 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
     RelativeLayout rootLayout;
 
+    RadioGroup radioGroup;
+
+    RadioButton rbGoToMarket, rbSendToAddress;
+
+    LinearLayout llDataSendDirection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Botoon para volver hacia atras. se encuentra en action bar
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);//Botoon para volver hacia atras. se encuentra en action bar
 
-        mService=Common.getFCMClient();
+        mService = Common.getFCMClient();
 
 
-     //Firebase
-        database=FirebaseDatabase.getInstance();
-        requests=database.getReference("Requests");
+        //Firebase
+        database = FirebaseDatabase.getInstance();
+        requests = database.getReference("Requests");
 
         //init
-        recyclerView=findViewById(R.id.listCart);
+        recyclerView = findViewById(R.id.listCart);
         recyclerView.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        rootLayout=findViewById(R.id.rootLayout);
+        rootLayout = findViewById(R.id.rootLayout);
+
 
         //swipe para eliminar
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0,ItemTouchHelper.LEFT,this);
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
 
         txtTotalPrice = findViewById(R.id.total);
         btnPlace = findViewById(R.id.btnPlaceOrder);
 
-        btnPlace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnPlace.setOnClickListener(v -> {
 
-                if (cart.size()>0)
+            if (cart.size() > 0) {
+
+
                 showAlertDialog();
-                else
-                    Toast.makeText(Cart.this,"Su carro esta vacio!!!",Toast.LENGTH_SHORT).show();
-              
 
-        }
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                        switch (i) {
+                            case R.id.rdiShipToSucursal:
+                                llDataSendDirection.setVisibility(View.GONE);
+                                break;
+                            case R.id.rdiShipToAddress:
+                                llDataSendDirection.setVisibility(View.VISIBLE);
+                                break;
+                        }
+                    }
+                });
 
-    });
+            } else
+                Toast.makeText(Cart.this, "Su carro esta vacio!!!", Toast.LENGTH_SHORT).show();
+
+
+        });
 
         loadListFood();
 
@@ -132,48 +146,22 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
         alertDialog.setMessage("Seleccione las opciones ");
 
         LayoutInflater inflater = this.getLayoutInflater();
-        View order_address_comment = inflater.inflate(R.layout.order_address_comment,null);
+        View order_address_comment = inflater.inflate(R.layout.order_address_comment, null);
 
+        llDataSendDirection = order_address_comment.findViewById(R.id.order_address_comment_ll_data_send_direction);
+        radioGroup = order_address_comment.findViewById(R.id.radioGroupOrders);
+        rbGoToMarket = order_address_comment.findViewById(R.id.rdiShipToSucursal);
+        rbSendToAddress = order_address_comment.findViewById(R.id.rdiShipToAddress);
         final MaterialEditText edtAdress = order_address_comment.findViewById(R.id.edtAddress);
         final MaterialEditText edtComment = order_address_comment.findViewById(R.id.edtComment);
         final MaterialEditText edtentrecalles = order_address_comment.findViewById(R.id.edtentrecalles);
         final MaterialEditText edtpisodepartamento = order_address_comment.findViewById(R.id.edtpisoodepartamento);
         final MaterialEditText edtLocalidad = order_address_comment.findViewById(R.id.edtlocalidad);
 
-        /*final RadioButton rdiHomeAddress = (RadioButton) order_address_comment.findViewById(R.id.rdiHomeAddress);//veremos seria para implementar en la direccion de su casa
-
-        rdiHomeAddress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {//veremos
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                {
-                   if (Common.currentuser.getHomeAdress() !=null ||!TextUtils.isEmpty(Common.currentuser.getHomeAdress() )
-                           && (Common.currentuser.getEntrecalles() !=null  || !TextUtils.isEmpty(Common.currentuser.getEntrecalles())
-                           && (Common.currentuser.getPisoydepartamento() !=null || !TextUtils.isEmpty(Common.currentuser.getPisoydepartamento())
-                           && (Common.currentuser.getLocalidad() !=null || !TextUtils.isEmpty(Common.currentuser.getLocalidad()) ))))
-
-                   {
-                        address=Common.currentuser.getHomeAdress();
-                        address=Common.currentuser.getEntrecalles();
-                        address=Common.currentuser.getPisoydepartamento();
-                        address=Common.currentuser.getLocalidad();
-                   }
-                   else
-                   {
-                       Toast.makeText(Cart.this,"Por favor suba los datos de su domicilio",Toast.LENGTH_SHORT).show();
-                   }
-
-                }
-            }
-        });*/
-
-        alertDialog.setView(order_address_comment);
         alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
         alertDialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Eliminar carro
-                new Database(getBaseContext()).cleanCart();
                 Request request = new Request(
                         Common.currentuser.getPhone(),
                         Common.currentuser.getName(),
@@ -186,114 +174,115 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                         edtComment.getText().toString(),
                         cart
                 );
-            //enviar a firebase
+                //enviar a firebase
                 //usaremos System.CurrentMilli para llave
 
-                String order_number =String.valueOf(System.currentTimeMillis());
+                String order_number = String.valueOf(System.currentTimeMillis());
                 requests.child(order_number).setValue(request);
 
 
                 Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
-                finish();
 
                 sendNotificationOrder(order_number);
 
+                //Eliminar carro
+                new Database(getBaseContext()).cleanCart();
+
+                finish();
 
             }
 
             private void sendNotificationOrder(final String order_number) {
-              DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
-              Query data = tokens.orderByChild("serverToken").equalTo(true);
-              data.addValueEventListener(new ValueEventListener() {
-                  @Override
-                  public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                      for (DataSnapshot postSnapShot:dataSnapshot.getChildren()) {
+                DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
+                Query data = tokens.orderByChild("serverToken").equalTo(true);
+                data.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
 
-                          Token serverToken = postSnapShot.getValue(Token.class);
+                            Token serverToken = postSnapShot.getValue(Token.class);
 
-                          Notification notification = new Notification("New Boedo", "Tienes una nueva orden" + order_number);
-                          Sender content = new Sender(serverToken.getToken(),notification);
+                            Notification notification = new Notification("New Boedo", "Tienes una nueva orden" + order_number);
+                            Sender content = new Sender(serverToken.getToken(), notification);
 
-                          mService.sendNotification(content)
-                                  .enqueue(new Callback<MyResponse>() {
-                                      @Override
-                                      public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                            mService.sendNotification(content)
+                                    .enqueue(new Callback<MyResponse>() {
+                                        @Override
+                                        public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
 
-                                          if(response.code() == 200) {
-                                              if (response.body().success == 1) {
-                                                  Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
-                                                  finish();
-                                              } else {
-                                                  Toast.makeText(Cart.this, "Hubo un problema", Toast.LENGTH_SHORT).show();
-                                              }
+                                            if (response.code() == 200) {
+                                                if (response.body().success == 1) {
+                                                    Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
+                                                    finish();
+                                                } else {
+                                                    Toast.makeText(Cart.this, "Hubo un problema", Toast.LENGTH_SHORT).show();
+                                                }
 
-                                          }
+                                            }
 
-                                      }
+                                        }
 
-                                      @Override
-                                      public void onFailure(Call<MyResponse> call, Throwable t) {
-                                          Log.e("ERROR","FALLA"+t.getMessage());
+                                        @Override
+                                        public void onFailure(Call<MyResponse> call, Throwable t) {
+                                            Log.e("ERROR", "FALLA" + t.getMessage());
 
-                                      }
-                                  });
+                                        }
+                                    });
 
-                      }
-                  }
+                        }
+                    }
 
-                  @Override
-                  public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                  }
-              });
+                    }
+                });
 
             }
         });
-     alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-         @Override
-         public void onClick(DialogInterface dialog, int which) {
+        alertDialog.setNegativeButton("NO", (dialog, which) -> {
+        });
 
-         }
-     });
+        alertDialog.setView(order_address_comment);
 
-     alertDialog.show();
+        alertDialog.show();
+
+        //validateRadioButtons();
     }
 
+    private void validateRadioButtons() {
+/*        if (rbGoToMarket.isChecked()){
+            llDataSendDirection.setVisibility(View.GONE);
+        }else if (rbSendToAddress.isChecked()){
+            llDataSendDirection.setVisibility(View.VISIBLE);
+        }*/
+
+        int isSelected = radioGroup.getCheckedRadioButtonId();
+
+        if (isSelected == 1) {
+
+        } else {
+
+        }
+    }
+
+
     private void loadListFood() {
-        cart=new Database(this).getCarts();
-        adapter=new CartAdapter(cart,this);
+        cart = new Database(this).getCarts();
+        adapter = new CartAdapter(cart, this);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
 
         //Calcular precio total
         int total = 0;
-        for (Order order: cart)
-            total+=(Integer.parseInt(order.getPrecio()))*(Integer.parseInt(order.getCantidad()));
-        Locale locale = new Locale("es","AR");//simbolo de moneda
+        for (Order order : cart)
+            total += (Integer.parseInt(order.getPrecio())) * (Integer.parseInt(order.getCantidad()));
+        Locale locale = new Locale("es", "AR");//simbolo de moneda
         NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
 
         txtTotalPrice.setText(fmt.format(total));
 
     }
-//esto seria para eliminar el item de la compra manteniendo presiondo sobre la orden
-    /*@Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        if (item.getTitle().equals(Common.DELETE))
-            deleteCart(item.getOrder());
-        return super.onContextItemSelected(item);
-    }
-
-    private void deleteCart(int order) {
-        // it will remove item at List<Order> by position
-        cart.remove(order);
-        // after that it will delete old data from SQlite
-        new Database(this).cleanCart();
-        // and finally , we will update  new data from List<order> to Sqlite
-        for (Order item : cart)
-            new Database(this).addToCart(item);
-        //referesh
-        loadListFood();
-    }*/
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {

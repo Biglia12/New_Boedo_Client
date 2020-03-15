@@ -1,9 +1,15 @@
 package com.example.androidfood;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andremion.counterfab.CounterFab;
 import com.example.androidfood.Common.Common;
@@ -14,20 +20,6 @@ import com.example.androidfood.Model.Token;
 import com.example.androidfood.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.core.view.GravityCompat;
-import androidx.navigation.ui.AppBarConfiguration;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -37,34 +29,29 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import androidx.drawerlayout.widget.DrawerLayout;
+import java.util.HashMap;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.view.Menu;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import dmax.dialog.SpotsDialog;
 import io.paperdb.Paper;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private AppBarConfiguration mAppBarConfiguration;
-
     FirebaseDatabase database;
     DatabaseReference categoria;
 
-    TextView txtFullName,txtFullApellido;
+    TextView txtFullName, txtFullApellido;
 
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
@@ -84,38 +71,30 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         toolbar.setTitle("Menu");
         setSupportActionBar(toolbar);
 
-        swipeRefreshLayout=findViewById(R.id.swipe_layout);
+        swipeRefreshLayout = findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_blue_dark
         );
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (Common.isConnectedToInternet(getBaseContext()))
-                    loadMenu();
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            if (Common.isConnectedToInternet(getBaseContext()))
+                loadMenu();
 
-                else
-                {
-                    Toast.makeText(getBaseContext(),"Por favor revise su conexion!!",Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            else {
+                Toast.makeText(getBaseContext(), "Por favor revise su conexion!!", Toast.LENGTH_SHORT).show();
+                return;
             }
         });
 
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                if (Common.isConnectedToInternet(getBaseContext()))
-                    loadMenu();
+        swipeRefreshLayout.post(() -> {
+            if (Common.isConnectedToInternet(getBaseContext()))
+                loadMenu();
 
-                else
-                {
-                    Toast.makeText(getBaseContext(),"Por favor revise su conexion!!",Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            else {
+                Toast.makeText(getBaseContext(), "Por favor revise su conexion!!", Toast.LENGTH_SHORT).show();
+                return;
             }
         });
 
@@ -127,12 +106,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         Paper.init(this);
 
         fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent cartIntent = new Intent(Home.this, Cart.class);
-                startActivity(cartIntent);
-            }
+        fab.setOnClickListener(view -> {
+            Intent cartIntent = new Intent(Home.this, Cart.class);
+            startActivity(cartIntent);
         });
 
         fab.setCount(new Database(this).getCountCart());
@@ -148,16 +124,16 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         //escoger nombre para el usuario
         View headerView = navigationView.getHeaderView(0);
-        txtFullName =  headerView.findViewById(R.id.txtFullName);
-        txtFullApellido =  headerView.findViewById(R.id.txtFullApellido);
+        txtFullName = headerView.findViewById(R.id.txtFullName);
+        txtFullApellido = headerView.findViewById(R.id.txtFullApellido);
 
-        if (Common.currentuser.getName() != null && Common.currentuser.getApellido()!=null)
+        if (Common.currentuser.getName() != null && Common.currentuser.getApellido() != null)
 
-            txtFullName.setText(Common.currentuser.getName());
-            txtFullApellido.setText(Common.currentuser.getApellido());
+            txtFullName.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getName()).getKey());
+        txtFullApellido.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getApellido()).getKey());
 
         //cargar menu
-        recycler_menu =  findViewById(R.id.recycler_menu);
+        recycler_menu = findViewById(R.id.recycler_menu);
         recycler_menu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recycler_menu.setLayoutManager(layoutManager);
@@ -174,14 +150,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         super.onResume();
         fab.setCount(new Database(this).getCountCart());
 
-        if (adapter!= null)
+        if (adapter != null)
             adapter.startListening();
     }
 
     private void updateToken(String token) {
-        FirebaseDatabase db=FirebaseDatabase.getInstance();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference tokens = db.getReference("Tokens");
-        Token data = new Token(token,false);
+        Token data = new Token(token, false);
         tokens.child(Common.currentuser.getPhone()).setValue(data);
     }
 
@@ -259,7 +235,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_search) {
-            startActivity(new Intent(Home.this,SearchActivity.class));
+            startActivity(new Intent(Home.this, SearchActivity.class));
         }
 
 
@@ -282,21 +258,17 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             Intent orderIntent = new Intent(Home.this, OrderStatus.class);
             startActivity(orderIntent);
 
-        }else if (id==R.id.nav_info) {
+        } else if (id == R.id.nav_info) {
             Intent infoIntent = new Intent(Home.this, Informacion.class);
             startActivity(infoIntent);
-        }
-        else if (id == R.id.nav_update_name) {
+        } else if (id == R.id.nav_update_name) {
             showUpdateNameDialog();
 
-        /*} else if (id == R.id.nav_home) {
-                showAdressDialog();*/
-
-            } else if (id == R.id.nav_log_out) {
+        } else if (id == R.id.nav_log_out) {
 
             //eliminar rrecordarme usuario y contraseña
             FirebaseAuth.getInstance().signOut();
-           // Paper.book().destroy();
+            // Paper.book().destroy();
             //LogOut
             Intent mainactivity = new Intent(Home.this, MainActivity.class);
             mainactivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -309,39 +281,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     }
 
-   /* private void showAdressDialog() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
-        alertDialog.setTitle("Cambiar Direccion de casa");
-        alertDialog.setMessage("Por favor llene toda la informacion");
-
-        LayoutInflater inflater = this.getLayoutInflater();
-        View layout_home = inflater.inflate(R.layout.home_address_layout, null);
-
-       /final MaterialEditText edtHomeAddress = (MaterialEditText) layout_home.findViewById(R.id.edtHomeAddress);
-        final MaterialEditText edtEntrecalles = (MaterialEditText) layout_home.findViewById(R.id.edtentrecalles);
-        final MaterialEditText edtPisoyDepartamento = (MaterialEditText) layout_home.findViewById(R.id.edtpisoodepartamento);
-        final MaterialEditText edtLocalidad = (MaterialEditText) layout_home.findViewById(R.id.edtlocalidad);
-
-        alertDialog.setView(layout_home);
-
-        alertDialog.setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                Common.currentuser.setHomeAdress(edtHomeAddress.getText().toString());
-                Common.currentuser.setEntrecalles(edtEntrecalles.getText().toString());
-                Common.currentuser.setPisoydepartamento(edtPisoyDepartamento.getText().toString());
-                Common.currentuser.setLocalidad(edtLocalidad.getText().toString());
-
-                FirebaseDatabase.getInstance().getReference("User")
-                        .child(Common.currentuser.getPhone())
-                        .setValue(Common.currentuser)
-                        .addOnCompleteListener(task -> Toast.makeText(Home.this,"Direccion Actualizada Exitosa",Toast.LENGTH_SHORT).show());
-            }
-        });
-        alertDialog.show();*/
-
-
     private void showUpdateNameDialog() {//
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
@@ -351,57 +290,52 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         LayoutInflater inflater = this.getLayoutInflater();
         View layout_name = inflater.inflate(R.layout.update_name_layout, null);
 
-        final MaterialEditText edtName = (MaterialEditText) layout_name.findViewById(R.id.edtName);
-        final MaterialEditText edtApellido = (MaterialEditText) layout_name.findViewById(R.id.edtapellidoo);
-        final MaterialEditText edtemail = (MaterialEditText) layout_name.findViewById(R.id.edtemaill);
+        final MaterialEditText edtName = layout_name.findViewById(R.id.edtName);
+        final MaterialEditText edtApellido = layout_name.findViewById(R.id.edtapellidoo);
+        final MaterialEditText edtemail = layout_name.findViewById(R.id.edtemaill);
+
+        DatabaseReference mUser = FirebaseDatabase.getInstance().getReference("User");
+
+        edtName.setText(mUser.child(Common.currentuser.getName()).getKey());
+        edtApellido.setText(mUser.child(Common.currentuser.getApellido()).getKey());
+        edtemail.setText(mUser.child(Common.currentuser.getEmail()).getKey());
 
         alertDialog.setView(layout_name);
 
         //Button
-        alertDialog.setPositiveButton("Editar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //Change Password
+        alertDialog.setPositiveButton("Editar", (dialog, which) -> {
 
-                final android.app.AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(Home.this).build();
-                waitingDialog.show();
+            //Change Password
+            final AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(Home.this).build();
+            waitingDialog.show();
 
-                // Update Name
-                Map<String, Object> update_name = new HashMap<>();
-                update_name.put("name", edtName.getText().toString());
-                update_name.put("apellido", edtApellido.getText().toString());
-                update_name.put("email", edtemail.getText().toString());
+            // Update Name
+            Map<String, Object> update_name = new HashMap<>();
+            update_name.put("name", edtName.getText().toString());
+            update_name.put("apellido", edtApellido.getText().toString());
+            update_name.put("email", edtemail.getText().toString());
 
-                FirebaseDatabase.getInstance()
-                        .getReference("User")
-                        .child(Common.currentuser.getPhone())
-                        .updateChildren(update_name)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                //Dismiss Dialog
-                                waitingDialog.dismiss();
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(Home.this, "Perfil editado!!", Toast.LENGTH_SHORT).show();
-                                }
+            FirebaseDatabase.getInstance()
+                    .getReference("User")
+                    .child(Common.currentuser.getPhone())
+                    .updateChildren(update_name)
+                    .addOnCompleteListener(task -> {
+                        //Dismiss Dialog
+                        waitingDialog.dismiss();
+                        if (task.isSuccessful()) {
+                            Toast.makeText(Home.this, "¡¡Perfil editado!!", Toast.LENGTH_SHORT).show();
+                        }
 
-                            }
-                        });
+                    });
 
-            }
         });
-        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        alertDialog.setNegativeButton("NO", (dialog, which) -> dialog.dismiss());
 
         alertDialog.show();
 
     }//
 
-    }
+}
 
 
 
