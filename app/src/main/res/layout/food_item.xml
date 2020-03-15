@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <ImageView
             android:id="@+id/comida_image"
             android:scaleType="centerCrop"
@@ -19,18 +20,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:weightSum="10"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/overlayBackground">
+
         <TextView
             android:id="@+id/comida_name"
             android:text="Nombre de Comida"
-            android:background="@color/overlayBackground"
-            android:textColor="#000000"
-            android:textSize="20sp"
             android:gravity="center"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:textSize="20sp"
+            android:layout_weight="9"
+            android:layout_width="0dp"
+            android:textColor="@android:color/white"
+            android:layout_height="wrap_content" />
+
+        <!--<ImageView
+            android:id="@+id/quick_cart"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/ic_shopping_cart_black_24dp"
+            android:layout_weight="1"
+            android:tint="@android:color/holo_red_dark"
+            android:backgroundTint="@color/fbutton_color_alizarin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" /> -->
 
 
+        </LinearLayout>
     </RelativeLayout>
 
 

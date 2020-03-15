@@ -12,4 +12,6 @@
     <color name="overlayBackground">#8039796b</color>
     <color name="overlayActionbar">#80000000</color>
 
+    <color name="DeleteBackground">#FFCC00</color>
+
 </resources>

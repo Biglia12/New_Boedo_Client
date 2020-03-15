@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/maderafondo"
+    tools:context=".Informacion">
+
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="406dp"
+        android:layout_height="140dp"
+        android:src="@drawable/panaderia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<TextView
+        android:id="@+id/textViewHorario"
+        android:layout_width="261dp"
+        android:layout_height="239dp"
+        android:background="@drawable/rectangulo"
+        android:gravity="center"
+        android:text="lunes:  7:00–20:30
+        martes: 7:00–20:30
+        miércoles:  7:00–20:30
+        android:textColor="#000000"
+        jueves:  7:00–20:30
+        viernes:  7:00–20:30
+        sábado:  7:00–20:30
+        domingo:  7:00–14:00"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.893"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="0.615" />-->
+
+    <ImageView
+        android:id="@+id/imagenContacto"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="56dp"
+        android:src="@drawable/ic_phone_black_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    <TextView
+        android:id="@+id/textViewcontac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:text="Contacto"
+        app:layout_constraintEnd_toEndOf="@+id/imagenContacto"
+        app:layout_constraintHorizontal_bias="0.424"
+        app:layout_constraintStart_toStartOf="@+id/imagenContacto"
+        app:layout_constraintTop_toBottomOf="@+id/imagenContacto" />
+
+    <ImageView
+        android:id="@+id/imageemail"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_email_black_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    <TextView
+        android:id="@+id/textViewemali"
+        android:layout_width="105dp"
+        android:layout_height="16dp"
+        android:text="Nuestro Email"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="@+id/imageemail"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageemail"
+        app:layout_constraintTop_toBottomOf="@+id/imageemail" />
+
+    <ImageView
+        android:id="@+id/imagenface"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="40dp"
+        android:src="@drawable/iconoface"
+        app:layout_constraintEnd_toStartOf="@+id/imageemail"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imagenContacto"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    <TextView
+        android:id="@+id/textViewface"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:text="Nuestro Facebook"
+        app:layout_constraintEnd_toEndOf="@+id/imagenface"
+        app:layout_constraintStart_toStartOf="@+id/imagenface"
+        app:layout_constraintTop_toBottomOf="@+id/imagenface" />
+
+    <ImageView
+        android:id="@+id/imagenubica"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
+        android:src="@drawable/ic_location_on_black_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewcontac" />
+
+    <TextView
+        android:id="@+id/textViewubicacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:text="Nuestra Ubicacion"
+        app:layout_constraintEnd_toEndOf="@+id/imagenubica"
+        app:layout_constraintStart_toStartOf="@+id/imagenubica"
+        app:layout_constraintTop_toBottomOf="@+id/imagenubica" />
+
+    <ImageView
+        android:id="@+id/imgHora"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintStart_toEndOf="@+id/imagenubica"
+        app:layout_constraintTop_toBottomOf="@+id/textViewface"
+        app:srcCompat="@drawable/ic_access_alarm_black_24dp" />
+
+    <TextView
+        android:id="@+id/textViewhora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:text="Nuestro Horario"
+        app:layout_constraintEnd_toEndOf="@+id/imgHora"
+        app:layout_constraintStart_toStartOf="@+id/imgHora"
+        app:layout_constraintTop_toBottomOf="@+id/imgHora" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

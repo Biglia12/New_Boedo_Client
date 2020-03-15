@@ -16,13 +16,13 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="200dp"
+            android:layout_width="250dp"
             android:layout_height="200dp"
             app:srcCompat="@drawable/panaderia" />
 
         <TextView
             android:id="@+id/txtSlogan"
-            android:layout_width="200dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:fontFamily="casual"
             android:gravity="center"
@@ -39,8 +39,23 @@
         android:layout_height="wrap_content">
 
         <info.hoang8f.widget.FButton
+         android:id="@+id/btnRegistrarse"
+         android:text="Registrarse"
+         android:textColor="@color/colorPrimaryDark"
+         android:layout_weight="1"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:shadowColor="@android:color/black"
+         android:layout_margin="8dp"
+         app:shadowColor="@android:color/black"
+         app:shadowEnabled="true"
+         app:shadowHeight="5dp"
+         app:cornerRadius="4dp"/>
+
+
+        <!--<info.hoang8f.widget.FButton
             android:id="@+id/btnSignUp"
-            android:text="Sign Up"
+            android:text="Registrarse"
             android:textColor="@color/colorPrimaryDark"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -54,7 +69,7 @@
 
         <info.hoang8f.widget.FButton
             android:id="@+id/btnSignIn"
-            android:text="Sign In"
+            android:text="Iniciar sesion"
             android:textColor="@color/colorPrimaryDark"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -65,8 +80,8 @@
             app:shadowColor="@android:color/black"
             app:shadowEnabled="true"
             app:shadowHeight="5dp"
-            app:cornerRadius="4dp"/>
+            app:cornerRadius="4dp"/>-->
 
-    </LinearLayout>
+       </LinearLayout>
 
-</RelativeLayout>
+   </RelativeLayout>

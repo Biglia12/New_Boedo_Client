@@ -1,6 +1,7 @@
 package com.example.androidfood;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +35,9 @@ public class OrderStatus extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_status);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Botoon para volver hacia atras. se encuentra en action bar
+
+
         //firebase init
         database = FirebaseDatabase.getInstance();
         requests = database.getReference("Requests");
@@ -43,8 +47,12 @@ public class OrderStatus extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        if (getIntent()==null)
+            loadOrders(Common.currentuser.getPhone());
+        else
+            loadOrders(getIntent().getStringExtra("userPhone"));
 
-      loadOrders(Common.currentuser.getPhone());
+        loadOrders(Common.currentuser.getPhone());
 
     }
 
@@ -52,38 +60,33 @@ public class OrderStatus extends AppCompatActivity {
         FirebaseRecyclerOptions<Request> options = new FirebaseRecyclerOptions.Builder<Request>().setQuery(requests.orderByChild("telefono").equalTo(phone), Request.class).build();
 
         adapter=new FirebaseRecyclerAdapter<Request, OrderviewHolder>(options) {
-           @Override
-           protected void onBindViewHolder(@NonNull OrderviewHolder holder, int position, @NonNull Request model) {
-               holder.txtOrderId.setText(adapter.getRef(position).getKey());
-               holder.txtOrderEstados.setText(convertCodeToStatus(model.getEstados()));
-               holder.txtOrderDireccion.setText(model.getDireccion());
-               holder.txtOrderTelefono.setText(model.getTelefono());
-               holder.setItemClickListener(new ItemClickListener() {
-                   @Override
-                   public void onClick(View view, int position, boolean isLongClick) {
+            @Override
+            protected void onBindViewHolder(@NonNull OrderviewHolder holder, int position, @NonNull Request model) {
+                holder.txtOrderId.setText(adapter.getRef(position).getKey());
+                holder.txtOrderEstados.setText(Common.convertCodeToStatus(model.getEstados()));
+                holder.txtOrderDireccion.setText(model.getDireccion());
+                holder.txtOrderTelefono.setText(model.getTelefono());
+                holder.txtOrderDate.setText(Common.getDate(Long.parseLong(adapter.getRef(position).getKey())));
 
-                   }
-               });
+                holder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position, boolean isLongClick) {
+
+                    }
+                });
 
 
-           }
-
-            private String convertCodeToStatus(String status) {
-               if (status.equals("0"))
-                   return "En lugar";
-               else if (status.equals("1"))
-                   return "En camino";
-               else
-                   return "Enviado";
             }
 
+
+
             @NonNull
-           @Override
-           public OrderviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-               View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_layout,parent,false);
-               return new OrderviewHolder(view);
-           }
-       };
+            @Override
+            public OrderviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_layout,parent,false);
+                return new OrderviewHolder(view);
+            }
+        };
         //Adaptador
         adapter.startListening();
         adapter.notifyDataSetChanged();

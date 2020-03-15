@@ -8,52 +8,82 @@
     tools:context=".SignUp">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="false"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_centerInParent="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/edtPhone"
-            android:hint="Phone Number"
-            android:textColorHint="@color/colorPrimary"
-            android:text="0988123388"
-            android:textSize="34sp"
-            android:textColor="#000000"
-            android:inputType="phone"
-            app:met_baseColor="@android:color/black"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_singleLineEllipsis="true"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtName"
-            android:hint="Name"
-            android:textColorHint="@color/colorPrimary"
-            android:text="Tomy"
-            android:textSize="34sp"
-            android:textColor="#000000"
-            android:inputType="text"
-            app:met_baseColor="@android:color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:met_singleLineEllipsis="true"/>
+            android:hint="Nombre"
+            android:inputType="text"
+            android:text=""
+            android:textColor="#000000"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="34sp"
+            app:met_baseColor="@android:color/black"
+            app:met_singleLineEllipsis="true" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edtApellido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Apellido"
+            android:inputType="text"
+            android:text=""
+            android:textColor="#000000"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="34sp"
+            app:met_baseColor="@android:color/black"
+            app:met_singleLineEllipsis="true" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edtmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textPersonName"
+            android:text="sfeal12@gmail.com"
+            android:textColor="#000000"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="34sp"
+            app:met_baseColor="@android:color/black"
+            app:met_singleLineEllipsis="true" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Numero de telefono"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:text="1544302346"
+            android:textColor="#000000"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="34sp"
+            app:met_baseColor="@android:color/black"
+            app:met_singleLineEllipsis="true" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtPassword"
-            android:hint="Password"
-            android:textColorHint="@color/colorPrimary"
-            android:text="1234"
-            android:textSize="34dp"
-            android:textColor="#000000"
-            android:inputType="textPassword"
-            app:met_baseColor="@android:color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:met_singleLineEllipsis="true"/>
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:text=""
+            android:textColor="#000000"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="34dp"
+            app:met_baseColor="@android:color/black"
+            app:met_singleLineEllipsis="true" />
+
+
 
 
 
@@ -61,8 +91,8 @@
 
 
     <info.hoang8f.widget.FButton
-        android:id="@+id/btnSignUp"
-        android:text="Sign Up"
+        android:id="@+id/btnSignUp2"
+        android:text="Registrarse"
         android:textColor="@color/colorPrimaryDark"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"

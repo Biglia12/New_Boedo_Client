@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andremion.counterfab.CounterFab;
+import com.example.androidfood.Common.Common;
 import com.example.androidfood.Database.Database;
 import com.example.androidfood.Model.Food;
 import com.example.androidfood.Model.Order;
@@ -29,7 +31,7 @@ public class FoodDetail extends AppCompatActivity {
     private TextView food_nombre, food_precio, food_descripcion;
     private ImageView food_imagen;
     private CollapsingToolbarLayout collapsingToolbarLayout;
-    private FloatingActionButton btnCart;
+    private CounterFab btnCart;
     //ElegantNumberButton numberButton;
     private AppCompatImageButton buttonAdd;
     private AppCompatImageButton buttonRemove;
@@ -43,6 +45,8 @@ public class FoodDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_detail);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Botoon para volver hacia atras. se encuentra en action bar
 
         //firebase
         database = FirebaseDatabase.getInstance();
@@ -59,25 +63,16 @@ public class FoodDetail extends AppCompatActivity {
                         currentFood.getNombre(),
                         tvUnitProduct.getText().toString(),
                         currentFood.getPrecio(),
-                        currentFood.getDescuento()
+                        currentFood.getDescuento(),
+                        currentFood.getImagen()
                 ));
                 Toast.makeText(FoodDetail.this, "Agregado al Carro", Toast.LENGTH_SHORT).show();
             }
 
         });
 
+     btnCart.setCount(new Database(this).getCountCart());
 
-        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppbar);
-        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsedAppbar);
-
-        //Obtener comidaid del intent
-        if (getIntent() != null) ;
-        comidaId = getIntent().getStringExtra("ComidaId");
-        if (!comidaId.isEmpty()) {
-            getDetailFood(comidaId);
-        }
-
-        calculateQuantity();
 
     }
 
@@ -94,6 +89,26 @@ public class FoodDetail extends AppCompatActivity {
         food_imagen = findViewById(R.id.food_imagen);
 
         collapsingToolbarLayout = findViewById(R.id.collapsing);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppbar);
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppbar);
+
+
+
+        //Obtener comidaid del intent
+        if (getIntent() != null) ;
+        comidaId = getIntent().getStringExtra("ComidaId");
+        if (!comidaId.isEmpty())
+        {
+           if (Common.isConnectedToInternet(getBaseContext()))
+               getDetailFood(comidaId);
+           else
+           {
+               Toast.makeText(FoodDetail.this,"Por favor revise su conexion!!",Toast.LENGTH_SHORT).show();
+               return;
+           }
+        }
+
+        calculateQuantity();
     }
 
     private void getDetailFood(String comidaId) {

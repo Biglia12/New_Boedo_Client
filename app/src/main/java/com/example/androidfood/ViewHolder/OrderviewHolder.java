@@ -11,7 +11,7 @@ import com.example.androidfood.R;
 
 public class OrderviewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public TextView txtOrderId,txtOrderEstados,txtOrderTelefono,txtOrderDireccion;
+    public TextView txtOrderId,txtOrderEstados,txtOrderTelefono,txtOrderDireccion,txtOrderDate;;
 
     private ItemClickListener itemClickListener;
 
@@ -21,6 +21,7 @@ public class OrderviewHolder extends RecyclerView.ViewHolder implements View.OnC
         txtOrderId = itemView.findViewById(R.id.order_id);
         txtOrderEstados = itemView.findViewById(R.id.order_estados);
         txtOrderTelefono = itemView.findViewById(R.id.order_telefono);
+        txtOrderDate = itemView.findViewById(R.id.order_date);
 
         itemView.setOnClickListener(this);
 

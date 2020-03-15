@@ -1,13 +1,16 @@
 package com.example.androidfood.Model;
 
-class Notificacation {
+public class Notification {
+
     public String body;
     public String title;
 
-    public Notificacation(String body, String title) {
+    public Notification() {
+    }
+
+    public Notification(String body, String title) {
         this.body = body;
         this.title = title;
-
     }
 
     public String getBody() {
@@ -25,4 +28,13 @@ class Notificacation {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "body='" + body + '\'' +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }
+

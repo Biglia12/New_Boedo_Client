@@ -15,6 +15,19 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content">
 
+       <!-- <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edtemail2"
+            android:hint="Email"
+            android:textColorHint="@color/colorPrimary"
+            android:text=""
+            android:textSize="34sp"
+            android:textColor="#000000"
+            android:inputType="textPersonName"
+            app:met_baseColor="@android:color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:met_singleLineEllipsis="true"/>-->
+
        <com.rengwuxian.materialedittext.MaterialEditText
            android:id="@+id/edtPhone"
            android:hint="Phone Number"
@@ -29,7 +42,7 @@
            app:met_singleLineEllipsis="true"/>
 
        <com.rengwuxian.materialedittext.MaterialEditText
-           android:id="@+id/edtPassword"
+           android:id="@+id/edtPassword2"
            android:hint="Password"
            android:textColorHint="@color/colorPrimary"
            android:text="1234"
@@ -41,27 +54,68 @@
            android:layout_height="wrap_content"
            app:met_singleLineEllipsis="true"/>
 
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:weightSum="2">
 
+           <CheckBox
+               android:id="@+id/ckbRemeber"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"
+               android:gravity="center_vertical"
+               android:text="Recordarme"
+               android:textColor="@color/colorPrimaryDark"
+               app:cbd_strokeColor="@android:color/white"
+               app:cbd_tickColor="@color/colorPrimaryDark" />
+
+
+       </LinearLayout>
 
    </LinearLayout>
 
 
     <info.hoang8f.widget.FButton
         android:id="@+id/btnSignIn"
-        android:text="Sign In"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="80dp"
         android:shadowColor="@android:color/black"
-        android:layout_margin="8dp"
+        android:text="Iniciar Sesion"
+        android:textColor="@color/colorPrimaryDark"
+        app:cornerRadius="4dp"
         app:fButtonColor="@color/btnSignActive"
         app:shadowColor="@android:color/black"
         app:shadowEnabled="true"
-        app:shadowHeight="5dp"
-        app:cornerRadius="4dp"/>
+        app:shadowHeight="5dp" />
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/btnolvidoPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:shadowColor="@android:color/black"
+        android:text="¿Olvido Su contraseña?"
+        android:textColor="@color/colorPrimaryDark"
+        app:cornerRadius="4dp"
+        app:fButtonColor="@color/btnSignActive"
+        app:shadowColor="@android:color/black"
+        app:shadowEnabled="true"
+        app:shadowHeight="5dp" />
 
 
 </RelativeLayout>
