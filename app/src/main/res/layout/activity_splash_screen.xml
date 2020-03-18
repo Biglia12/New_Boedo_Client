@@ -8,23 +8,22 @@
     tools:context=".SplashScreen">
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="150dp"
+        android:layout_width="369dp"
+        android:layout_height="248dp"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
-        android:background="@drawable/panaderia" />
+        android:layout_marginTop="100dp"
+        android:background="@drawable/newboeddoooresoluciooonnn222" />
 
     <ProgressBar
         android:id="@+id/progressBar2"
-        android:indeterminateTint="@color/overlayActionbar"
-        android:indeterminateTintMode="src_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="99dp" />
+        android:layout_marginBottom="72dp"
+        android:indeterminateTint="@color/overlayActionbar"
+        android:indeterminateTintMode="src_in" />
 
 
 </RelativeLayout>

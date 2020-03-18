@@ -1,5 +1,6 @@
 package com.example.androidfood.Service;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,8 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.example.androidfood.Common.Common;
+import com.example.androidfood.Helper.NotificationHelper;
 import com.example.androidfood.MainActivity;
 import com.example.androidfood.Model.Token;
+import com.example.androidfood.OrderStatus;
 import com.example.androidfood.R;
 
 import com.google.firebase.database.DatabaseReference;
@@ -48,14 +51,37 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        sendNotification(remoteMessage);
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+        sendNotificationAPI29(remoteMessage);
+       else
+           sendNotification(remoteMessage);
+    }
+
+    private void sendNotificationAPI29(RemoteMessage remoteMessage){//
+        RemoteMessage.Notification  notification = remoteMessage.getNotification();
+        String title=notification.getTitle();
+        String content=notification.getBody();
+
+        PendingIntent pendingIntent;
+
+
+        Intent intent = new Intent(this, OrderStatus.class);
+        intent.putExtra(Common.PHONE_TEXT,Common.currentuser.getPhone());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        NotificationHelper helper = new NotificationHelper(this);
+        Notification.Builder builder =helper.getNewBoedoChannelNotification(title,content,pendingIntent,defaultSoundUri);
+
+        helper.getManager().notify(new Random().nextInt(),builder.build());
     }
 
     private void sendNotification(RemoteMessage remoteMessage) {
 
         String Notification_channel_id= "com.example.newboedoserver.Service.MyFirebaseMessagingService";
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             NotificationChannel channel = new NotificationChannel(Notification_channel_id,
                     "Notification", NotificationManager.IMPORTANCE_DEFAULT);
 

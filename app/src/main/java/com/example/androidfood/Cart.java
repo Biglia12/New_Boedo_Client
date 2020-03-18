@@ -165,6 +165,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                 Request request = new Request(
                         Common.currentuser.getPhone(),
                         Common.currentuser.getName(),
+                        Common.currentuser.getApellido(),
                         edtAdress.getText().toString(),
                         edtentrecalles.getText().toString(),
                         edtpisodepartamento.getText().toString(),

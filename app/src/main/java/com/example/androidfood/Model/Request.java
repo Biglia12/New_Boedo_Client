@@ -5,6 +5,7 @@ import java.util.List;
 public class Request {
     private String telefono;
     private String nombre;
+    private String apellido;
     private String direccion;
     private String entrecalles;
     private String Pisoydepartamento;
@@ -17,9 +18,10 @@ public class Request {
     public Request() {
     }
 
-    public Request(String telefono, String nombre, String direccion, String entrecalles, String pisoydepartamento, String localidad, String total, String estados, String comment, List<Order> comidas) {
+    public Request(String telefono, String nombre,String apellido, String direccion, String entrecalles, String pisoydepartamento, String localidad, String total, String estados, String comment, List<Order> comidas) {
         this.telefono = telefono;
         this.nombre = nombre;
+        this.apellido=apellido;
         this.direccion = direccion;
         this.entrecalles = entrecalles;
         this.Pisoydepartamento = pisoydepartamento;
@@ -46,6 +48,13 @@ public class Request {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.nombre = apellido;
     }
 
     public String getDireccion() {

@@ -41,6 +41,10 @@ public class User {
         return Name;
     }
 
+    public String getApellido() {
+        return Apellido;
+    }
+
     public String getPhone() {
         return Phone;
     }
@@ -52,6 +56,9 @@ public class User {
     public void setName(String name) {
         Name = name;
     }
+    public void setApellido(String apellido) {
+        Apellido = apellido;
+    }
 
     public String getPassword() {
         return Password;
@@ -61,13 +68,7 @@ public class User {
         Password = password;
     }
 
-    public String getApellido() {
-        return Apellido;
-    }
 
-    public void setApellido(String apellido) {
-        Apellido = apellido;
-    }
 
     public String getEmail() {
         return email;
@@ -76,6 +77,7 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
 /*public String getHomeAdress() {
         return homeAdress;
     }

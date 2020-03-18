@@ -62,7 +62,7 @@ public class OrderStatus extends AppCompatActivity {
         adapter=new FirebaseRecyclerAdapter<Request, OrderviewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull OrderviewHolder holder, int position, @NonNull Request model) {
-                holder.txtOrderId.setText(adapter.getRef(position).getKey());
+               // holder.txtOrderId.setText(adapter.getRef(position).getKey());
                 holder.txtOrderEstados.setText(Common.convertCodeToStatus(model.getEstados()));
                 holder.txtOrderDireccion.setText(model.getDireccion());
                 holder.txtOrderTelefono.setText(model.getTelefono());

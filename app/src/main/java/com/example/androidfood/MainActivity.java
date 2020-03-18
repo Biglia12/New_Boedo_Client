@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                             User newUser = new User();
                             newUser.setPhone(user.getPhoneNumber());
                             newUser.setName("");
+                            newUser.setApellido("");
 
 
                             users.child(user.getPhoneNumber())

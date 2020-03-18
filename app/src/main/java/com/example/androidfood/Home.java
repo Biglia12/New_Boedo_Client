@@ -128,9 +128,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         txtFullApellido = headerView.findViewById(R.id.txtFullApellido);
 
         if (Common.currentuser.getName() != null && Common.currentuser.getApellido() != null)
+           txtFullName.setText(Common.currentuser.getName());
+           txtFullApellido.setText(Common.currentuser.getApellido());
 
-            txtFullName.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getName()).getKey());
-        txtFullApellido.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getApellido()).getKey());
+            //txtFullName.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getName()).getKey());
+            //txtFullApellido.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getApellido()).getKey());
 
         //cargar menu
         recycler_menu = findViewById(R.id.recycler_menu);
@@ -292,13 +294,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         final MaterialEditText edtName = layout_name.findViewById(R.id.edtName);
         final MaterialEditText edtApellido = layout_name.findViewById(R.id.edtapellidoo);
-        final MaterialEditText edtemail = layout_name.findViewById(R.id.edtemaill);
+       // final MaterialEditText edtemail = layout_name.findViewById(R.id.edtemaill);
 
         DatabaseReference mUser = FirebaseDatabase.getInstance().getReference("User");
 
-        edtName.setText(mUser.child(Common.currentuser.getName()).getKey());
-        edtApellido.setText(mUser.child(Common.currentuser.getApellido()).getKey());
-        edtemail.setText(mUser.child(Common.currentuser.getEmail()).getKey());
+        //edtName.setText(mUser.child(Common.currentuser.getName()).getKey());
+        //edtApellido.setText(mUser.child(Common.currentuser.getApellido()).getKey());
+       // edtemail.setText(mUser.child(Common.currentuser.getEmail()).getKey());
 
         alertDialog.setView(layout_name);
 
@@ -313,7 +315,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             Map<String, Object> update_name = new HashMap<>();
             update_name.put("name", edtName.getText().toString());
             update_name.put("apellido", edtApellido.getText().toString());
-            update_name.put("email", edtemail.getText().toString());
+           // update_name.put("email", edtemail.getText().toString());
 
             FirebaseDatabase.getInstance()
                     .getReference("User")
