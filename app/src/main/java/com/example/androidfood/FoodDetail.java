@@ -27,7 +27,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 
 public class FoodDetail extends AppCompatActivity {
 
-    private Integer totalQuantity = 0;
+    private Integer totalQuantity = 1;
     private TextView food_nombre, food_precio, food_descripcion;
     private ImageView food_imagen;
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -141,22 +141,16 @@ public class FoodDetail extends AppCompatActivity {
     private void calculateQuantity() {
         tvUnitProduct.setText(String.valueOf(totalQuantity));
 
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                totalQuantity = totalQuantity + 1;
-                tvUnitProduct.setText(String.valueOf(totalQuantity));
-            }
+        buttonAdd.setOnClickListener(view -> {
+            totalQuantity = totalQuantity + 1;
+            tvUnitProduct.setText(String.valueOf(totalQuantity));
         });
 
 
-        buttonRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (totalQuantity > 0) {
-                    totalQuantity = totalQuantity - 1;
-                    tvUnitProduct.setText(String.valueOf(totalQuantity));
-                }
+        buttonRemove.setOnClickListener(view -> {
+            if (totalQuantity > 1) {
+                totalQuantity = totalQuantity - 1;
+                tvUnitProduct.setText(String.valueOf(totalQuantity));
             }
         });
     }

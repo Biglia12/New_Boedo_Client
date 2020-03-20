@@ -11,7 +11,7 @@ import com.example.androidfood.R;
 
 public class OrderviewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public TextView txtOrderId,txtOrderEstados,txtOrderTelefono,txtOrderDireccion,txtOrderDate;;
+    public TextView txtOrderId,txtOrderEstados,txtOrderTelefono,txtOrderDireccion,txtOrderDate;
 
     private ItemClickListener itemClickListener;
 

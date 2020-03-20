@@ -10,9 +10,9 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="406dp"
-        android:layout_height="140dp"
-        android:src="@drawable/panaderia"
+        android:layout_width="343dp"
+        android:layout_height="228dp"
+        android:src="@drawable/newboeddoooresoluciooonnn222"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,6 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="56dp"
         android:src="@drawable/ic_phone_black_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
@@ -65,10 +64,12 @@
         android:id="@+id/imageemail"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginStart="36dp"
         android:layout_marginEnd="20dp"
         android:src="@drawable/ic_email_black_24dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imgHora"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <TextView
@@ -86,13 +87,11 @@
         android:id="@+id/imagenface"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="52dp"
         android:src="@drawable/iconoface"
-        app:layout_constraintEnd_toStartOf="@+id/imageemail"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imagenContacto"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintStart_toEndOf="@+id/imagenubica"
+        app:layout_constraintTop_toBottomOf="@+id/textViewhora" />
 
     <TextView
         android:id="@+id/textViewface"
@@ -128,10 +127,9 @@
         android:id="@+id/imgHora"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="52dp"
-        app:layout_constraintStart_toEndOf="@+id/imagenubica"
-        app:layout_constraintTop_toBottomOf="@+id/textViewface"
+        android:layout_marginStart="36dp"
+        app:layout_constraintStart_toEndOf="@+id/imagenContacto"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
         app:srcCompat="@drawable/ic_access_alarm_black_24dp" />
 
     <TextView
