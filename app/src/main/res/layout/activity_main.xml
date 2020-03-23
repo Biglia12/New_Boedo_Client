@@ -38,7 +38,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <info.hoang8f.widget.FButton
+        <Button
+            android:id="@+id/btnRegistrarse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/disenodeboton"
+            android:text="Registrarse por celular"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+
+        <!-- <info.hoang8f.widget.FButton
          android:id="@+id/btnRegistrarse"
          android:text="Registrarse"
          android:textColor="@color/colorPrimaryDark"
@@ -50,7 +63,7 @@
          app:shadowColor="@android:color/black"
          app:shadowEnabled="true"
          app:shadowHeight="5dp"
-         app:cornerRadius="4dp"/>
+         app:cornerRadius="4dp"/>-->
 
 
         <!--<info.hoang8f.widget.FButton

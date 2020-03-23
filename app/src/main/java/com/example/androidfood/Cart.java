@@ -3,6 +3,7 @@ package com.example.androidfood;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -115,17 +116,14 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
                 showAlertDialog();
 
-                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                        switch (i) {
-                            case R.id.rdiShipToSucursal:
-                                llDataSendDirection.setVisibility(View.GONE);
-                                break;
-                            case R.id.rdiShipToAddress:
-                                llDataSendDirection.setVisibility(View.VISIBLE);
-                                break;
-                        }
+                radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
+                    switch (i) {
+                        case R.id.rdiShipToSucursal:
+                            llDataSendDirection.setVisibility(View.GONE);
+                            break;
+                        case R.id.rdiShipToAddress:
+                            llDataSendDirection.setVisibility(View.VISIBLE);
+                            break;
                     }
                 });
 
@@ -158,6 +156,8 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
         final MaterialEditText edtpisodepartamento = order_address_comment.findViewById(R.id.edtpisoodepartamento);
         final MaterialEditText edtLocalidad = order_address_comment.findViewById(R.id.edtlocalidad);
 
+
+
         alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
         alertDialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
@@ -175,71 +175,95 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                         edtComment.getText().toString(),
                         cart
                 );
-                //enviar a firebase
-                //usaremos System.CurrentMilli para llave
 
-                String order_number = String.valueOf(System.currentTimeMillis());
-                requests.child(order_number).setValue(request);
+                if (rbSendToAddress.isChecked()) {
+
+                    if (edtAdress.getText().toString().isEmpty() && edtentrecalles.getText().toString().isEmpty() && edtLocalidad.getText().toString().isEmpty()) {
+                        Toast.makeText(Cart.this, "Complete los campos requeridos", Toast.LENGTH_SHORT).show();
+                    } else if (edtentrecalles.getText().toString().isEmpty()) {
+                        Toast.makeText(Cart.this, "Complete el campo de entre calles", Toast.LENGTH_SHORT).show();
+                    } else if (edtLocalidad.getText().toString().isEmpty()) {
+                        Toast.makeText(Cart.this, "Complete la localidad", Toast.LENGTH_SHORT).show();
+                    } else if ( edtAdress.getText().toString().isEmpty()) {
+                        Toast.makeText(Cart.this, "Complete la direccion", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                /*if (TextUtils.isEmpty(edtAdress.getText().toString()) && (TextUtils.isEmpty(edtentrecalles.getText().toString()) && (TextUtils.isEmpty(edtLocalidad.getText().toString())))) {
+                    Toast.makeText(Cart.this, "Complete los campos vacios!",
+                            Toast.LENGTH_SHORT).show();
+                } else {*/
 
 
-                Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
+                        //enviar a firebase
+                        //usaremos System.CurrentMilli para llave
+                        String order_number = String.valueOf(System.currentTimeMillis());
+                        requests.child(order_number).setValue(request);
 
-                sendNotificationOrder(order_number);
+                        Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
 
-                //Eliminar carro
-                new Database(getBaseContext()).cleanCart();
+                        sendNotificationOrder(order_number);
 
-                finish();
 
+                        //Eliminar carro
+                        new Database(getBaseContext()).cleanCart();
+
+                        finish();
+
+                    }
+                }
             }
 
-            private void sendNotificationOrder(final String order_number) {
-                DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
-                Query data = tokens.orderByChild("serverToken").equalTo(true);
-                data.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
 
-                            Token serverToken = postSnapShot.getValue(Token.class);
 
-                            Notification notification = new Notification("New Boedo", "Tienes una nueva orden" + order_number);
-                            Sender content = new Sender(serverToken.getToken(), notification);
+                private void sendNotificationOrder ( final String order_number){
+                    DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
+                    Query data = tokens.orderByChild("serverToken").equalTo(true);
+                    data.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
 
-                            mService.sendNotification(content)
-                                    .enqueue(new Callback<MyResponse>() {
-                                        @Override
-                                        public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                Token serverToken = postSnapShot.getValue(Token.class);
 
-                                            if (response.code() == 200) {
-                                                if (response.body().success == 1) {
-                                                    Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
-                                                    finish();
-                                                } else {
-                                                    Toast.makeText(Cart.this, "Hubo un problema", Toast.LENGTH_SHORT).show();
+                                Notification notification = new Notification("New Boedo", "Tienes una nueva orden" + order_number);
+                                Sender content = new Sender(serverToken.getToken(), notification);
+
+                                mService.sendNotification(content)
+                                        .enqueue(new Callback<MyResponse>() {
+                                            @Override
+                                            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+
+                                                if (response.code() == 200) {
+                                                    if (response.body().success == 1) {
+                                                        Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
+                                                        finish();
+                                                    } else {
+                                                        Toast.makeText(Cart.this, "Hubo un problema", Toast.LENGTH_SHORT).show();
+                                                    }
+
                                                 }
 
                                             }
 
-                                        }
+                                            @Override
+                                            public void onFailure(Call<MyResponse> call, Throwable t) {
+                                                Log.e("ERROR", "FALLA" + t.getMessage());
 
-                                        @Override
-                                        public void onFailure(Call<MyResponse> call, Throwable t) {
-                                            Log.e("ERROR", "FALLA" + t.getMessage());
+                                            }
+                                        });
 
-                                        }
-                                    });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
                         }
-                    }
+                    });
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
 
-                    }
-                });
 
-            }
         });
         alertDialog.setNegativeButton("NO", (dialog, which) -> {
         });
@@ -249,6 +273,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
         alertDialog.show();
 
         //validateRadioButtons();
+
     }
 
     private void validateRadioButtons() {
@@ -316,7 +341,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
                     //Calcular precio total
                     int total = 0;
-                    List<Order> orders = new Database(getBaseContext()).getCarts();
+                    List<Order> orders = new Database(getBaseContext()).getCarts();//////////////////////////////////////////
                     for (Order item : orders)
                         total += (Integer.parseInt(item.getPrecio())) * (Integer.parseInt(item.getCantidad()));
                     Locale locale = new Locale("es", "AR");//simbolo de moneda

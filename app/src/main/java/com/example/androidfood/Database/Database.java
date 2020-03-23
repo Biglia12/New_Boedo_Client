@@ -20,6 +20,9 @@ public class Database extends SQLiteAssetHelper {
         super(context, DB_NAME, null, DB_VER);
     }
 
+
+
+
     public List<Order> getCarts() {
         SQLiteDatabase db = getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -46,6 +49,7 @@ public class Database extends SQLiteAssetHelper {
         }
         return result;
     }
+
 
     public void addToCart(Order order) {
         SQLiteDatabase db = getReadableDatabase();

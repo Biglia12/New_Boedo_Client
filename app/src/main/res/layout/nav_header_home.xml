@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="New Boedo 2"
+        android:text="Apellido"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#FAFAFA" />
 
@@ -27,7 +27,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/nav_header_vertical_spacing"
-    android:text="New Boedo"
+    android:text="Nombre"
     android:textColor="#FAFAFA"
     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

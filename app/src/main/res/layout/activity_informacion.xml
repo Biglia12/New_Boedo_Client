@@ -64,12 +64,9 @@
         android:id="@+id/imageemail"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="36dp"
         android:layout_marginEnd="20dp"
         android:src="@drawable/ic_email_black_24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imgHora"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <TextView
@@ -128,6 +125,9 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="36dp"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageemail"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imagenContacto"
         app:layout_constraintTop_toBottomOf="@+id/imageView3"
         app:srcCompat="@drawable/ic_access_alarm_black_24dp" />

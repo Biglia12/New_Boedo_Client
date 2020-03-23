@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">NewBoedo</string>
-    <string name="slogan">Panadaeria new boedo nos encargaremos de llevarte o reservarte la comida que pidas desde nuestra app.</string>
+    <string name="slogan">Bienvenido a nuestra aplicacion de la panaderia New boedo.</string>
     <string name="title_activity_home">Home</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

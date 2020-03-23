@@ -55,23 +55,20 @@ public class FoodDetail extends AppCompatActivity {
         //init view
         initView();
 
-        btnCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Database(getBaseContext()).addToCart(new Order(
-                        comidaId,
-                        currentFood.getNombre(),
-                        tvUnitProduct.getText().toString(),
-                        currentFood.getPrecio(),
-                        currentFood.getDescuento(),
-                        currentFood.getImagen()
-                ));
-                Toast.makeText(FoodDetail.this, "Agregado al Carro", Toast.LENGTH_SHORT).show();
-            }
-
+        btnCart.setOnClickListener(v -> {
+            new Database(getBaseContext()).addToCart(new Order(
+                    comidaId,
+                    currentFood.getNombre(),
+                    tvUnitProduct.getText().toString(),
+                    currentFood.getPrecio(),
+                    currentFood.getDescuento(),
+                    currentFood.getImagen()
+            ));
+            Toast.makeText(FoodDetail.this, "Agregado al Carro", Toast.LENGTH_SHORT).show();
         });
 
-     btnCart.setCount(new Database(this).getCountCart());
+
+        btnCart.setCount(new Database(this).getCountCart());/////////////////////////////////////////////
 
 
     }

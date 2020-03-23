@@ -111,7 +111,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             startActivity(cartIntent);
         });
 
-        fab.setCount(new Database(this).getCountCart());
+
+        fab.setCount(new Database(this).getCountCart());//////////////////////////////
 
         //Abrire los cuadrados de la derecha para que se abra el panel
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -150,7 +151,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     @Override
     protected void onResume() {
         super.onResume();
-        fab.setCount(new Database(this).getCountCart());
+        fab.setCount(new Database(this).getCountCart());////////////////////////////////////////////////
+
 
         if (adapter != null)
             adapter.startListening();

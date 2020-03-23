@@ -64,25 +64,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder>{
         holder.img_cart_count.setImageDrawable(drawable);*/
 
           holder.btn_quantity.setNumber(listData.get(position).getCantidad());
-          holder.btn_quantity.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
-              @Override
-              public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-                  Order order = listData.get(position);
-                  order.setCantidad(String.valueOf(newValue));
-                  new Database(cart).updateCart(order);
+          holder.btn_quantity.setOnValueChangeListener((view, oldValue, newValue) -> {
+              Order order = listData.get(position);
+              order.setCantidad(String.valueOf(newValue));
+              new Database(cart).updateCart(order);
 
-                  //Calcular precio total
-                  int total = 0;
-                  List<Order> orders = new Database(cart).getCarts();
-                  for (Order item: orders)
-                      total+=(Integer.parseInt(order.getPrecio()))*(Integer.parseInt(item.getCantidad()));
-                  Locale locale = new Locale("es","AR");//simbolo de moneda
-                  NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+              //Calcular precio total
+              int total = 0;
+              List<Order> orders = new Database(cart).getCarts();//////////////////////////////
+              for (Order item: orders)
+                  total+=(Integer.parseInt(order.getPrecio()))*(Integer.parseInt(item.getCantidad()));
+              Locale locale = new Locale("es","AR");//simbolo de moneda
+              NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
 
-                  cart.txtTotalPrice.setText(fmt.format(total));
+              cart.txtTotalPrice.setText(fmt.format(total));
 
 
-              }
           });
 
 
