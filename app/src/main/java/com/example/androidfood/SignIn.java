@@ -1,20 +1,19 @@
 package com.example.androidfood;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidfood.Common.Common;
 import com.example.androidfood.Model.User;
@@ -22,33 +21,146 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
+import dmax.dialog.SpotsDialog;
 import io.paperdb.Paper;
 
 public class SignIn extends AppCompatActivity {
 
-    private EditText mEditTextEmail2;
-    private EditText mEditTextPassword2;
-    private Button btnSignIn;
-    private Button ResetPassword;
+    private EditText email;
+    private EditText pass;
+    private CheckBox Remember;
+    private TextView forgotPass;
+    private Button buttoniniciarsesion;
 
-    //private String email="";
-    //private String password = "";
-
-    private FirebaseAuth mAuth;
+    AlertDialog waiting;
+    DatabaseReference mData;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        Info();
+        waiting = new SpotsDialog.Builder().setContext(this).setMessage("Por favor espera ...").setCancelable(false).build();
+        firebaseAuth = FirebaseAuth.getInstance();
 
-        EditText editPhone, edtPassword2;
+        Paper.init(this);
+
+        buttoniniciarsesion.setOnClickListener(v -> {
+            iniciarsesion();
+        });
+        forgotPass.setOnClickListener(v -> startActivity(new Intent(SignIn.this, ForgotPass.class)));
+
+    }
+
+    private void Info() {
+        email = findViewById(R.id.edtemail2);
+        pass = findViewById((R.id.edtpassword22));
+        buttoniniciarsesion = findViewById(R.id.btninciarsesion2);
+        Remember = findViewById(R.id.ckbRemember);
+        forgotPass = findViewById(R.id.forgotPass);
+
+    }
+
+    private void iniciarsesion() {
+        final String Email = email.getText().toString().trim();
+        final String Pass = pass.getText().toString().trim();
+        if (Email.isEmpty() || Pass.isEmpty()) {
+            Toast.makeText(this, "No deje Campos vacios! ", Toast.LENGTH_SHORT).show();
+        } else {
+            if (isNetworkAvailable()) {
+                waiting.show();
+                if (Remember.isChecked()) {
+                    Paper.book().write(Common.USER_KEY, Email);
+                    Paper.book().write(Common.PWD_KEY, Pass);
+                }
+                firebaseAuth.signInWithEmailAndPassword(Email, Pass).addOnCompleteListener(this, task -> {
+
+                    if (task.isSuccessful()) {
+                        final FirebaseUser USER = FirebaseAuth.getInstance().getCurrentUser();
+                        String userID = USER.getUid();                                          //startActivity(new Intent(SignIn.this,Home.class));
+
+                        mData = FirebaseDatabase.getInstance().getReference().child("User").child(userID);
+
+                        if (USER.isEmailVerified()) {
+                            startActivity(new Intent(SignIn.this, Home.class));
+                        } else {
+                            Toast.makeText(SignIn.this, "Verifique el correo electrónico para iniciar sesión", Toast.LENGTH_SHORT).show();
+                        }
+                   /* mData.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            waiting.dismiss();
+                            if (USER.isEmailVerified()) {
+                                startActivity(new Intent(SignIn.this, Home.class));
+                            } else {
+                                Toast.makeText(SignIn.this, "Verifique el correo electrónico para iniciar sesión", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });*/
+
+
+                   /* DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("User").child(userID);
+                    ValueEventListener eventListener = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            dataSnapshot.child("pass").getRef().setValue(Pass);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    };
+                    mDatabase.addListenerForSingleValueEvent(eventListener);*/
+
+                    } else {
+                        waiting.dismiss();
+                        Toast.makeText(SignIn.this, "Cuenta o contraseña inválida.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            else{
+            Toast.makeText(this, "No estás conectado a internet", Toast.LENGTH_SHORT).show();
+        }
+
+                    }
+
+            }
+
+
+
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+}
+
+
+
+
+
+
+
+
+
+        /*EditText editPhone, edtPassword2;
         Button btnSignIn;
         CheckBox ckbRemeber;
         //TextView txtForgotPass;
@@ -79,7 +191,7 @@ public class SignIn extends AppCompatActivity {
             }
         });*/
 
-            btnSignIn.setOnClickListener(new View.OnClickListener() {
+            /*btnSignIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -92,7 +204,7 @@ public class SignIn extends AppCompatActivity {
 
                     }*/
 
-                        final ProgressDialog mDialog = new ProgressDialog(SignIn.this);
+                       /* final ProgressDialog mDialog = new ProgressDialog(SignIn.this);
                         mDialog.setMessage("Espera Por Favor...");
                         mDialog.show();
 
@@ -140,7 +252,7 @@ public class SignIn extends AppCompatActivity {
 
         }
 
-    }
+    }*/
 
 
 
@@ -244,10 +356,5 @@ public class SignIn extends AppCompatActivity {
                 }
             }
         });*/
-
-
-
-
-
 
 

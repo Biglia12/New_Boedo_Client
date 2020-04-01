@@ -1,25 +1,85 @@
 package com.example.androidfood.Model;
 
 public class User {
-    private String Name;
-    private String Password;
-    private String Phone;
-    private String Apellido;
+    private String name;
+    private String pass;
+    private String phone;
+    private String apellido;
     private String email;
-    private String IsStaff;
+    private String isstaff;
     //private String homeAdress;
     //private String entrecalles;
     //private String Pisoydepartamento;
     //private String Localidad;
 
-
     public User() {
+    }
 
+    public User(String name, String pass, String phone, String apellido, String email, String isstaff) {
+        this.name = name;
+        this.pass = pass;
+        this.phone = phone;
+        this.apellido = apellido;
+        this.email = email;
+        this.isstaff = isstaff;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getIsstaff() {
+        return isstaff;
+    }
+
+    public void setIsstaff(String isstaff) {
+        this.isstaff = isstaff;
+    }
+
+    /*public User(String email, String pass, String name, String phone, String cliente) {
     }
 
 
 
-    public User(String name, String password) {
+    public User(String password, String name) {
+        //Email = email;//
+        //Apellido=apellido;//
         Name = name;
         Password = password;
         IsStaff="false";
@@ -71,12 +131,14 @@ public class User {
 
 
     public String getEmail() {
-        return email;
+        return Email;//
     }
 
     public void setEmail(String email) {
-        this.email = email;
-    }
+        this.Email = email;
+    }*/
+
+    /////////////////////////////
 
 /*public String getHomeAdress() {
         return homeAdress;

@@ -1,4 +1,4 @@
-package com.example.androidfood.ui.gallery;
+/*package com.example.androidfood.ui.gallery;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,4 +32,4 @@ public class GalleryFragment extends Fragment {
         });
         return root;
     }
-}
+}*/

@@ -11,41 +11,44 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RessetPassword"></activity>
-
-        <!--<meta-data
+        <activity android:name=".ForgotPass"></activity>
+        <activity android:name=".RessetPassword" />
+        <!--
+<meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/panaderia" />
-        <!- Set color used with incoming notification messages. This is used when no color is set for the incoming notification message. -->
-        <!--<meta-data
+        <!- Set color used with incoming notification messages. This is used when no color is set for the incoming notification message.
+        -->
+        <!--
+<meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" /> -->
-
-        <activity android:name=".Horarios"
-            android:parentActivityName=".Informacion"/>
-
-        <activity android:name=".Informacion"
-            android:parentActivityName=".Home"/>
-
+            android:resource="@color/colorAccent" />
+        -->
+        <activity
+            android:name=".Horarios"
+            android:parentActivityName=".Informacion" />
+        <activity
+            android:name=".Informacion"
+            android:parentActivityName=".Home" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SearchActivity" />
-
-        <activity android:name=".OrderStatus"
-            android:parentActivityName=".Home"/>
-
-        <activity android:name=".Cart"
-            android:parentActivityName=".Home"/>
-
-        <activity android:name=".FoodDetail"
-            android:parentActivityName=".Home"/>
-
-        <activity android:name=".FoodList"
-            android:parentActivityName=".Home"/>
+        <activity
+            android:name=".OrderStatus"
+            android:parentActivityName=".Home" />
+        <activity
+            android:name=".Cart"
+            android:parentActivityName=".Home" />
+        <activity
+            android:name=".FoodDetail"
+            android:parentActivityName=".Home" />
+        <activity
+            android:name=".FoodList"
+            android:parentActivityName=".Home" />
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SignUp" />
+        <activity android:name=".SignUpEmail" />
         <activity android:name=".SignIn" />
         <activity android:name=".SplashScreen">
             <intent-filter>

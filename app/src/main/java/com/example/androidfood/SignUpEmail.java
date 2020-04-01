@@ -3,103 +3,119 @@ package com.example.androidfood;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidfood.Common.Common;
 import com.example.androidfood.Model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.androidfood.Remote.APIService;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.util.HashMap;
-import java.util.Map;
+public class SignUpEmail extends AppCompatActivity {
 
-public class SignUp extends AppCompatActivity {
+    EditText email, pass, name, apellido, phone;
+    private Button btnregistrarseemail;
+    private Button btniniciarsesion;
+    FirebaseUser user;
 
-    private MaterialEditText edtName;
-    private MaterialEditText edtApellido;//
-    private MaterialEditText edtMail;//
-    private MaterialEditText edtPassword;
-    private MaterialEditText edtPhone;
-    private Button btnSignUp2;
-
-    private String name = "";//
-    private String apellido = "";//
-    private String email = "";//
-    private String telefono = "";//
-    private String password = "";//
 
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
-
+    ProgressDialog process;
+    APIService mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        mService = Common.getFCMClient();
+        process = new ProgressDialog(SignUpEmail.this);
+        process.setMessage("Por favor espera!");
+        info();
+        mAuth = FirebaseAuth.getInstance();
 
-        //Init Firebase
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference table_user = database.getReference("User");
-
-        edtName = findViewById(R.id.edtName);
-        edtPhone = findViewById(R.id.edtPhone);
-        edtPassword = findViewById(R.id.edtPassword);
-        btnSignUp2 = findViewById(R.id.btnSignUp2);
-
-        btnSignUp2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Common.isConnectedToInternet(getBaseContext())) {
-                    final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
-                    mDialog.setMessage("Espera Por Favor...");
-                    mDialog.show();
-
-                    table_user.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            //check si el usuario fue usado
-                            if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
-                                mDialog.dismiss();
-                                Toast.makeText(SignUp.this, "Numero de telefono ya esta registrado", Toast.LENGTH_SHORT).show();
-                            } else {
-                                mDialog.dismiss();
-                                User user = new User(edtName.getText().toString(),
-                                        edtPassword.getText().toString());
-                                //edtSecureCode.getText().toString();
-                                table_user.child(edtPhone.getText().toString()).setValue(user);
-                                Toast.makeText(SignUp.this, "Registro Exitoso", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-                } else {
-                    Toast.makeText(SignUp.this, "Por favor revise su conexion!!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
+        btniniciarsesion = findViewById(R.id.btninciarsesion);
+        btniniciarsesion.setOnClickListener(v -> {
+            Intent btniniciarsesion = new Intent(SignUpEmail.this, SignIn.class);
+            startActivity(btniniciarsesion);
         });
 
+
+        btnregistrarseemail.setOnClickListener(v -> {
+            process.show();
+            btnregistarse();
+        });
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
+
+    private void info() {
+        email = findViewById(R.id.edtmail);
+        pass = findViewById(R.id.edtPassword);
+        name = findViewById(R.id.edtname);
+        apellido = findViewById(R.id.edtapellido);
+        phone = findViewById(R.id.edtphone);
+        btnregistrarseemail = findViewById(R.id.btnRegistrarseemail);
+
+    }
+
+
+    private void btnregistarse() {
+        String Email = name.getText().toString().trim(); //nose por que se desrodena en firebase. Dificil encontrar el error ya que el codigo se encuentra con logica
+        String Pass = pass.getText().toString().trim();
+        String Name = phone.getText().toString().trim();
+        String Apellido = apellido.getText().toString().trim();
+        String Phone = email.getText().toString().trim();
+        final User Cliente = new User(Email, Pass, Name, Apellido,Phone, "cliente");
+
+        if (Email.isEmpty() || Pass.isEmpty() || Name.isEmpty() || Apellido.isEmpty() || Phone.isEmpty()) {
+            process.dismiss();
+            Toast.makeText(this, "Completar los campos vacios!. ", Toast.LENGTH_SHORT).show();
+        } else {
+            mAuth.createUserWithEmailAndPassword(email.getText().toString(), pass.toString()).addOnCompleteListener(task -> {
+
+                if (task.isSuccessful()) {
+                    user = mAuth.getCurrentUser();
+                    user.sendEmailVerification().addOnCompleteListener(task1 -> {
+                        if (task.isSuccessful()) {
+                            process.dismiss();
+                            Toast.makeText(SignUpEmail.this, "Registro exitoso. Por favor verifique el correo electrónico", Toast.LENGTH_SHORT).show();
+
+                            String userID = user.getUid();
+                            mDatabase.child("User").child(userID).setValue(Cliente);
+                            //chuyen ve man hinh chinh
+                            startActivity(new Intent(SignUpEmail.this, SignIn.class));
+
+
+                        } else {
+                            Toast.makeText(SignUpEmail.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+
+
+                    });
+                } else {
+                    process.dismiss();
+                    Toast.makeText(SignUpEmail.this, "La cuenta ya existe", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
 }
 
+
+
+
+
+/*Toast.makeText(SignUpEmail.this, "Registrado con exito", Toast.LENGTH_SHORT).show();
+                                                              edtemail.setText("");
+                                                             edtPassword.setText("");*/
 
 
          /*mAuth = FirebaseAuth.getInstance();//
@@ -131,11 +147,11 @@ public class SignUp extends AppCompatActivity {
                         registerUser();
 
                     } else {
-                        Toast.makeText(SignUp.this, "La contraseña debe contener almenos 6 caracteres", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpEmail.this, "La contraseña debe contener almenos 6 caracteres", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
-                    Toast.makeText(SignUp.this, "Debe completar los datos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpEmail.this, "Debe completar los datos", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -162,18 +178,18 @@ public class SignUp extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task2) {
                             if (task2.isSuccessful()) {
-                                startActivity(new Intent(SignUp.this, Home.class));
+                                startActivity(new Intent(SignUpEmail.this, Home.class));
                                 finish();
                             }
 
                             else {
-                                Toast.makeText(SignUp.this, "No se pudieron crear los datos correctamente", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUpEmail.this, "No se pudieron crear los datos correctamente", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
                 } else {
 
-                    Toast.makeText(SignUp.this, "No se pudo registrar este usuario", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpEmail.this, "No se pudo registrar este usuario", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -187,7 +203,7 @@ public class SignUp extends AppCompatActivity {
         super.onStart();
 
         if (mAuth.getCurrentUser()!=null){
-            startActivity(new Intent(SignUp.this,Home.class));
+            startActivity(new Intent(SignUpEmail.this,Home.class));
             finish();
         }
     }

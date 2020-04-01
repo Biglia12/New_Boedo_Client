@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnregistrarse;
     TextView txtSlogan;
+    Button btnRegistrarseporemail;
+
 
     private FirebaseAuth firebaseAuth;//
     private FirebaseAuth.AuthStateListener listener;//
@@ -80,9 +82,15 @@ public class MainActivity extends AppCompatActivity {
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/prototype.ttf");
         txtSlogan.setTypeface(face);
 
+        btnRegistrarseporemail=findViewById(R.id.btnRegistrarseporemail);
+        btnRegistrarseporemail.setOnClickListener(v -> {
+            Intent btnregistarseporemail = new Intent(MainActivity.this, SignUpEmail.class);
+            startActivity(btnregistarseporemail);
+        });
+
 
         btnregistrarse.setOnClickListener(v -> {
-//                Intent signUp = new Intent(MainActivity.this, SignUp.class);
+//                Intent signUp = new Intent(MainActivity.this, SignUpEmail.class);
 //                startActivity(signUp);
             startLogininSystem();
         });
@@ -223,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
                         User user = dataSnapshot.child(phone).getValue(User.class);
                         user.setPhone(phone);//establecer telefono
-                        if (user.getPassword().equals(pwd)) {
+                        if (user.getPass().equals(pwd)) {
 
                             Intent homeIntent = new Intent(MainActivity.this, Home.class);
                             Common.currentuser = user;
@@ -248,5 +256,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Por favor revise su conexion!!", Toast.LENGTH_SHORT).show();
             return;
         }
+
+
     }
+
 }

@@ -1,4 +1,4 @@
-package com.example.androidfood.ui.send;
+/*package com.example.androidfood.ui.send;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,4 +32,4 @@ public class SendFragment extends Fragment {
         });
         return root;
     }
-}
+}*/

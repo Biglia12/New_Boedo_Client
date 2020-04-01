@@ -1,4 +1,4 @@
-package com.example.androidfood.ui.share;
+/*package com.example.androidfood.ui.share;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,4 +32,4 @@ public class ShareFragment extends Fragment {
         });
         return root;
     }
-}
+}*/

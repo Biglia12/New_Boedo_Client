@@ -5,11 +5,22 @@
     android:background="@drawable/maderafondo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUp">
+    tools:context=".SignUpEmail">
+
+
+    <ImageView
+        android:layout_width="360dp"
+        android:layout_height="157dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/newboeddoooresoluciooonnn222">
+
+    </ImageView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:layout_centerInParent="true"
         android:layout_centerHorizontal="false"
         android:layout_marginLeft="8dp"
@@ -17,20 +28,20 @@
         android:orientation="vertical">
 
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/edtName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nombre"
-            android:inputType="text"
-            android:text=""
-            android:textColor="#000000"
-            android:textColorHint="@color/colorPrimary"
-            android:textSize="34sp"
-            app:met_baseColor="@android:color/black"
-            app:met_singleLineEllipsis="true" />
+        <!-- <com.rengwuxian.materialedittext.MaterialEditText
+             android:id="@+id/edtName"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:hint="Nombre"
+             android:inputType="text"
+             android:text=""
+             android:textColor="#000000"
+             android:textColorHint="@color/colorPrimary"
+             android:textSize="34sp"
+             app:met_baseColor="@android:color/black"
+             app:met_singleLineEllipsis="true" />-->
 
-        <com.rengwuxian.materialedittext.MaterialEditText
+       <!-- <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtApellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +52,9 @@
             android:textColorHint="@color/colorPrimary"
             android:textSize="34sp"
             app:met_baseColor="@android:color/black"
-            app:met_singleLineEllipsis="true" />
+            app:met_singleLineEllipsis="true" />-->
+
+
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtmail"
@@ -49,63 +62,135 @@
             android:layout_height="wrap_content"
             android:hint="Email"
             android:inputType="textPersonName"
-            android:text="sfeal12@gmail.com"
+            android:text=""
             android:textColor="#000000"
+            android:drawableLeft="@drawable/ic_email_black_24dp"
             android:textColorHint="@color/colorPrimary"
-            android:textSize="34sp"
+            android:textSize="25sp"
             app:met_baseColor="@android:color/black"
             app:met_singleLineEllipsis="true" />
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/edtPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Numero de telefono"
-            android:inputType="phone"
-            android:maxLength="10"
-            android:text="1544302346"
-            android:textColor="#000000"
-            android:textColorHint="@color/colorPrimary"
-            android:textSize="34sp"
-            app:met_baseColor="@android:color/black"
-            app:met_singleLineEllipsis="true" />
+
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña"
+            android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
             android:inputType="textPassword"
             android:text=""
+            app:met_minCharacters="6"
             android:textColor="#000000"
             android:textColorHint="@color/colorPrimary"
-            android:textSize="34dp"
+            android:textSize="25sp"
+            app:met_baseColor="@android:color/black"
+            app:met_singleLineEllipsis="true" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edtphone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Telefono"
+            android:inputType="number"
+            android:text=""
+            android:textColor="#000000"
+            android:drawableLeft="@drawable/ic_phone_black_24dp"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="25sp"
             app:met_baseColor="@android:color/black"
             app:met_singleLineEllipsis="true" />
 
 
 
 
+        <com.rengwuxian.materialedittext.MaterialEditText
+             android:id="@+id/edtname"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:hint="Nombre"
+             android:inputType="textPersonName"
+             android:text=""
+             android:textColor="#000000"
+             android:drawableLeft="@drawable/ic_person_black_24dp"
+             android:textColorHint="@color/colorPrimary"
+             android:textSize="25sp"
+             app:met_baseColor="@android:color/black"
+             app:met_singleLineEllipsis="true" />
 
-    </LinearLayout>
+      <com.rengwuxian.materialedittext.MaterialEditText
+       android:id="@+id/edtapellido"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:hint="Apellido"
+       android:inputType="textPersonName"
+       android:text=""
+       android:textColor="#000000"
+       android:drawableLeft="@drawable/ic_perm_identity_black_24dp"
+       android:textColorHint="@color/colorPrimary"
+       android:textSize="25sp"
+       app:met_baseColor="@android:color/black"
+       app:met_singleLineEllipsis="true" />
 
 
-    <info.hoang8f.widget.FButton
-        android:id="@+id/btnSignUp2"
-        android:text="Registrarse"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:shadowColor="@android:color/black"
-        android:layout_margin="8dp"
-        app:fButtonColor="@color/btnSignUp"
-        app:shadowColor="@android:color/black"
-        app:shadowEnabled="true"
-        app:shadowHeight="5dp"
-        app:cornerRadius="4dp"/>
+
+
+
+
+
+
+
+</LinearLayout>
+
+
+<Button
+   android:id="@+id/btninciarsesion"
+   android:layout_width="377dp"
+   android:layout_height="36dp"
+   android:layout_alignParentBottom="true"
+   android:layout_centerHorizontal="true"
+   android:layout_marginLeft="8dp"
+   android:layout_marginEnd="14dp"
+   android:layout_marginRight="8dp"
+   android:layout_marginBottom="20dp"
+   android:layout_weight="1"
+   android:background="@drawable/disenoboton2"
+   android:text="Iniciar Sesion "
+   android:textColor="@color/white"
+   android:textSize="18sp" />
+
+<Button
+   android:id="@+id/btnRegistrarseemail"
+   android:layout_width="381dp"
+   android:layout_height="36dp"
+   android:layout_alignParentBottom="true"
+   android:layout_centerHorizontal="true"
+   android:layout_marginLeft="8dp"
+   android:layout_marginEnd="14dp"
+   android:layout_marginRight="8dp"
+   android:layout_marginBottom="70dp"
+   android:layout_weight="1"
+   android:background="@drawable/disenoboton2"
+   android:text="Registrarse "
+   android:textColor="@color/white"
+   android:textSize="18sp" />
+
+<!-- <info.hoang8f.widget.FButton
+    android:id="@+id/btnSignUp2"
+    android:text="Registrarse"
+    android:textColor="@color/colorPrimaryDark"
+    android:layout_marginRight="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_alignParentBottom="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:shadowColor="@android:color/black"
+    android:layout_margin="8dp"
+    app:fButtonColor="@color/btnSignUp"
+    app:shadowColor="@android:color/black"
+    app:shadowEnabled="true"
+    app:shadowHeight="5dp"
+    app:cornerRadius="4dp"/>-->
 
 
 </RelativeLayout>

@@ -43,8 +43,10 @@
 
     <com.andremion.counterfab.CounterFab
         android:id="@+id/btnCart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:fabCustomSize="60dp"
+        app:maxImageSize="30dp"
         android:backgroundTint="#FF9900"
         android:elevation="6dp"
         android:src="@drawable/ic_shopping_cart_black_24dp"

@@ -32,23 +32,14 @@ public class Informacion extends AppCompatActivity {
         });
         ImageContacto = findViewById(R.id.imagenContacto);
 
-        ImageContacto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + 43920183)));
-            }
-        });
+        ImageContacto.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + 43920183))));
 
         ImageUbicacion = findViewById(R.id.imagenubica);
 
-        ImageUbicacion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse("geo:-34.75976749,-58.39763135");
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:<-34.75976749>,<-58.39763135>?q=<-34.75976749>,<-58.39763135>(Label+New Boedo)"));
-                startActivity(intent);
-            }
-
+        ImageUbicacion.setOnClickListener(v -> {
+            Uri uri = Uri.parse("geo:-34.75976749,-58.39763135");
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:<-34.75976749>,<-58.39763135>?q=<-34.75976749>,<-58.39763135>(Label+New Boedo)"));
+            startActivity(intent);
         });
         ImageEmail = findViewById(R.id.imageemail);
 

@@ -41,6 +41,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.mercadopago.android.px.core.MercadoPagoCheckout;
+import com.mercadopago.android.px.internal.datasource.MercadoPagoPaymentConfiguration;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.NumberFormat;
@@ -77,6 +79,8 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
     RadioButton rbGoToMarket, rbSendToAddress;
 
     LinearLayout llDataSendDirection;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
