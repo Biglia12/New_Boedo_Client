@@ -1,9 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
     tools:context=".Infomacion.Aviso">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/aviso_compra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/textavisotitulo">
+
+
+        <TextView
+            android:id="@+id/textavisotitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="30dp"
+            android:text="Antes de comprar lea esta informacion:"
+            android:textColor="@color/px_colorPrimaryDark"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.492"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/textaviso"
+            android:layout_width="339dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_chevron_right_black_24dp"
+            android:text="@string/aviso"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.217"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textavisotitulo" />
+
+        <TextView
+            android:id="@+id/textaviso2"
+            android:layout_width="317dp"
+            android:layout_height="194dp"
+            android:layout_marginTop="12dp"
+            android:drawableLeft="@drawable/ic_chevron_right_black_24dp"
+            android:text="@string/aviso2"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.272"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+
+        <TextView
+            android:id="@+id/textaviso3"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/aviso3"
+            android:drawableLeft="@drawable/ic_chevron_right_black_24dp"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.272"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+
+        <TextView
+            android:id="@+id/textaviso4"
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:drawableLeft="@drawable/ic_chevron_right_black_24dp"
+            android:text="@string/aviso4"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.272"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+
+        <TextView
+            android:id="@+id/textaviso5"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text=".Zona verde:$110."
+            android:drawableLeft="@drawable/ic_check_black_24dp"
+            android:textColor="@color/coloGreen"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.272"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+
+        <TextView
+            android:id="@+id/textaviso6"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text=".Zona amarilla:$150."
+            android:drawableLeft="@drawable/ic_check_black_24dp"
+            android:textColor="@color/colorYellow"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.272"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+
+        <TextView
+            android:id="@+id/textaviso7"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text=".Zona roja:$150."
+            android:drawableLeft="@drawable/ic_check_black_24dp"
+            android:textColor="@color/colorRed"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.272"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+
+
+        <TextView
+            android:id="@+id/textaviso8"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Haga Click en la imagen del mapa."
+            android:textColor="@color/colorBlue"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.272"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+
+
+        <ImageView
+            android:id="@+id/imageMaps"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:srcCompat="@drawable/imagenmymaps" />
+
+
+    </LinearLayout>
+
+</ScrollView>
+

@@ -57,6 +57,7 @@ public class FoodDetail extends AppCompatActivity {
 
         btnCart.setOnClickListener(v -> {
             new Database(getBaseContext()).addToCart(new Order(
+                    Common.currentuser.getPhone(),/////////////////////////////
                     comidaId,
                     currentFood.getNombre(),
                     tvUnitProduct.getText().toString(),
@@ -68,8 +69,8 @@ public class FoodDetail extends AppCompatActivity {
         });
 
 
-        btnCart.setCount(new Database(this).getCountCart());/////////////////////////////////////////////
-
+       //btnCart.setCount(new Database(this).getCountCart());/////////////////////////////////////////////
+        btnCart.setCount(new Database(this).getCountCart(Common.currentuser.getPhone()));
 
     }
 

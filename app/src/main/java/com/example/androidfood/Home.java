@@ -11,10 +11,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.andremion.counterfab.CounterFab;
 import com.example.androidfood.Common.Common;
 import com.example.androidfood.Database.Database;
-import com.example.androidfood.Interface.ItemClickListener;
+import com.example.androidfood.Infomacion.Informacion;
 import com.example.androidfood.Model.Categoria;
 import com.example.androidfood.Model.Token;
 import com.example.androidfood.ViewHolder.MenuViewHolder;
@@ -22,6 +33,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -32,17 +44,6 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import dmax.dialog.SpotsDialog;
 import io.paperdb.Paper;
 
@@ -50,6 +51,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     FirebaseDatabase database;
     DatabaseReference categoria;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     TextView txtFullName, txtFullApellido;
 
@@ -57,6 +59,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     RecyclerView.LayoutManager layoutManager;
     FirebaseRecyclerAdapter<Categoria, MenuViewHolder> adapter;
 
+    DatabaseReference mUser = FirebaseDatabase.getInstance().getReference("User").child(user.getUid());
     SwipeRefreshLayout swipeRefreshLayout;
 
     CounterFab fab;
@@ -112,7 +115,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         });
 
 
-        fab.setCount(new Database(this).getCountCart());//////////////////////////////
+        //fab.setCount(new Database(this).getCountCart());//////////////////////////////
+        fab.setCount(new Database(this).getCountCart(Common.currentuser.getPhone()));
 
         //Abrire los cuadrados de la derecha para que se abra el panel
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -129,11 +133,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         txtFullApellido = headerView.findViewById(R.id.txtFullApellido);
 
         if (Common.currentuser.getName() != null && Common.currentuser.getApellido() != null)
-           txtFullName.setText(Common.currentuser.getName());
-           txtFullApellido.setText(Common.currentuser.getApellido());
+            txtFullName.setText(Common.currentuser.getName());
+            txtFullApellido.setText(Common.currentuser.getApellido());
 
-            //txtFullName.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getName()).getKey());
-            //txtFullApellido.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getApellido()).getKey());
+        //txtFullName.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getName()).getKey());
+        //txtFullApellido.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getApellido()).getKey());
 
         //cargar menu
         recycler_menu = findViewById(R.id.recycler_menu);
@@ -151,8 +155,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     @Override
     protected void onResume() {
         super.onResume();
-        fab.setCount(new Database(this).getCountCart());////////////////////////////////////////////////
-
+       // fab.setCount(new Database(this).getCountCart());////////////////////////////////////////////////
+        fab.setCount(new Database(this).getCountCart(Common.currentuser.getPhone()));
 
         if (adapter != null)
             adapter.startListening();
@@ -190,16 +194,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 });
                 holder.txtMenuNombre.setText(model.getNombre());
                 final Categoria clickItem = model;
-                holder.setItemClickListener(new ItemClickListener() {
-                    @Override
-                    public void onClick(View view, int position, boolean isLongClick) {
-                        //Obtener Categoria ID y enviar a nueva actividad
-                        Intent foodList = new Intent(Home.this, FoodList.class);
-                        //por que lña categoriaid es la key, asiq ahora nosotros obtenemos la key de este item
-                        foodList.putExtra("CategoriaId", adapter.getRef(position).getKey());
-                        startActivity(foodList);
+                holder.setItemClickListener((view, position, isLongClick) -> {
+                    //Obtener Categoria ID y enviar a nueva actividad
+                    Intent foodList = new Intent(Home.this, FoodList.class);
+                    //por que lña categoriaid es la key, asiq ahora nosotros obtenemos la key de este item
+                    foodList.putExtra("CategoriaId", adapter.getRef(position).getKey());
+                    startActivity(foodList);
 
-                    }
                 });
             }
 
@@ -285,39 +286,40 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     }
 
+
     private void showUpdateNameDialog() {//
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
         alertDialog.setTitle("Establece Tus datos");
-        alertDialog.setMessage("Establece tus datos");
+        alertDialog.setMessage("Complete con su informacion");
 
         LayoutInflater inflater = this.getLayoutInflater();
         View layout_name = inflater.inflate(R.layout.update_name_layout, null);
 
-        final MaterialEditText edtName = layout_name.findViewById(R.id.edtName);
-        final MaterialEditText edtApellido = layout_name.findViewById(R.id.edtapellidoo);
-       // final MaterialEditText edtemail = layout_name.findViewById(R.id.edtemaill);
+        final MaterialEditText Name = layout_name.findViewById(R.id.edtName);
+        final MaterialEditText Apellido = layout_name.findViewById(R.id.edtapellidoo);
+        // final MaterialEditText edtemail = layout_name.findViewById(R.id.edtemaill);
 
-        DatabaseReference mUser = FirebaseDatabase.getInstance().getReference("User");
+        Name.setText(mUser.child(Common.currentuser.getName()).getKey());
+        Apellido.setText(mUser.child(Common.currentuser.getApellido()).getKey());
+        // edtemail.setText(mUser.child(Common.currentuser.getEmail()).getKey());
 
-        //edtName.setText(mUser.child(Common.currentuser.getName()).getKey());
-        //edtApellido.setText(mUser.child(Common.currentuser.getApellido()).getKey());
-       // edtemail.setText(mUser.child(Common.currentuser.getEmail()).getKey());
 
         alertDialog.setView(layout_name);
 
         //Button
         alertDialog.setPositiveButton("Editar", (dialog, which) -> {
 
-            //Change Password
             final AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(Home.this).build();
             waitingDialog.show();
 
             // Update Name
             Map<String, Object> update_name = new HashMap<>();
-            update_name.put("name", edtName.getText().toString());
-            update_name.put("apellido", edtApellido.getText().toString());
-           // update_name.put("email", edtemail.getText().toString());
+            update_name.put("name", Name.getText().toString());
+            update_name.put("apellido", Apellido.getText().toString());
+
+
+            // update_name.put("email", edtemail.getText().toString());
 
             FirebaseDatabase.getInstance()
                     .getReference("User")
@@ -333,11 +335,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     });
 
         });
-        alertDialog.setNegativeButton("NO", (dialog, which) -> dialog.dismiss());
+        alertDialog.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
         alertDialog.show();
 
-    }//
+    }
 
 }
 

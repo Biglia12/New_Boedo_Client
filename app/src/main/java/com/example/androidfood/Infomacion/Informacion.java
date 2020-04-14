@@ -1,4 +1,4 @@
-package com.example.androidfood;
+package com.example.androidfood.Infomacion;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -8,9 +8,11 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.androidfood.R;
+
 public class Informacion extends AppCompatActivity {
 
-    ImageView ImageFace, ImageContacto, ImageUbicacion, ImageEmail, ImageHora;
+    ImageView ImageFace, ImageContacto, ImageUbicacion, ImageEmail, ImageHora,ImageAviso;
 
 
     @Override
@@ -22,13 +24,10 @@ public class Informacion extends AppCompatActivity {
 
         ImageFace = findViewById(R.id.imagenface);
 
-        ImageFace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse("https://www.facebook.com/newboedo/");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            }
+        ImageFace.setOnClickListener(v -> {
+            Uri uri = Uri.parse("https://www.facebook.com/newboedo/");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         });
         ImageContacto = findViewById(R.id.imagenContacto);
 
@@ -56,9 +55,17 @@ public class Informacion extends AppCompatActivity {
         ImageHora = findViewById(R.id.imgHora);
 
         ImageHora.setOnClickListener((View v) -> {
-            Intent horaintent = new Intent(Informacion.this,Horarios.class);
+            Intent horaintent = new Intent(Informacion.this, Horarios.class);
             startActivity(horaintent);
-
         });
+
+        ImageAviso=findViewById(R.id.imageAviso);
+
+        ImageAviso.setOnClickListener((View v)->{
+      Intent avisointent = new Intent(Informacion.this,Aviso.class);
+      startActivity(avisointent);
+
+    });
+
     }
 }

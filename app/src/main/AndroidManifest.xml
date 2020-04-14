@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ForgotPass"></activity>
+        <activity android:name=".Infomacion.Aviso"></activity>
+        <activity android:name=".ForgotPass" />
         <activity android:name=".RessetPassword" />
         <!--
 <meta-data
@@ -25,10 +26,10 @@
             android:resource="@color/colorAccent" />
         -->
         <activity
-            android:name=".Horarios"
-            android:parentActivityName=".Informacion" />
+            android:name=".Infomacion.Horarios"
+            android:parentActivityName=".Infomacion.Informacion" />
         <activity
-            android:name=".Informacion"
+            android:name=".Infomacion.Informacion"
             android:parentActivityName=".Home" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SearchActivity" />

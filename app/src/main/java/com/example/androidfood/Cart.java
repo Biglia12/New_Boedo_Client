@@ -1,6 +1,7 @@
 package com.example.androidfood;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +44,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mercadopago.android.px.core.MercadoPagoCheckout;
 import com.mercadopago.android.px.internal.datasource.MercadoPagoPaymentConfiguration;
+import com.mercadopago.android.px.services.MercadoPagoServices;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.NumberFormat;
@@ -80,12 +82,15 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
     LinearLayout llDataSendDirection;
 
+    //Mercadopago
+   // static MercadoPagoPaymentConfiguration configuration=new MercadoPagoPaymentConfiguration()
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);//Botoon para volver hacia atras. se encuentra en action bar
 
@@ -195,7 +200,8 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
 
                         //Eliminar carro
-                        new Database(getBaseContext()).cleanCart();
+                        //new Database(getBaseContext()).cleanCart();
+                        new Database(getBaseContext()).cleanCart(Common.currentuser.getPhone());
                         finish();
                     }
                 }
@@ -210,8 +216,9 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
 
                     //Eliminar carro
-                    new Database(getBaseContext()).cleanCart();
-                    finish();
+                    //new Database(getBaseContext()).cleanCart();
+                   new Database(getBaseContext()).cleanCart(Common.currentuser.getPhone());
+                   finish();
                 }
             }
 
@@ -296,7 +303,8 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
 
     private void loadListFood() {
-        cart = new Database(this).getCarts();
+        //cart = new Database(this).getCarts();
+        cart = new Database(this).getCarts(Common.currentuser.getPhone());
         adapter = new CartAdapter(cart, this);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
@@ -325,7 +333,8 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
             //Calcular precio total
             int total = 0;
-            List<Order> orders = new Database(getBaseContext()).getCarts();
+            //List<Order> orders = new Database(getBaseContext()).getCarts();
+            List<Order> orders = new Database(getBaseContext()).getCarts(Common.currentuser.getPhone());
             for (Order item : orders)
                 total += (Integer.parseInt(item.getPrecio())) * (Integer.parseInt(item.getCantidad()));
             Locale locale = new Locale("es", "AR");//simbolo de moneda
@@ -334,24 +343,22 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
             txtTotalPrice.setText(fmt.format(total));
 
             Snackbar snackbar = Snackbar.make(rootLayout, name + " Eliminado del carro", Snackbar.LENGTH_LONG);
-            snackbar.setAction("Agregar de nuevo", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    adapter.restoreItem(deleteItem, deleteIndex);
-                    new Database(getBaseContext()).addToCart(deleteItem);
+            snackbar.setAction("Agregar de nuevo", v -> {
+                adapter.restoreItem(deleteItem, deleteIndex);
+                new Database(getBaseContext()).addToCart(deleteItem);
 
 
-                    //Calcular precio total
-                    int total = 0;
-                    List<Order> orders = new Database(getBaseContext()).getCarts();//////////////////////////////////////////
-                    for (Order item : orders)
-                        total += (Integer.parseInt(item.getPrecio())) * (Integer.parseInt(item.getCantidad()));
-                    Locale locale = new Locale("es", "AR");//simbolo de moneda
-                    NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+                //Calcular precio total
+                int total1 = 0;
+                //List<Order> orders = new Database(getBaseContext()).getCarts();//////////////////////////////////////////
+                List<Order> orders1 = new Database(getBaseContext()).getCarts(Common.currentuser.getPhone());
+                for (Order item : orders1)
+                    total1 += (Integer.parseInt(item.getPrecio())) * (Integer.parseInt(item.getCantidad()));
+                Locale locale1 = new Locale("es", "AR");//simbolo de moneda
+                NumberFormat fmt1 = NumberFormat.getCurrencyInstance(locale1);
 
-                    txtTotalPrice.setText(fmt.format(total));
+                txtTotalPrice.setText(fmt1.format(total1));
 
-                }
             });
             snackbar.setActionTextColor(Color.YELLOW);
             snackbar.show();

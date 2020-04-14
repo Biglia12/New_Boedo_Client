@@ -32,7 +32,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:17.1.2' //fire
     implementation 'com.google.firebase:firebase-messaging:20.1.0'//fire
     implementation 'com.google.firebase:firebase-core:17.2.2'//fire
-    implementation 'com.google.firebase:firebase-auth:19.2.0'//fire
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'//fire
+    implementation 'com.google.firebase:firebase-auth:19.3.0'//fire
     implementation 'com.firebaseui:firebase-ui-auth:5.1.0'//fire
 
     implementation 'com.github.d-max:spots-dialog:1.1@aar'// veere q tipo de libreria es
@@ -74,6 +75,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     implementation 'com.mercadopago.android.px:checkout:4.+' //sdk mercadopago
+    implementation 'com.android.volley:volley:1.1.1'
 
 
 }

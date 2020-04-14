@@ -22,9 +22,8 @@ public class SignUpEmail extends AppCompatActivity {
     EditText email, pass, name, apellido, phone;
     private Button btnregistrarseemail;
     private Button btniniciarsesion;
+
     FirebaseUser user;
-
-
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
     ProgressDialog process;
@@ -34,26 +33,25 @@ public class SignUpEmail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        mService = Common.getFCMClient();
-        process = new ProgressDialog(SignUpEmail.this);
-        process.setMessage("Por favor espera!");
-        info();
-        mAuth = FirebaseAuth.getInstance();
 
         btniniciarsesion = findViewById(R.id.btninciarsesion);
         btniniciarsesion.setOnClickListener(v -> {
             Intent btniniciarsesion = new Intent(SignUpEmail.this, SignIn.class);
             startActivity(btniniciarsesion);
         });
-
-
+        mService = Common.getFCMClient();
+        process = new ProgressDialog(SignUpEmail.this);
+        process.setMessage("Por favor espera!");
+        info();
+        mAuth = FirebaseAuth.getInstance();
         btnregistrarseemail.setOnClickListener(v -> {
             process.show();
             btnregistarse();
         });
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
+
+
 
     private void info() {
         email = findViewById(R.id.edtmail);
@@ -64,21 +62,27 @@ public class SignUpEmail extends AppCompatActivity {
         btnregistrarseemail = findViewById(R.id.btnRegistrarseemail);
 
     }
-
-
-    private void btnregistarse() {
-        String Email = name.getText().toString().trim(); //nose por que se desrodena en firebase. Dificil encontrar el error ya que el codigo se encuentra con logica
+    /*private void btnregistarse() {
+        String Email = name.getText().toString().trim(); // si asi esta el codigo aarece bien en firebase.
         String Pass = pass.getText().toString().trim();
         String Name = phone.getText().toString().trim();
         String Apellido = apellido.getText().toString().trim();
         String Phone = email.getText().toString().trim();
+        final User Cliente = new User(Email, Pass, Name, Apellido,Phone, "cliente");*/
+
+    private void btnregistarse() {
+        String Email = email.getText().toString().trim(); //nose por que se desrodena en firebase. Dificil encontrar el error ya que el codigo se encuentra con logica
+        String Pass = pass.getText().toString().trim();
+        String Name = name.getText().toString().trim();
+        String Apellido = apellido.getText().toString().trim();
+        String Phone = phone.getText().toString().trim();
         final User Cliente = new User(Email, Pass, Name, Apellido,Phone, "cliente");
 
         if (Email.isEmpty() || Pass.isEmpty() || Name.isEmpty() || Apellido.isEmpty() || Phone.isEmpty()) {
             process.dismiss();
             Toast.makeText(this, "Completar los campos vacios!. ", Toast.LENGTH_SHORT).show();
         } else {
-            mAuth.createUserWithEmailAndPassword(email.getText().toString(), pass.toString()).addOnCompleteListener(task -> {
+            mAuth.createUserWithEmailAndPassword(Email, Pass).addOnCompleteListener(task -> {
 
                 if (task.isSuccessful()) {
                     user = mAuth.getCurrentUser();
@@ -87,9 +91,10 @@ public class SignUpEmail extends AppCompatActivity {
                             process.dismiss();
                             Toast.makeText(SignUpEmail.this, "Registro exitoso. Por favor verifique el correo electrónico", Toast.LENGTH_SHORT).show();
 
+                            //envio a firebase
                             String userID = user.getUid();
                             mDatabase.child("User").child(userID).setValue(Cliente);
-                            //chuyen ve man hinh chinh
+                            //envio a inicio de sesion
                             startActivity(new Intent(SignUpEmail.this, SignIn.class));
 
 

@@ -13,6 +13,7 @@
             android:id="@+id/edtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
             android:hint="Nombre"
             android:inputType="text"
             android:text=""
@@ -24,6 +25,7 @@
             android:id="@+id/edtapellidoo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_perm_identity_black_24dp"
             android:hint="Apellido"
             android:inputType="text"
             android:text=""
@@ -44,5 +46,36 @@
             android:textSize="24sp" />-->
 
     </LinearLayout>
+   <!-- <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp">
 
-    </androidx.cardview.widget.CardView>
+        <Button
+            android:id="@+id/btnUpdate"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:background="#43A047"
+            android:text="Actualizar"
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            android:textColor="@color/coloGreen"/>
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
+            android:background="#FF9100"
+            android:text="Cancelar"
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            android:textColor="@color/colorRed"/>
+
+
+    </LinearLayout>-->
+
+
+</androidx.cardview.widget.CardView>

@@ -79,14 +79,14 @@ public class MainActivity extends AppCompatActivity {
 
         txtSlogan = findViewById(R.id.txtSlogan);
         //tipo de letra
-        Typeface face = Typeface.createFromAsset(getAssets(), "fonts/prototype.ttf");
+        Typeface face = Typeface.createFromAsset(getAssets(), "fonts/sacredbridge.ttf");
         txtSlogan.setTypeface(face);
 
-        btnRegistrarseporemail=findViewById(R.id.btnRegistrarseporemail);
+       /*btnRegistrarseporemail=findViewById(R.id.btnRegistrarseporemail);
         btnRegistrarseporemail.setOnClickListener(v -> {
             Intent btnregistarseporemail = new Intent(MainActivity.this, SignUpEmail.class);
             startActivity(btnregistarseporemail);
-        });
+        });*/
 
 
         btnregistrarse.setOnClickListener(v -> {

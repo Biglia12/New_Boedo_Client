@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">NewBoedo</string>
-    <string name="slogan">Bienvenido a nuestra aplicacion de la panaderia New boedo.</string>
+    <string name="slogan">Bienvenido a nuestra aplicacion de la panaderia New boedo Reserva o pedi tu comida</string>
     <string name="title_activity_home">Home</string>
+
+    <string name="aviso">Cuando haga la compra el Pago sera por mercadoago tanto en envio como en retiro en sucusal.</string>
+    <string name="aviso2">Si ha elegido la opcion de envio se cobrara por mercado pago el producto que ha comprado y el envio se abonara a parte.por ejemplo n si compra 2 kilos de pan, emercado pago se abonaran los 300 pesos pero el precio de envio se le abonaran al repartidor una vez entregado el poducto</string>
+    <string name="aviso3">Las entregas seran realizadas solo por la localidad de lomas.</string>
+    <string name="aviso4">Haciendo click en la imagen se veran las zonas que hacemos las entregas. y dependiendo el color de la zona se cobraran diferentes precios. Si su direccion pasa la zona roja se cobrara otra diferencia de envio.</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

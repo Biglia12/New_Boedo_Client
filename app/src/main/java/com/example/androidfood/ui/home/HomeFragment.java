@@ -1,4 +1,4 @@
-/*package com.example.androidfood.ui.home;
+package com.example.androidfood.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,4 +32,4 @@ public class HomeFragment extends Fragment {
         });
         return root;
     }
-}*/
+}

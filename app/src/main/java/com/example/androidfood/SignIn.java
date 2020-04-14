@@ -12,14 +12,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidfood.Common.Common;
-import com.example.androidfood.Model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,15 +43,15 @@ public class SignIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
         Info();
         waiting = new SpotsDialog.Builder().setContext(this).setMessage("Por favor espera ...").setCancelable(false).build();
         firebaseAuth = FirebaseAuth.getInstance();
 
         Paper.init(this);
 
-        buttoniniciarsesion.setOnClickListener(v -> {
-            iniciarsesion();
-        });
+        buttoniniciarsesion.setOnClickListener(v -> iniciarsesion());
+
         forgotPass.setOnClickListener(v -> startActivity(new Intent(SignIn.this, ForgotPass.class)));
 
     }
@@ -83,7 +79,7 @@ public class SignIn extends AppCompatActivity {
                 }
                 firebaseAuth.signInWithEmailAndPassword(Email, Pass).addOnCompleteListener(this, task -> {
 
-                    if (task.isSuccessful()) {
+                if (task.isSuccessful()) {
                         final FirebaseUser USER = FirebaseAuth.getInstance().getCurrentUser();
                         String userID = USER.getUid();                                          //startActivity(new Intent(SignIn.this,Home.class));
 
@@ -112,7 +108,7 @@ public class SignIn extends AppCompatActivity {
                     });*/
 
 
-                   /* DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("User").child(userID);
+                   DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("User").child(userID);
                     ValueEventListener eventListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -124,7 +120,7 @@ public class SignIn extends AppCompatActivity {
 
                         }
                     };
-                    mDatabase.addListenerForSingleValueEvent(eventListener);*/
+                    mDatabase.addListenerForSingleValueEvent(eventListener);
 
                     } else {
                         waiting.dismiss();
@@ -147,6 +143,7 @@ public class SignIn extends AppCompatActivity {
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }

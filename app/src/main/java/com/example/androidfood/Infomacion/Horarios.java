@@ -1,8 +1,10 @@
-package com.example.androidfood;
+package com.example.androidfood.Infomacion;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.androidfood.R;
 
 public class Horarios extends AppCompatActivity {
 

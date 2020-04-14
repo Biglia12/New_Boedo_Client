@@ -70,99 +70,93 @@ public class FoodList extends AppCompatActivity {
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_blue_dark);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //obtener intente aca
-                if (getIntent() !=null)
-                    categoriaId=getIntent().getStringExtra("CategoriaId");
-                if (categoriaId != null && !categoriaId.isEmpty()) {
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            //obtener intente aca
+            if (getIntent() !=null)
+                categoriaId=getIntent().getStringExtra("CategoriaId");
+            if (categoriaId != null && !categoriaId.isEmpty()) {
 
-                    /*categoriaId != null && !categoriaId.isEmpty()*/
+                /*categoriaId != null && !categoriaId.isEmpty()*/
 
 
-                    if (Common.isConnectedToInternet(getBaseContext()))
-                        loadListFood(categoriaId);
-                    else {
-                        Toast.makeText(FoodList.this,"Por favor revise su conexion!!",Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                if (Common.isConnectedToInternet(getBaseContext()))
+                    loadListFood(categoriaId);
+                else {
+                    Toast.makeText(FoodList.this,"Por favor revise su conexion!!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            // Search
+
+           /* materialSearchBar = findViewById(R.id.searchBar);
+            materialSearchBar.setHint("Ingrese su comida/bebida");
+            loadSuggest(); //  escribir funcion de sugerencia para carga de firebase
+
+            materialSearchBar.setCardViewElevation(10);
+            materialSearchBar.addTextChangeListener(new TextWatcher() {
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
                 }
 
-                // Search
-
-               /* materialSearchBar = findViewById(R.id.searchBar);
-                materialSearchBar.setHint("Ingrese su comida/bebida");
-                loadSuggest(); //  escribir funcion de sugerencia para carga de firebase
-
-                materialSearchBar.setCardViewElevation(10);
-                materialSearchBar.addTextChangeListener(new TextWatcher() {
-
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    //cuando un usuario escriba su texto, nostoros cambiaremos la sgugerencia de lista
+                    List<String> suggest = new ArrayList<>();
+                    for (String search:suggestList){//lazo en lista se sugerir
+                        if (search.toLowerCase().contains(materialSearchBar.getText().toLowerCase()))
+                            suggest.add(search);
                     }
+                    materialSearchBar.setLastSuggestions(suggest);
+                }
 
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        //cuando un usuario escriba su texto, nostoros cambiaremos la sgugerencia de lista
-                        List<String> suggest = new ArrayList<>();
-                        for (String search:suggestList){//lazo en lista se sugerir
-                            if (search.toLowerCase().contains(materialSearchBar.getText().toLowerCase()))
-                                suggest.add(search);
-                        }
-                        materialSearchBar.setLastSuggestions(suggest);
-                    }
+                @Override
+                public void afterTextChanged(Editable s) {
 
-                    @Override
-                    public void afterTextChanged(Editable s) {
+                }
+            });
+            materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
+                @Override
+                public void onSearchStateChanged(boolean enabled) {
+                    //cuando searchbar esta cerrado
+                    //restaurar la sugerencia original
+                    if (!enabled)
+                        recyclerView.setAdapter(adapter);
 
-                    }
-                });
-                materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
-                    @Override
-                    public void onSearchStateChanged(boolean enabled) {
-                        //cuando searchbar esta cerrado
-                        //restaurar la sugerencia original
-                        if (!enabled)
-                            recyclerView.setAdapter(adapter);
+                }
 
-                    }
+                @Override
+                public void onSearchConfirmed(CharSequence text) {
+                    //cuando el buscador finaliza
+                    //muestra resultado del search adapter
+                    startSearch(text);
 
-                    @Override
-                    public void onSearchConfirmed(CharSequence text) {
-                        //cuando el buscador finaliza
-                        //muestra resultado del search adapter
-                        startSearch(text);
+                }
 
-                    }
+                @Override
+                public void onButtonClicked(int buttonCode) {
 
-                    @Override
-                    public void onButtonClicked(int buttonCode) {
-
-                    }
-                });*/
-            }
+                }
+            });*/
         });
 
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                //obtener intente aca
-                if (getIntent() !=null)
-                    categoriaId=getIntent().getStringExtra("CategoriaId");
-                if (categoriaId != null && !categoriaId.isEmpty()) {
+        swipeRefreshLayout.post(() -> {
+            //obtener intente aca
+            if (getIntent() !=null)
+                categoriaId=getIntent().getStringExtra("CategoriaId");
+            if (categoriaId != null && !categoriaId.isEmpty()) {
 
-                    /*categoriaId != null && !categoriaId.isEmpty()*/
+                /*categoriaId != null && !categoriaId.isEmpty()*/
 
 
 
-                    if (Common.isConnectedToInternet(getBaseContext()))
-                        loadListFood(categoriaId);
-                    else {
-                        Toast.makeText(FoodList.this,"Por favor revise su conexion!!",Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                if (Common.isConnectedToInternet(getBaseContext()))
+                    loadListFood(categoriaId);
+                else {
+                    Toast.makeText(FoodList.this,"Por favor revise su conexion!!",Toast.LENGTH_SHORT).show();
+                    return;
                 }
             }
         });
@@ -196,14 +190,11 @@ public class FoodList extends AppCompatActivity {
               holder.comida_name.setText(model.getNombre());
               Picasso.get().load(model.getImagen()).into(holder.comida_image);
 
-              holder.setItemClickListener(new ItemClickListener() {
-                  @Override
-                  public void onClick(View view, int position, boolean isLongClick) {
-                      //empezar actividad de la food details
-                      Intent foodDetails = new Intent(FoodList.this,FoodDetail.class);
-                      foodDetails.putExtra("ComidaId",searchAdapter.getRef(position).getKey());//enviar comidaid a nueva actividad
-                      startActivity(foodDetails);
-                  }
+              holder.setItemClickListener((view, position1, isLongClick) -> {
+                  //empezar actividad de la food details
+                  Intent foodDetails = new Intent(FoodList.this,FoodDetail.class);
+                  foodDetails.putExtra("ComidaId",searchAdapter.getRef(position1).getKey());//enviar comidaid a nueva actividad
+                  startActivity(foodDetails);
               });
           }
 
@@ -270,14 +261,11 @@ public class FoodList extends AppCompatActivity {
                 });*/
 
                 final Food local=model;
-                holder.setItemClickListener(new ItemClickListener() {
-                    @Override
-                    public void onClick(View view, int position, boolean isLongClick) {
-                   //Empezar nueva actividad
-                        Intent foodDetail = new Intent(FoodList.this,FoodDetail.class);
-                        foodDetail.putExtra("ComidaId",adapter.getRef(position).getKey());//Enviar comida a nueva actividad
-                        startActivity(foodDetail);
-                    }
+                holder.setItemClickListener((view, position1, isLongClick) -> {
+               //Empezar nueva actividad
+                    Intent foodDetail = new Intent(FoodList.this,FoodDetail.class);
+                    foodDetail.putExtra("ComidaId",adapter.getRef(position1).getKey());//Enviar comida a nueva actividad
+                    startActivity(foodDetail);
                 });
 
 

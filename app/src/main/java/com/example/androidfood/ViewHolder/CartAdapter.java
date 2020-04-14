@@ -71,7 +71,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder>{
 
               //Calcular precio total
               int total = 0;
-              List<Order> orders = new Database(cart).getCarts();//////////////////////////////
+              //List<Order> orders = new Database(cart).getCarts();//////////////////////////////
+              List<Order> orders = new Database(cart).getCarts(Common.currentuser.getPhone());
               for (Order item: orders)
                   total+=(Integer.parseInt(order.getPrecio()))*(Integer.parseInt(item.getCantidad()));
               Locale locale = new Locale("es","AR");//simbolo de moneda
