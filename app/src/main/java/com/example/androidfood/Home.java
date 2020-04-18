@@ -1,8 +1,11 @@
 package com.example.androidfood;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +36,6 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -51,7 +53,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     FirebaseDatabase database;
     DatabaseReference categoria;
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+    private SharedPreferences sharedpreferences;
+
+    //FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
 
     TextView txtFullName, txtFullApellido;
 
@@ -59,7 +64,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     RecyclerView.LayoutManager layoutManager;
     FirebaseRecyclerAdapter<Categoria, MenuViewHolder> adapter;
 
-    DatabaseReference mUser = FirebaseDatabase.getInstance().getReference("User").child(user.getUid());
+    DatabaseReference mUser = FirebaseDatabase.getInstance().getReference("User");
     SwipeRefreshLayout swipeRefreshLayout;
 
     CounterFab fab;
@@ -134,7 +139,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         if (Common.currentuser.getName() != null && Common.currentuser.getApellido() != null)
             txtFullName.setText(Common.currentuser.getName());
-            txtFullApellido.setText(Common.currentuser.getApellido());
+        txtFullApellido.setText(Common.currentuser.getApellido());
 
         //txtFullName.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getName()).getKey());
         //txtFullApellido.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getApellido()).getKey());
@@ -155,7 +160,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     @Override
     protected void onResume() {
         super.onResume();
-       // fab.setCount(new Database(this).getCountCart());////////////////////////////////////////////////
+        // fab.setCount(new Database(this).getCountCart());////////////////////////////////////////////////
         fab.setCount(new Database(this).getCountCart(Common.currentuser.getPhone()));
 
         if (adapter != null)
@@ -272,19 +277,51 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         } else if (id == R.id.nav_log_out) {
 
             //eliminar rrecordarme usuario y contraseña
-            FirebaseAuth.getInstance().signOut();
-            // Paper.book().destroy();
-            //LogOut
-            Intent mainactivity = new Intent(Home.this, MainActivity.class);
-            mainactivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(mainactivity);
+            AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+            builder.setTitle("Confirmacion");
+            builder.setMessage("Estas seguro que quiere salir de la sesion?");
+            builder.setPositiveButton("SI", (dialog, which) -> {
+                FirebaseAuth.getInstance().signOut();
+                Intent mainactivity = new Intent(Home.this, MainActivity.class);
+                mainactivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainactivity);
+            });
+            builder.setNegativeButton("NO", (dialog, which) -> {
 
+                // Do nothing
+                dialog.dismiss();
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
         }
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
 
     }
+
+    /*private String PREFS_KEY = "mispreferencias";
+
+    public void saveValuePreference(Context context, String text) {
+        SharedPreferences settings = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
+        SharedPreferences.Editor editor;
+        editor = settings.edit();
+        editor.putString("name", text);
+        editor.putString("apellido",text);
+        editor.commit();
+    }
+
+
+
+    public String getValuePreference(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
+        return  preferences.getString("name", "");
+
+    }*/
+
+
 
 
     private void showUpdateNameDialog() {//
@@ -296,30 +333,45 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         LayoutInflater inflater = this.getLayoutInflater();
         View layout_name = inflater.inflate(R.layout.update_name_layout, null);
 
-        final MaterialEditText Name = layout_name.findViewById(R.id.edtName);
-        final MaterialEditText Apellido = layout_name.findViewById(R.id.edtapellidoo);
+        final MaterialEditText name = layout_name.findViewById(R.id.edtName);
+        final MaterialEditText apellido = layout_name.findViewById(R.id.edtapellidoo);
         // final MaterialEditText edtemail = layout_name.findViewById(R.id.edtemaill);
 
-        Name.setText(mUser.child(Common.currentuser.getName()).getKey());
-        Apellido.setText(mUser.child(Common.currentuser.getApellido()).getKey());
-        // edtemail.setText(mUser.child(Common.currentuser.getEmail()).getKey());
+        sharedpreferences = getSharedPreferences("info", MODE_PRIVATE);
+        name.setText(sharedpreferences.getString("name", ""));
+        apellido.setText(sharedpreferences.getString("apellido", ""));
+
 
 
         alertDialog.setView(layout_name);
 
+
         //Button
         alertDialog.setPositiveButton("Editar", (dialog, which) -> {
+
 
             final AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(Home.this).build();
             waitingDialog.show();
 
+
+
+                     //guardara el nombre en edittext
+                     SharedPreferences.Editor preferencesEditor = sharedpreferences.edit();
+                    if(name.getText().length() > 0) // Not empty
+                        preferencesEditor.putString("name", String.valueOf(name.getText()));
+                    if(apellido.getText().length() > 0) // Not empty
+                        preferencesEditor.putString("apellido", String.valueOf(apellido.getText()));
+                    // You can make a function so you woudn't have to repeat the same code for each EditText
+
+
+
             // Update Name
             Map<String, Object> update_name = new HashMap<>();
-            update_name.put("name", Name.getText().toString());
-            update_name.put("apellido", Apellido.getText().toString());
+            update_name.put("name", name.getText().toString());
+            update_name.put("apellido", apellido.getText().toString());
 
 
-            // update_name.put("email", edtemail.getText().toString());
+           
 
             FirebaseDatabase.getInstance()
                     .getReference("User")
@@ -330,18 +382,20 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                         waitingDialog.dismiss();
                         if (task.isSuccessful()) {
                             Toast.makeText(Home.this, "¡¡Perfil editado!!", Toast.LENGTH_SHORT).show();
+                            preferencesEditor.commit();
                         }
 
                     });
 
-        });
-        alertDialog.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+        }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
         alertDialog.show();
 
+
     }
 
-}
 
+
+}
 
 

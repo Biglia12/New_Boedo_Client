@@ -68,11 +68,8 @@ public class OrderStatus extends AppCompatActivity {
                 holder.txtOrderTelefono.setText(model.getTelefono());
                 holder.txtOrderDate.setText(Common.getDate(Long.parseLong(adapter.getRef(position).getKey())));
 
-                holder.setItemClickListener(new ItemClickListener() {
-                    @Override
-                    public void onClick(View view, int position, boolean isLongClick) {
+                holder.setItemClickListener((view, position1, isLongClick) -> {
 
-                    }
                 });
 
 

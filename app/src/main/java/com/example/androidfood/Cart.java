@@ -191,6 +191,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
                         //enviar a firebase
                         //usaremos System.CurrentMilli para llave
+
                         String order_number = String.valueOf(System.currentTimeMillis());
                         requests.child(order_number).setValue(request);
 
@@ -210,9 +211,11 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                     String order_number = String.valueOf(System.currentTimeMillis());
                     requests.child(order_number).setValue(request);
 
+
                     Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
 
                     sendNotificationOrder(order_number);
+
 
 
                     //Eliminar carro

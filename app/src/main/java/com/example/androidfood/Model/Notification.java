@@ -5,6 +5,7 @@ public class Notification {
     public String body;
     public String title;
 
+
     public Notification() {
     }
 
@@ -28,6 +29,9 @@ public class Notification {
     public void setTitle(String title) {
         this.title = title;
     }
+
+
+
 
     @Override
     public String toString() {
