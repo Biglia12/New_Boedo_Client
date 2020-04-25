@@ -13,6 +13,15 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
 
+    <ImageView
+        android:tint="@color/white"
+        android:id="@+id/imageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:contentDescription="@string/nav_header_desc"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        app:srcCompat="@drawable/newboedoimagenblanca" />
+
     <TextView
         android:id="@+id/txtFullApellido"
         android:layout_width="match_parent"

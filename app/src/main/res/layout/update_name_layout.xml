@@ -22,28 +22,29 @@
             android:textSize="24sp" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/edtapellidoo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_perm_identity_black_24dp"
-            android:hint="Apellido"
-            android:inputType="text"
-            android:text=""
-            android:textColor="@color/colorPrimary"
-            android:textColorHint="@color/colorPrimary"
-            android:textSize="24sp" />
+        android:id="@+id/edtapellidoo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_perm_identity_black_24dp"
+        android:hint="Apellido"
+        android:inputType="text"
+        android:text=""
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/colorPrimary"
+        android:textSize="24sp" />
 
-
-        <!--<com.rengwuxian.materialedittext.MaterialEditText
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtemaill"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
             android:inputType="text"
             android:text=""
+            android:drawableLeft="@drawable/ic_email_black_24dp"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimary"
-            android:textSize="24sp" />-->
+            android:textSize="24sp" />
+
 
     </LinearLayout>
 <!--<LinearLayout

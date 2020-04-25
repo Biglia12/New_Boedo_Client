@@ -129,7 +129,7 @@
         android:layout_marginTop="52dp"
         android:layout_marginEnd="44dp"
         app:layout_constraintEnd_toStartOf="@+id/imageAviso"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imagenubica"
         app:layout_constraintTop_toBottomOf="@+id/textViewface"
         app:srcCompat="@drawable/ic_access_alarm_black_24dp" />

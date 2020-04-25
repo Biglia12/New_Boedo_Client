@@ -2,6 +2,7 @@ package com.example.androidfood;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -56,15 +57,16 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     private SharedPreferences sharedpreferences;
 
-    //FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
-
     TextView txtFullName, txtFullApellido;
+
+
 
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
     FirebaseRecyclerAdapter<Categoria, MenuViewHolder> adapter;
 
-    DatabaseReference mUser = FirebaseDatabase.getInstance().getReference("User");
+    private boolean showMessage = true;
+
     SwipeRefreshLayout swipeRefreshLayout;
 
     CounterFab fab;
@@ -74,10 +76,90 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        SharedPreferences settings = getSharedPreferences("pref_name", 0); // Este codigo nos sevia para que alert dialog aparezca la pimera vez instalada la app. luego no aparecera
+        boolean installed = settings.getBoolean("installed", false);
+
+        if(!installed) {
+
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
+            alertDialog.setTitle("Bienvenido!");
+            alertDialog.setMessage("Complete los campos con su infomacion");
+
+            LayoutInflater inflater = this.getLayoutInflater();
+            View layout_name = inflater.inflate(R.layout.update_name_layout, null);
+
+            final MaterialEditText nombre = layout_name.findViewById(R.id.edtName);
+            final MaterialEditText apellido = layout_name.findViewById(R.id.edtapellidoo);
+            final MaterialEditText edtemail = layout_name.findViewById(R.id.edtemaill);
+
+            sharedpreferences = getSharedPreferences("info", MODE_PRIVATE);
+            nombre.setText(sharedpreferences.getString("nombre", ""));
+            apellido.setText(sharedpreferences.getString("apellido", ""));
+            edtemail.setText(sharedpreferences.getString("email", ""));
+
+            alertDialog.setView(layout_name);
+
+
+            //Button
+            alertDialog.setPositiveButton("Editar", (dialog, which) -> {
+
+
+
+
+                final AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(Home.this).build();
+                waitingDialog.show();
+
+
+                //guardara el nombre en edittext
+                SharedPreferences.Editor preferencesEditor = sharedpreferences.edit();
+                if (nombre.getText().length() > 0) // Not empty
+                    preferencesEditor.putString("nombre", String.valueOf(nombre.getText()));
+                if (apellido.getText().length() > 0) // Not empty
+                    preferencesEditor.putString("apellido", String.valueOf(apellido.getText()));
+                if (edtemail.getText().length() > 0) // Not empty
+                    preferencesEditor.putString("email", String.valueOf(edtemail.getText()));
+
+
+                // Update Name
+                Map<String, Object> update_name = new HashMap<>();
+                update_name.put("name", nombre.getText().toString());
+                update_name.put("apellido", apellido.getText().toString());
+                update_name.put("email", edtemail.getText().toString());
+
+                FirebaseDatabase.getInstance()
+                        .getReference("User")
+                        .child(Common.currentuser.getPhone())
+                        .updateChildren(update_name)
+                        .addOnCompleteListener(task -> {
+                            //Dismiss Dialog
+                            waitingDialog.dismiss();
+                            if (task.isSuccessful()) {
+                                Toast.makeText(Home.this, "¡¡Perfil editado!!", Toast.LENGTH_SHORT).show();
+                                preferencesEditor.commit();
+                            }
+
+                        });
+
+
+            }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+
+            alertDialog.show();
+
+            alertDialog.setView(layout_name);
+
+
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("installed", true);
+            editor.commit();
+
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Menu");
         setSupportActionBar(toolbar);
+
+
+
 
         swipeRefreshLayout = findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
@@ -121,28 +203,48 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
 
         //fab.setCount(new Database(this).getCountCart());//////////////////////////////
+
+
         fab.setCount(new Database(this).getCountCart(Common.currentuser.getPhone()));
 
         //Abrire los cuadrados de la derecha para que se abra el panel
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+
+
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                //escoger nombre para el usuario
+                View headerView = navigationView.getHeaderView(0);
+                txtFullName = headerView.findViewById(R.id.txtFullName);
+                txtFullApellido = headerView.findViewById(R.id.txtFullApellido);
+                    txtFullName.setText(Common.currentuser.getName());
+                txtFullApellido.setText(Common.currentuser.getApellido());
+
+            }
+        };
+
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+
         //escoger nombre para el usuario
-        View headerView = navigationView.getHeaderView(0);
+       /* View headerView = navigationView.getHeaderView(0);
         txtFullName = headerView.findViewById(R.id.txtFullName);
         txtFullApellido = headerView.findViewById(R.id.txtFullApellido);
 
         if (Common.currentuser.getName() != null && Common.currentuser.getApellido() != null)
             txtFullName.setText(Common.currentuser.getName());
-        txtFullApellido.setText(Common.currentuser.getApellido());
+        txtFullApellido.setText(Common.currentuser.getApellido());*/
 
-        //txtFullName.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getName()).getKey());
-        //txtFullApellido.setText(FirebaseDatabase.getInstance().getReference("User").child(Common.currentuser.getApellido()).getKey());
 
         //cargar menu
         recycler_menu = findViewById(R.id.recycler_menu);
@@ -154,6 +256,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         loadMenu();
 
         updateToken(FirebaseInstanceId.getInstance().getToken());
+
 
     }
 
@@ -202,7 +305,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 holder.setItemClickListener((view, position, isLongClick) -> {
                     //Obtener Categoria ID y enviar a nueva actividad
                     Intent foodList = new Intent(Home.this, FoodList.class);
-                    //por que lña categoriaid es la key, asiq ahora nosotros obtenemos la key de este item
+                    //por que la categoriaid es la key, asiq ahora nosotros obtenemos la key de este item
                     foodList.putExtra("CategoriaId", adapter.getRef(position).getKey());
                     startActivity(foodList);
 
@@ -276,7 +379,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         } else if (id == R.id.nav_log_out) {
 
-            //eliminar rrecordarme usuario y contraseña
             AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
             builder.setTitle("Confirmacion");
             builder.setMessage("Estas seguro que quiere salir de la sesion?");
@@ -302,29 +404,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     }
 
-    /*private String PREFS_KEY = "mispreferencias";
-
-    public void saveValuePreference(Context context, String text) {
-        SharedPreferences settings = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
-        SharedPreferences.Editor editor;
-        editor = settings.edit();
-        editor.putString("name", text);
-        editor.putString("apellido",text);
-        editor.commit();
-    }
-
-
-
-    public String getValuePreference(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
-        return  preferences.getString("name", "");
-
-    }*/
-
 
 
 
     private void showUpdateNameDialog() {//
+
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
         alertDialog.setTitle("Establece Tus datos");
@@ -333,13 +417,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         LayoutInflater inflater = this.getLayoutInflater();
         View layout_name = inflater.inflate(R.layout.update_name_layout, null);
 
-        final MaterialEditText name = layout_name.findViewById(R.id.edtName);
+        final MaterialEditText nombre = layout_name.findViewById(R.id.edtName);
         final MaterialEditText apellido = layout_name.findViewById(R.id.edtapellidoo);
-        // final MaterialEditText edtemail = layout_name.findViewById(R.id.edtemaill);
+        final MaterialEditText edtemail = layout_name.findViewById(R.id.edtemaill);
 
         sharedpreferences = getSharedPreferences("info", MODE_PRIVATE);
-        name.setText(sharedpreferences.getString("name", ""));
+        nombre.setText(sharedpreferences.getString("nombre", ""));
         apellido.setText(sharedpreferences.getString("apellido", ""));
+        edtemail.setText(sharedpreferences.getString("email", ""));
 
 
 
@@ -350,28 +435,27 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         alertDialog.setPositiveButton("Editar", (dialog, which) -> {
 
 
+
+
             final AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(Home.this).build();
             waitingDialog.show();
 
 
-
-                     //guardara el nombre en edittext
-                     SharedPreferences.Editor preferencesEditor = sharedpreferences.edit();
-                    if(name.getText().length() > 0) // Not empty
-                        preferencesEditor.putString("name", String.valueOf(name.getText()));
-                    if(apellido.getText().length() > 0) // Not empty
-                        preferencesEditor.putString("apellido", String.valueOf(apellido.getText()));
-                    // You can make a function so you woudn't have to repeat the same code for each EditText
-
+            //guardara el nombre en edittext
+            SharedPreferences.Editor preferencesEditor = sharedpreferences.edit();
+            if (nombre.getText().length() > 0) // Not empty
+                preferencesEditor.putString("nombre", String.valueOf(nombre.getText()));
+            if (apellido.getText().length() > 0) // Not empty
+                preferencesEditor.putString("apellido", String.valueOf(apellido.getText()));
+            if (edtemail.getText().length() > 0) // Not empty
+                preferencesEditor.putString("email", String.valueOf(edtemail.getText()));
 
 
             // Update Name
             Map<String, Object> update_name = new HashMap<>();
-            update_name.put("name", name.getText().toString());
+            update_name.put("name", nombre.getText().toString());
             update_name.put("apellido", apellido.getText().toString());
-
-
-           
+            update_name.put("email", edtemail.getText().toString());
 
             FirebaseDatabase.getInstance()
                     .getReference("User")
@@ -387,13 +471,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
                     });
 
+
         }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
         alertDialog.show();
 
 
     }
-
 
 
 }
