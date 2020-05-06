@@ -6,6 +6,7 @@ public class Request {
     private String telefono;
     private String nombre;
     private String apellido;
+    private String email;
     private String direccion;
     private String entrecalles;
     private String Pisoydepartamento;
@@ -13,15 +14,16 @@ public class Request {
     private String total;
     private String estados;
     private String comment;
-    private List<Order>comidas; // lista de comida ordenada
+    private List<Order> comidas; // lista de comida ordenada
 
     public Request() {
     }
 
-    public Request(String telefono, String nombre,String apellido, String direccion, String entrecalles, String pisoydepartamento, String localidad, String total, String estados, String comment, List<Order> comidas) {
+    public Request(String telefono, String nombre, String apellido, String email, String direccion, String entrecalles, String pisoydepartamento, String localidad, String total, String estados, String comment, List<Order> comidas) {
         this.telefono = telefono;
         this.nombre = nombre;
-        this.apellido=apellido;
+        this.apellido = apellido;
+        this.email = email;
         this.direccion = direccion;
         this.entrecalles = entrecalles;
         this.Pisoydepartamento = pisoydepartamento;
@@ -31,7 +33,6 @@ public class Request {
         this.comment = comment;
         this.comidas = comidas;
     }
-
 
 
     public String getTelefono() {
@@ -49,12 +50,21 @@ public class Request {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     public String getApellido() {
         return apellido;
     }
 
     public void setApellido(String apellido) {
         this.nombre = apellido;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getDireccion() {
@@ -120,4 +130,6 @@ public class Request {
     public void setLocalidad(String localidad) {
         Localidad = localidad;
     }
+
+
 }

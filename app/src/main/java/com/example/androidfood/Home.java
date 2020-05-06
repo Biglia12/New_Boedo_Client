@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,7 +77,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        SharedPreferences settings = getSharedPreferences("pref_name", 0); // Este codigo nos sevia para que alert dialog aparezca la pimera vez instalada la app. luego no aparecera
+        SharedPreferences settings = getSharedPreferences("pref_name", 0); // Este codigo nos serviraa para que alert dialog aparezca la pimera vez instalada la app. luego no aparecera
         boolean installed = settings.getBoolean("installed", false);
 
         if(!installed) {
@@ -84,6 +85,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
             alertDialog.setTitle("Bienvenido!");
             alertDialog.setMessage("Complete los campos con su infomacion");
+
+
 
             LayoutInflater inflater = this.getLayoutInflater();
             View layout_name = inflater.inflate(R.layout.update_name_layout, null);
@@ -103,9 +106,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             //Button
             alertDialog.setPositiveButton("Editar", (dialog, which) -> {
 
-
-
-
                 final AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(Home.this).build();
                 waitingDialog.show();
 
@@ -118,6 +118,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     preferencesEditor.putString("apellido", String.valueOf(apellido.getText()));
                 if (edtemail.getText().length() > 0) // Not empty
                     preferencesEditor.putString("email", String.valueOf(edtemail.getText()));
+
+
 
 
                 // Update Name
@@ -138,12 +140,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                                 preferencesEditor.commit();
                             }
 
+
                         });
 
 
             }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
             alertDialog.show();
+
 
             alertDialog.setView(layout_name);
 
@@ -227,6 +231,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 txtFullApellido = headerView.findViewById(R.id.txtFullApellido);
                     txtFullName.setText(Common.currentuser.getName());
                 txtFullApellido.setText(Common.currentuser.getApellido());
+                invalidateOptionsMenu();
 
             }
         };

@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidfood.Common.Common;
+import com.example.androidfood.Common.MercadoPago;
 import com.example.androidfood.Database.Database;
 import com.example.androidfood.Helper.RecyclerItemTouchHelper;
 import com.example.androidfood.Interface.RecyclerItemTouchHelperListener;
@@ -174,6 +175,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                         Common.currentuser.getPhone(),
                         Common.currentuser.getName(),
                         Common.currentuser.getApellido(),
+                        Common.currentuser.getEmail(),
                         edtAdress.getText().toString(),
                         edtentrecalles.getText().toString(),
                         edtpisodepartamento.getText().toString(),
@@ -185,7 +187,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                 );
 
                 if (rbSendToAddress.isChecked()) {
-                    if (edtAdress.getText().toString().isEmpty() && edtentrecalles.getText().toString().isEmpty() && edtLocalidad.getText().toString().isEmpty()) {
+                    if (edtAdress.getText().toString().isEmpty() || edtentrecalles.getText().toString().isEmpty() || edtLocalidad.getText().toString().isEmpty()) {
                         Toast.makeText(Cart.this, "Complete los campos requeridos(direccion,entrecalles,localidad)", Toast.LENGTH_SHORT).show();
                     } else {
 
@@ -194,6 +196,8 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
                         String order_number = String.valueOf(System.currentTimeMillis());
                         requests.child(order_number).setValue(request);
+
+
 
                         Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
 
@@ -208,6 +212,10 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                 }
 
                if (rbGoToMarket.isChecked()) {
+
+                   //Intent intent = new Intent(Cart.this, MercadoPago.class);
+                   //startActivity(intent);
+
                     String order_number = String.valueOf(System.currentTimeMillis());
                     requests.child(order_number).setValue(request);
 

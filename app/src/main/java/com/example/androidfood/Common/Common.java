@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.example.androidfood.Model.Request;
 import com.example.androidfood.Model.User;
 import com.example.androidfood.Remote.APIService;
 import com.example.androidfood.Remote.RetrofitClient;
@@ -14,6 +15,7 @@ import java.util.Locale;
 public class Common {
 
     public static User currentuser;
+    public static Request currentRequest;
 
     public static String PHONE_TEXT = "userPhone";
 
