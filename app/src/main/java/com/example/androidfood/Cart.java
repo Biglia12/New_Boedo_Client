@@ -353,6 +353,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
             txtTotalPrice.setText(fmt.format(total));
 
+            //sanckbar
             Snackbar snackbar = Snackbar.make(rootLayout, name + " Eliminado del carro", Snackbar.LENGTH_LONG);
             snackbar.setAction("Agregar de nuevo", v -> {
                 adapter.restoreItem(deleteItem, deleteIndex);

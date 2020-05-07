@@ -214,8 +214,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         //Abrire los cuadrados de la derecha para que se abra el panel
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(Home.this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
 
 
             public void onDrawerClosed(View view) {

@@ -106,7 +106,7 @@
             android:id="@+id/btnDetail"
             android:layout_weight="1"
             android:text="Ver detalle de su compra"
-            android:background="@android:color/white"
+            android:background="@android:color/holo_green_light"
             android:textColor="@android:color/black"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />

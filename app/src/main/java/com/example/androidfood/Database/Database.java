@@ -114,7 +114,7 @@ public class Database extends SQLiteAssetHelper {
 
     public void remoFormCart(String productId, String phone) {
         SQLiteDatabase db = getReadableDatabase();
-        String query = String.format("DELETE FROM OrderDetail");
+        String query = String.format("DELETE FROM OrderDetail  WHERE UserPhone = '%s' AND ProductoId='%s'",phone,productId);
         db.execSQL(query);
 
     }
