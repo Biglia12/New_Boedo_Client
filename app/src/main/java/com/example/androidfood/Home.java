@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.se.omapi.Session;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -66,7 +67,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     RecyclerView.LayoutManager layoutManager;
     FirebaseRecyclerAdapter<Categoria, MenuViewHolder> adapter;
 
-    private boolean showMessage = true;
 
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -212,10 +212,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         fab.setCount(new Database(this).getCountCart(Common.currentuser.getPhone()));
 
         //Abrire los cuadrados de la derecha para que se abra el panel
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(Home.this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
-
 
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -441,49 +441,63 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
 
 
-            final AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(Home.this).build();
-            waitingDialog.show();
+        })
+                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+
+        AlertDialog dialog=alertDialog.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+
+            if(nombre.getText().toString().isEmpty() || apellido.getText().toString().isEmpty()  || edtemail.getText().toString().isEmpty() ){
+                Toast.makeText(Home.this, "No dejar Campos en blanco", Toast.LENGTH_SHORT).show();
+            }
+
+            else {
+
+                final AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(Home.this).build();
+                waitingDialog.show();
 
 
-            //guardara el nombre en edittext
-            SharedPreferences.Editor preferencesEditor = sharedpreferences.edit();
-            if (nombre.getText().length() > 0) // Not empty
-                preferencesEditor.putString("nombre", String.valueOf(nombre.getText()));
-            if (apellido.getText().length() > 0) // Not empty
-                preferencesEditor.putString("apellido", String.valueOf(apellido.getText()));
-            if (edtemail.getText().length() > 0) // Not empty
-                preferencesEditor.putString("email", String.valueOf(edtemail.getText()));
+                //guardara el nombre en edittext
+                SharedPreferences.Editor preferencesEditor = sharedpreferences.edit();
+                if (nombre.getText().length() > 0) // Not empty
+                    preferencesEditor.putString("nombre", String.valueOf(nombre.getText()));
+                if (apellido.getText().length() > 0) // Not empty
+                    preferencesEditor.putString("apellido", String.valueOf(apellido.getText()));
+                if (edtemail.getText().length() > 0) // Not empty
+                    preferencesEditor.putString("email", String.valueOf(edtemail.getText()));
 
 
-            // Update Name
-            Map<String, Object> update_name = new HashMap<>();
-            update_name.put("name", nombre.getText().toString());
-            update_name.put("apellido", apellido.getText().toString());
-            update_name.put("email", edtemail.getText().toString());
-
-            FirebaseDatabase.getInstance()
-                    .getReference("User")
-                    .child(Common.currentuser.getPhone())
-                    .updateChildren(update_name)
-                    .addOnCompleteListener(task -> {
-                        //Dismiss Dialog
-                        waitingDialog.dismiss();
-                        if (task.isSuccessful()) {
-                            Toast.makeText(Home.this, "¡¡Perfil editado!!", Toast.LENGTH_SHORT).show();
-                            preferencesEditor.commit();
-                        }
-
-                    });
+                // Update Name
+                Map<String, Object> update_name = new HashMap<>();
+                update_name.put("name", nombre.getText().toString());
+                update_name.put("apellido", apellido.getText().toString());
+                update_name.put("email", edtemail.getText().toString());
 
 
-        }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+                FirebaseDatabase.getInstance()
+                        .getReference("User")
+                        .child(Common.currentuser.getPhone())
+                        .updateChildren(update_name)
+                        .addOnCompleteListener(task -> {
+                            //Dismiss Dialog
+                            waitingDialog.dismiss();
+                            if (task.isSuccessful()) {
+                                Toast.makeText(Home.this, "¡¡Perfil editado!!", Toast.LENGTH_SHORT).show();
+                                preferencesEditor.commit();
+                                dialog.dismiss();
+                            }
 
-        alertDialog.show();
+                        });
+            }
+        });
 
+
+        }
 
     }
 
 
-}
+
 
 

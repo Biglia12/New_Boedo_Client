@@ -151,7 +151,8 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
     private void showAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
         alertDialog.setTitle("Un paso mas!!");
-        alertDialog.setMessage("Seleccione las opciones ");
+        alertDialog.setMessage("Seleccione las opciones ")
+                .setPositiveButton("Si",null);
 
         LayoutInflater inflater = this.getLayoutInflater();
         View order_address_comment = inflater.inflate(R.layout.order_address_comment, null);
@@ -166,7 +167,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
         final MaterialEditText edtpisodepartamento = order_address_comment.findViewById(R.id.edtpisoodepartamento);
         final MaterialEditText edtLocalidad = order_address_comment.findViewById(R.id.edtlocalidad);
 
-
+        
         alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
         alertDialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
@@ -184,53 +185,51 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                         "0", // seria los estados
                         edtComment.getText().toString(),
                         cart
+
                 );
 
-                if (rbSendToAddress.isChecked()) {
-                    if (edtAdress.getText().toString().isEmpty() || edtentrecalles.getText().toString().isEmpty() || edtLocalidad.getText().toString().isEmpty()) {
-                        Toast.makeText(Cart.this, "Complete los campos requeridos(direccion,entrecalles,localidad)", Toast.LENGTH_SHORT).show();
-                    } else {
+                    if (rbSendToAddress.isChecked()) {
 
-                        //enviar a firebase
-                        //usaremos System.CurrentMilli para llave
+                        if (edtAdress.getText().toString().isEmpty() || edtentrecalles.getText().toString().isEmpty() || edtLocalidad.getText().toString().isEmpty()) {
+                            Toast.makeText(Cart.this, "Recuerde no dejar en blanco los siguientes campos(direccion,entrecalles,localidad)", Toast.LENGTH_SHORT).show();
+
+                        } else {
+
+                            //enviar a firebase
+                            //usaremos System.CurrentMilli para llave
+
+                            String order_number = String.valueOf(System.currentTimeMillis());
+                            requests.child(order_number).setValue(request);
+
+                            Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
+
+
+                            sendNotificationOrder(order_number);
+
+                            //Eliminar carro
+                            //new Database(getBaseContext()).cleanCart();
+                            new Database(getBaseContext()).cleanCart(Common.currentuser.getPhone());
+                            finish();
+                        }
+                    }
+
+                    if (rbGoToMarket.isChecked()) {
+                        //Intent intent = new Intent(Cart.this, MercadoPago.class);
+                        //startActivity(intent);
 
                         String order_number = String.valueOf(System.currentTimeMillis());
                         requests.child(order_number).setValue(request);
-
-
 
                         Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
 
                         sendNotificationOrder(order_number);
 
-
-                        //Eliminar carro
-                        //new Database(getBaseContext()).cleanCart();
                         new Database(getBaseContext()).cleanCart(Common.currentuser.getPhone());
                         finish();
                     }
-                }
-
-               if (rbGoToMarket.isChecked()) {
-
-                   //Intent intent = new Intent(Cart.this, MercadoPago.class);
-                   //startActivity(intent);
-
-                    String order_number = String.valueOf(System.currentTimeMillis());
-                    requests.child(order_number).setValue(request);
-
-
-                    Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
-
-                    sendNotificationOrder(order_number);
 
 
 
-                    //Eliminar carro
-                    //new Database(getBaseContext()).cleanCart();
-                   new Database(getBaseContext()).cleanCart(Common.currentuser.getPhone());
-                   finish();
-                }
             }
 
 
