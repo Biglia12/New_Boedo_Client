@@ -167,11 +167,21 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
         final MaterialEditText edtpisodepartamento = order_address_comment.findViewById(R.id.edtpisoodepartamento);
         final MaterialEditText edtLocalidad = order_address_comment.findViewById(R.id.edtlocalidad);
 
-        
+
         alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
-        alertDialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+
+        alertDialog.setPositiveButton("Ordenar", (dialog, which) -> {
+
+        })
+                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+
+        alertDialog.setView(order_address_comment);
+        AlertDialog dialog=alertDialog.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+
                 Request request = new Request(
                         Common.currentuser.getPhone(),
                         Common.currentuser.getName(),
@@ -203,7 +213,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
                             Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
 
-
+                            dialog.dismiss();
                             sendNotificationOrder(order_number);
 
                             //Eliminar carro
@@ -223,11 +233,11 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                         Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
 
                         sendNotificationOrder(order_number);
-
+                        dialog.dismiss();
                         new Database(getBaseContext()).cleanCart(Common.currentuser.getPhone());
                         finish();
                     }
-
+                   // alertDialog.show();
 
 
             }
@@ -284,14 +294,17 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
 
         });
-        alertDialog.setNegativeButton("NO", (dialog, which) -> {
+
+        alertDialog.setView(order_address_comment);
+
+        /*alertDialog.setNegativeButton("NO", (dialog, which) -> {
         });
 
         alertDialog.setView(order_address_comment);
 
         alertDialog.show();
 
-        //validateRadioButtons();
+        //validateRadioButtons();*/
 
     }
 

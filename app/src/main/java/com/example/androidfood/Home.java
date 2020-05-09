@@ -106,6 +106,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             //Button
             alertDialog.setPositiveButton("Editar", (dialog, which) -> {
 
+
                 final AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(Home.this).build();
                 waitingDialog.show();
 
@@ -437,9 +438,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         //Button
         alertDialog.setPositiveButton("Editar", (dialog, which) -> {
-
-
-
 
         })
                 .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
