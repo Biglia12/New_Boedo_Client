@@ -46,6 +46,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,7 +63,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     TextView txtFullName, txtFullApellido;
 
-
+    TextView hour;
 
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
@@ -72,10 +74,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     CounterFab fab;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
 
         SharedPreferences settings = getSharedPreferences("pref_name", 0); // Este codigo nos serviraa para que alert dialog aparezca la pimera vez instalada la app. luego no aparecera
         boolean installed = settings.getBoolean("installed", false);
@@ -84,9 +90,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
             alertDialog.setTitle("Bienvenido!");
-            alertDialog.setMessage("Complete los campos con su infomacion");
-
-
+            alertDialog.setMessage("Complete los campos con su infomacion. Puede volver a editar los datos en el apartado de editar cuenta");
 
             LayoutInflater inflater = this.getLayoutInflater();
             View layout_name = inflater.inflate(R.layout.update_name_layout, null);
@@ -102,11 +106,24 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
             alertDialog.setView(layout_name);
 
-
-            //Button
             alertDialog.setPositiveButton("Editar", (dialog, which) -> {
 
+            });
+                   // .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
+            AlertDialog dialog=alertDialog.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
+            dialog.show();
+
+            //Button
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+
+                if (nombre.getText().toString().isEmpty() || apellido.getText().toString().isEmpty() || edtemail.getText().toString().isEmpty()) {
+                    Toast.makeText(Home.this, "No Deje vacio los campos", Toast.LENGTH_SHORT).show();
+                }
+
+                else {
                 final AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(Home.this).build();
                 waitingDialog.show();
 
@@ -119,8 +136,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     preferencesEditor.putString("apellido", String.valueOf(apellido.getText()));
                 if (edtemail.getText().length() > 0) // Not empty
                     preferencesEditor.putString("email", String.valueOf(edtemail.getText()));
-
-
 
 
                 // Update Name
@@ -139,18 +154,21 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                             if (task.isSuccessful()) {
                                 Toast.makeText(Home.this, "¡¡Perfil editado!!", Toast.LENGTH_SHORT).show();
                                 preferencesEditor.commit();
+                                dialog.dismiss();
                             }
 
 
                         });
+            }
+            });
 
 
-            }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+            // setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
-            alertDialog.show();
+            //alertDialog.show();
 
 
-            alertDialog.setView(layout_name);
+            //alertDialog.setView(layout_name);
 
 
             SharedPreferences.Editor editor = settings.edit();
@@ -214,13 +232,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         //Abrire los cuadrados de la derecha para que se abra el panel
 
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(Home.this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
 
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -229,9 +248,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 View headerView = navigationView.getHeaderView(0);
                 txtFullName = headerView.findViewById(R.id.txtFullName);
                 txtFullApellido = headerView.findViewById(R.id.txtFullApellido);
-                    txtFullName.setText(Common.currentuser.getName());
+                txtFullName.setText(Common.currentuser.getName());
                 txtFullApellido.setText(Common.currentuser.getApellido());
-                invalidateOptionsMenu();
 
             }
         };
@@ -308,6 +326,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 holder.txtMenuNombre.setText(model.getNombre());
                 final Categoria clickItem = model;
                 holder.setItemClickListener((view, position, isLongClick) -> {
+
                     //Obtener Categoria ID y enviar a nueva actividad
                     Intent foodList = new Intent(Home.this, FoodList.class);
                     //por que la categoriaid es la key, asiq ahora nosotros obtenemos la key de este item
@@ -437,18 +456,19 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
 
         //Button
-        alertDialog.setPositiveButton("Editar", (dialog, which) -> {
+        alertDialog.setPositiveButton("Editar", (dialog, which) -> { //Se uasara asi para que el caudro de dialogo no se cierre
 
         })
                 .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
         AlertDialog dialog=alertDialog.create();
         dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
 
             if(nombre.getText().toString().isEmpty() || apellido.getText().toString().isEmpty()  || edtemail.getText().toString().isEmpty() ){
-                Toast.makeText(Home.this, "No dejar Campos en blanco", Toast.LENGTH_SHORT).show();
-            }
+                    Toast.makeText(Home.this, "No dejar Campos en blanco", Toast.LENGTH_SHORT).show();
+                }
 
             else {
 
@@ -485,6 +505,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                                 preferencesEditor.commit();
                                 dialog.dismiss();
                             }
+
 
                         });
             }

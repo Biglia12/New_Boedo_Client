@@ -13,7 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".Orders.Order_detail"></activity>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -31,6 +30,8 @@
         <activity
             android:name=".Infomacion.Informacion"
             android:parentActivityName=".Home" />
+        <activity android:name=".Orders.Order_detail"
+            android:parentActivityName=".OrderStatus"/>
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -47,6 +48,7 @@
         <activity
             android:name=".FoodList"
             android:parentActivityName=".Home" />
+
         <activity
             android:name=".Common.MercadoPago"
             android:parentActivityName=".Home" />

@@ -45,7 +45,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Order order = myorders.get(position);
-        holder.name.setText(String.format("Nombre : %s",order.getProductoNombre()));
+        holder.name.setText(String.format("Prdoucto : %s",order.getProductoNombre()));
         holder.quantity.setText(String.format("Cantidad : %s",order.getCantidad()));
         holder.price.setText(String.format("Precio : %s",order.getPrecio()));
 

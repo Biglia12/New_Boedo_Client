@@ -3,9 +3,9 @@
     <string name="slogan">Bienvenido a nuestra aplicacion de la panaderia New boedo Reserva o pedi tu comida</string>
     <string name="title_activity_home">Home</string>
 
-    <string name="aviso">Cuando haga la compra el Pago sera por mercadoago tanto en envio como en retiro en sucusal.</string>
-    <string name="aviso2">Si ha elegido la opcion de envio se cobrara por mercado pago el producto que ha comprado y el envio se abonara a parte.por ejemplo n si compra 2 kilos de pan, emercado pago se abonaran los 300 pesos pero el precio de envio se le abonaran al repartidor una vez entregado el poducto</string>
-    <string name="aviso3">Las entregas seran realizadas solo por la localidad de lomas.</string>
+    <string name="aviso">Los pagos por ahora seran en efectivo. Mas adelante agregaremos metodos de pago.</string>
+    <string name="aviso2">Si ha elegido la opcion de envio se cobrara el producto que ha comprado y el envio dependiendo la zona. Zonas cercanas a 5 cuadras seran gratis(abajo en el mapa se veran los precios de envio).</string>
+    <string name="aviso3">Las entregas seran realizadas solo por la localidad de lomas, en caso de que sea un lugar mas alejado se cancelara la orden.</string>
     <string name="aviso4">Haciendo click en la imagen se veran las zonas que hacemos las entregas. y dependiendo el color de la zona se cobraran diferentes precios. Si su direccion pasa la zona roja se cobrara otra diferencia de envio.</string>
 
 
@@ -26,4 +26,5 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="pagar_100">Pagar $100</string>
+    <string name="Horarios">lunes: 7:00–20:30 martes: 7:00–20:30 miércoles: 7:00–20:30 jueves: 7:00–20:30 viernes: 7:00–20:30 sábado: 7:00–20:30 domingo: 7:00–14:00</string>
 </resources>

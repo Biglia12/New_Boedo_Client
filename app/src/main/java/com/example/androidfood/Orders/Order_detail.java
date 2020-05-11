@@ -10,7 +10,11 @@ import android.widget.TextView;
 import com.example.androidfood.Common.Common;
 import com.example.androidfood.R;
 
+import java.util.Objects;
+
 public class Order_detail extends AppCompatActivity {
+
+
 
     TextView order_phone,order_address,order_total,order_date;
     String order_id_value="";
@@ -21,6 +25,8 @@ public class Order_detail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         order_phone=findViewById(R.id.order_telefono);
         order_address=findViewById(R.id.order_direccion);
@@ -34,7 +40,6 @@ public class Order_detail extends AppCompatActivity {
 
         if (getIntent()!=null)
             order_id_value=getIntent().getStringExtra("OrderId");
-
 
         order_phone.setText(Common.currentRequest.getTelefono());
         order_total.setText(Common.currentRequest.getTotal());

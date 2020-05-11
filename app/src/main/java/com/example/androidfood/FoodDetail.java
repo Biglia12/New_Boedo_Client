@@ -81,10 +81,12 @@ public class FoodDetail extends AppCompatActivity {
 
         btnCart = findViewById(R.id.btnCart);
 
+
         food_descripcion = findViewById(R.id.food_descripcion);
         food_nombre = findViewById(R.id.food_nombre);
         food_precio = findViewById(R.id.food_precio);
         food_imagen = findViewById(R.id.food_imagen);
+
 
         collapsingToolbarLayout = findViewById(R.id.collapsing);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppbar);

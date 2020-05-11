@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <TextView
+<!--        <TextView
             android:id="@+id/textaviso"
             android:layout_width="339dp"
             android:layout_height="wrap_content"
@@ -47,12 +47,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.217"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textavisotitulo" />
+            app:layout_constraintTop_toBottomOf="@+id/textavisotitulo" /> -->
 
         <TextView
             android:id="@+id/textaviso2"
-            android:layout_width="317dp"
-            android:layout_height="194dp"
+            android:layout_width="313dp"
+            android:layout_height="113dp"
             android:layout_marginTop="12dp"
             android:drawableLeft="@drawable/ic_chevron_right_black_24dp"
             android:text="@string/aviso2"
@@ -61,7 +61,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.272"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+            app:layout_constraintTop_toBottomOf="@+id/textavisotitulo" />
 
         <TextView
             android:id="@+id/textaviso3"
@@ -75,7 +75,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.272"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+            app:layout_constraintTop_toBottomOf="@+id/textaviso2" />
 
         <TextView
             android:id="@+id/textaviso4"
@@ -89,7 +89,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.272"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+            app:layout_constraintTop_toBottomOf="@+id/textaviso3" />
 
         <TextView
             android:id="@+id/textaviso5"
@@ -103,7 +103,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.272"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+            app:layout_constraintTop_toBottomOf="@+id/textaviso4" />
 
         <TextView
             android:id="@+id/textaviso6"
@@ -117,7 +117,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.272"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+            app:layout_constraintTop_toBottomOf="@+id/textaviso5" />
 
         <TextView
             android:id="@+id/textaviso7"
@@ -131,7 +131,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.272"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+            app:layout_constraintTop_toBottomOf="@+id/textaviso6" />
 
 
         <TextView
@@ -139,13 +139,13 @@
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Haga Click en la imagen del mapa."
+            android:text="Haga Click en la imagen del mapa para visulaizar las zonas de entrega y precios."
             android:textColor="@color/colorBlue"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.272"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textaviso" />
+            app:layout_constraintTop_toBottomOf="@+id/textaviso7" />
 
 
         <ImageView

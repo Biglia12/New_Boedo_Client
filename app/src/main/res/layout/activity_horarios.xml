@@ -8,36 +8,29 @@
     tools:context=".Infomacion.Horarios">
 
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="413dp"
+        android:layout_height="264dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/newboeddoooresoluciooonnn222" />
+
     <TextView
-        android:id="@+id/textViewHorario"
-        android:layout_width="341dp"
+        android:id="@+id/textView"
+        android:layout_width="277dp"
         android:layout_height="227dp"
         android:background="@drawable/rectangulo"
         android:gravity="center_horizontal"
-        android:text="lunes:                   7:00–20:30
-    martes:                7:00–20:30
-   miércoles:           7:00–20:30
-    jueves:                 7:00–20:30
-    viernes:                7:00–20:30
-    sábado:               7:00–20:30
-    domingo:             7:00–14:00"
-        android:textColor="#000000"
-        android:textSize="26sp"
+        android:text="@string/Horarios"
+        android:textColor="@color/colorBlack"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.655" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.141" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/panaderia" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -141,11 +141,11 @@
 
         <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
             android:id="@+id/btn_quantity"
-            android:layout_width="70dp"
+            android:layout_width="90dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
             app:backGroundColor="@color/colorAccent"
-            app:finalNumber="50"
+            app:finalNumber="80"
             app:initialNumber="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:textSize="8sp"

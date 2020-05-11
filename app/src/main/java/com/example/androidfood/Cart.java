@@ -26,6 +26,7 @@ import com.example.androidfood.Common.Common;
 import com.example.androidfood.Common.MercadoPago;
 import com.example.androidfood.Database.Database;
 import com.example.androidfood.Helper.RecyclerItemTouchHelper;
+import com.example.androidfood.Infomacion.Horarios;
 import com.example.androidfood.Interface.RecyclerItemTouchHelperListener;
 import com.example.androidfood.Model.MyResponse;
 import com.example.androidfood.Model.Notification;
@@ -50,6 +51,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -121,24 +123,59 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
         btnPlace.setOnClickListener(v -> {
 
-            if (cart.size() > 0) {
+            Calendar openingHour = Calendar.getInstance(); // Se utilziara cuando el lcoal se encuentre cerrado. Horario de baierto y cerrado.
+            openingHour.set(Calendar.HOUR_OF_DAY, 7);
+            openingHour.set(Calendar.MINUTE, 0);
+            openingHour.set(Calendar.SECOND, 0);
+            openingHour.set(Calendar.MILLISECOND, 0);
 
+            Calendar closingHour = Calendar.getInstance();
+            closingHour.set(Calendar.HOUR_OF_DAY, 17);
+            closingHour.set(Calendar.MINUTE, 0);
+            closingHour.set(Calendar.SECOND, 0);
+            closingHour.set(Calendar.MILLISECOND, 0);
 
-                showAlertDialog();
+            Calendar currentTime = Calendar.getInstance();
+            int dayOfWeek = currentTime.get(Calendar.DAY_OF_WEEK);
+            if( dayOfWeek % 7 > 1  && currentTime.before(closingHour) && currentTime.after(openingHour)){
+                if (cart.size() > 0) {
+                    showAlertDialog();
+                    radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
+                        switch (i) {
+                            case R.id.rdiShipToSucursal:
+                                llDataSendDirection.setVisibility(View.GONE);
+                                break;
+                            case R.id.rdiShipToAddress:
+                                llDataSendDirection.setVisibility(View.VISIBLE);
+                                break;
+                        }
+                    });
+                } else
+                    Toast.makeText(Cart.this, "Su carro esta vacio!!!", Toast.LENGTH_SHORT).show();
+            } else {
 
-                radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
-                    switch (i) {
-                        case R.id.rdiShipToSucursal:
-                            llDataSendDirection.setVisibility(View.GONE);
-                            break;
-                        case R.id.rdiShipToAddress:
-                            llDataSendDirection.setVisibility(View.VISIBLE);
-                            break;
-                    }
+                AlertDialog.Builder builder = new AlertDialog.Builder(Cart.this);
+                LayoutInflater factory = LayoutInflater.from(Cart.this);
+                final View view = factory.inflate(R.layout.sample, null);
+                builder.setView(view);
+                builder.setTitle("New boedo esta cerrado,abrira a las...");
+                builder.setMessage("Mientras tanto puede mirar nuestro catalogo o ver nuestros");
+                builder.setPositiveButton("Mirar horario", (dialog, which) -> {
+                    Intent cart = new Intent(Cart.this, Horarios.class);
+                    //cart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(cart);
+                });
+                builder.setNegativeButton("De acuerdo", (dialog, which) -> {
+
+                    // Do nothing
+                    dialog.dismiss();
                 });
 
-            } else
-                Toast.makeText(Cart.this, "Su carro esta vacio!!!", Toast.LENGTH_SHORT).show();
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+
+
 
 
         });
@@ -177,6 +214,8 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
         alertDialog.setView(order_address_comment);
         AlertDialog dialog=alertDialog.create();
+        dialog.setCanceledOnTouchOutside(false);//con este codigo el dialogo no se cerrara cuando se presione fuera del dialogo
+        dialog.setCancelable(false);//no se podra cerrar el dialogo presionando el boton de atras del telefono
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
