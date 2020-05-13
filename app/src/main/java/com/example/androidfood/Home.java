@@ -273,8 +273,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         recycler_menu = findViewById(R.id.recycler_menu);
         recycler_menu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        recycler_menu.setLayoutManager(layoutManager);
-
+        //recycler_menu.setLayoutManager(layoutManager);
+          recycler_menu.setLayoutManager(new GridLayoutManager(this,2));
 
         loadMenu();
 
@@ -343,7 +343,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 return new MenuViewHolder(view);
             }
         };
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 1);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
         recycler_menu.setLayoutManager(gridLayoutManager);
         adapter.startListening();
         recycler_menu.setAdapter(adapter);

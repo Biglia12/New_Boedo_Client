@@ -123,14 +123,14 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
         btnPlace.setOnClickListener(v -> {
 
-            Calendar openingHour = Calendar.getInstance(); // Se utilziara cuando el lcoal se encuentre cerrado. Horario de baierto y cerrado.
+            Calendar openingHour = Calendar.getInstance(); // Se utilziara cuando el lcoal se encuentre cerrado. Horario de abierto y cerrado.
             openingHour.set(Calendar.HOUR_OF_DAY, 7);
             openingHour.set(Calendar.MINUTE, 0);
             openingHour.set(Calendar.SECOND, 0);
             openingHour.set(Calendar.MILLISECOND, 0);
 
             Calendar closingHour = Calendar.getInstance();
-            closingHour.set(Calendar.HOUR_OF_DAY, 17);
+            closingHour.set(Calendar.HOUR_OF_DAY, 23);
             closingHour.set(Calendar.MINUTE, 0);
             closingHour.set(Calendar.SECOND, 0);
             closingHour.set(Calendar.MILLISECOND, 0);
@@ -159,8 +159,8 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                 final View view = factory.inflate(R.layout.sample, null);
                 builder.setView(view);
                 builder.setTitle("New boedo esta cerrado,abrira a las...");
-                builder.setMessage("Mientras tanto puede mirar nuestro catalogo o ver nuestros");
-                builder.setPositiveButton("Mirar horario", (dialog, which) -> {
+                builder.setMessage("Mientras tanto puede mirar nuestro catalogo o ver los horarios");
+                builder.setPositiveButton("Mirar horarios", (dialog, which) -> {
                     Intent cart = new Intent(Cart.this, Horarios.class);
                     //cart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(cart);
@@ -188,7 +188,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
     private void showAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
         alertDialog.setTitle("Un paso mas!!");
-        alertDialog.setMessage("Seleccione las opciones ")
+        alertDialog.setMessage("Seleccione las opciones.")
                 .setPositiveButton("Si",null);
 
         LayoutInflater inflater = this.getLayoutInflater();
@@ -208,6 +208,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
         alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
 
         alertDialog.setPositiveButton("Ordenar", (dialog, which) -> {
+
 
         })
                 .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
@@ -250,7 +251,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                             String order_number = String.valueOf(System.currentTimeMillis());
                             requests.child(order_number).setValue(request);
 
-                            Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Cart.this, "Muchas gracias por su orden.", Toast.LENGTH_SHORT).show();
 
                             dialog.dismiss();
                             sendNotificationOrder(order_number);
@@ -269,10 +270,11 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                         String order_number = String.valueOf(System.currentTimeMillis());
                         requests.child(order_number).setValue(request);
 
-                        Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Cart.this, "Muchas gracias por su orden.", Toast.LENGTH_SHORT).show();
 
                         sendNotificationOrder(order_number);
                         dialog.dismiss();
+
                         new Database(getBaseContext()).cleanCart(Common.currentuser.getPhone());
                         finish();
                     }
@@ -303,7 +305,9 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
                                             if (response.code() == 200) {
                                                 if (response.body().success == 1) {
-                                                    Toast.makeText(Cart.this, "Muchas gracias,por su orden", Toast.LENGTH_SHORT).show();
+
+                                                    Toast.makeText(Cart.this, "Muchas gracias por su orden.", Toast.LENGTH_SHORT).show();
+
                                                     finish();
                                                 } else {
                                                     Toast.makeText(Cart.this, "Hubo un problema", Toast.LENGTH_SHORT).show();

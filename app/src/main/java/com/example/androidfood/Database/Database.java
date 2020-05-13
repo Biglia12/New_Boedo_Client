@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.example.androidfood.Model.Order;
-import com.google.firestore.v1beta1.StructuredQuery;
+//import com.google.firestore.v1beta1.StructuredQuery;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.util.ArrayList;

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="10dp"
-    android:layout_margin="0dp">
+    android:layout_margin="10dp"
+    app:cardCornerRadius="0dp">
 
 
     <RelativeLayout
@@ -26,7 +27,7 @@
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:gravity="center"
-            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

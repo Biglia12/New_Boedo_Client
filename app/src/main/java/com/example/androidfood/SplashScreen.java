@@ -13,7 +13,7 @@ import java.util.TimerTask;
 
 public class SplashScreen extends AppCompatActivity {
 
-    long Delay = 5000;
+    long Delay = 2000;
 
 
     @Override
