@@ -29,11 +29,11 @@ public class Common {
 
     public static String convertCodeToStatus(String status) {
         if (status.equals("0"))
-            return "Orden recibida";
+            return "Estado:Orden recibida";
         else if (status.equals("1"))
-            return "Orden enviada";
+            return "Estado:Orden enviada";
         else
-            return "Puede retirar la orden";
+            return "Estado:Puede retirar la orden";
 
     }
 

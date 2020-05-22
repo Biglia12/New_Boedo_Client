@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         };
         setContentView(R.layout.activity_main);
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary)); //cambiar color de la barra del telefono
+
         database = FirebaseDatabase.getInstance();
         users = database.getReference("User");
 

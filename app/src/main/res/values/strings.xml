@@ -12,6 +12,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="ThanksForOrder">Le llegara una notificacion cuando su orden este lista para retirar. Puede fijarse en el apartado ´ordenes´ para mirar el estado de su Orden</string>
+    <string name="ThanksForOrderDelivery">Le llegara una notificacion cuando su orden se haya enviado. Puede fijarse en el apartado ´ordenes´ para mirar el estado de su Orden.Recuerde mirar el cobro del delivery dependiendo la distancia. Puede mirarlo en el apartado ´informacion´ y en la opcion ´antes de comprar´</string>
+
     <string name="forgot_pass"><u>Olvido la contraseña?</u></string>
 
     <string name="nav_header_title">Android Studio</string>
@@ -26,5 +29,5 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="pagar_100">Pagar $100</string>
-    <string name="Horarios">lunes: 7:00–20:30 martes: 7:00–20:30 miércoles: 7:00–20:30 jueves: 7:00–20:30 viernes: 7:00–20:30 sábado: 7:00–20:30 domingo: 7:00–14:00</string>
+    <string name="Horarios">lunes: 6:00–22:00 martes: 6:00–22:00 miércoles: 6:00–22:00 jueves: 6:00–22:00 viernes: 6:00–22:00 sábado: 6:00–22:00 domingo: 6:00–14:00</string>
 </resources>

@@ -37,7 +37,7 @@
             android:id="@+id/edtemaill"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="Email (Opcional)"
             android:inputType="text"
             android:text=""
             android:drawableLeft="@drawable/ic_email_black_24dp"

@@ -4,6 +4,7 @@
     package="com.example.androidfood">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -14,14 +15,17 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
 
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_newboedonotification32323" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" />
+            android:resource="@color/colorPrimary" />
 
-        <activity android:name=".Infomacion.Aviso" />
+        <activity
+            android:name=".Infomacion.Aviso"
+            android:parentActivityName=".Infomacion.Informacion" />
         <activity android:name=".ForgotPass" />
         <activity android:name=".RessetPassword" />
         <activity
@@ -30,8 +34,9 @@
         <activity
             android:name=".Infomacion.Informacion"
             android:parentActivityName=".Home" />
-        <activity android:name=".Orders.Order_detail"
-            android:parentActivityName=".OrderStatus"/>
+        <activity
+            android:name=".Orders.Order_detail"
+            android:parentActivityName=".OrderStatus" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -48,10 +53,18 @@
         <activity
             android:name=".FoodList"
             android:parentActivityName=".Home" />
-
         <activity
             android:name=".Common.MercadoPago"
             android:parentActivityName=".Home" />
+
+        <activity
+            android:name=".FinishOrders.ThanksForOrderDelivery"
+            android:parentActivityName=".Home" />
+
+        <activity
+            android:name=".FinishOrders.ThanksForOrder"
+            android:parentActivityName=".Home" />
+
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"

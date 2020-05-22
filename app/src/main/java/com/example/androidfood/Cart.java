@@ -1,6 +1,5 @@
 package com.example.androidfood;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -23,9 +22,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidfood.Common.Common;
-import com.example.androidfood.Common.MercadoPago;
 import com.example.androidfood.Database.Database;
+import com.example.androidfood.FinishOrders.ThanksForOrder;
+import com.example.androidfood.FinishOrders.ThanksForOrderDelivery;
 import com.example.androidfood.Helper.RecyclerItemTouchHelper;
+import com.example.androidfood.Infomacion.Aviso;
 import com.example.androidfood.Infomacion.Horarios;
 import com.example.androidfood.Interface.RecyclerItemTouchHelperListener;
 import com.example.androidfood.Model.MyResponse;
@@ -44,9 +45,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.mercadopago.android.px.core.MercadoPagoCheckout;
-import com.mercadopago.android.px.internal.datasource.MercadoPagoPaymentConfiguration;
-import com.mercadopago.android.px.services.MercadoPagoServices;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.NumberFormat;
@@ -94,6 +92,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary)); //cambiar color de la barra del telefono
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);//Botoon para volver hacia atras. se encuentra en action bar
 
@@ -124,20 +123,37 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
         btnPlace.setOnClickListener(v -> {
 
             Calendar openingHour = Calendar.getInstance(); // Se utilziara cuando el lcoal se encuentre cerrado. Horario de abierto y cerrado.
-            openingHour.set(Calendar.HOUR_OF_DAY, 7);
+            openingHour.set(Calendar.HOUR_OF_DAY, 6);
             openingHour.set(Calendar.MINUTE, 0);
             openingHour.set(Calendar.SECOND, 0);
             openingHour.set(Calendar.MILLISECOND, 0);
 
             Calendar closingHour = Calendar.getInstance();
-            closingHour.set(Calendar.HOUR_OF_DAY, 23);
+            closingHour.set(Calendar.HOUR_OF_DAY, 22);
             closingHour.set(Calendar.MINUTE, 0);
             closingHour.set(Calendar.SECOND, 0);
             closingHour.set(Calendar.MILLISECOND, 0);
 
+            Calendar openingHour1 = Calendar.getInstance(); // Se utilziara cuando el lcoal se encuentre cerrado. Horario de abierto y cerrado en el dia domingo.
+            openingHour1.set(Calendar.DAY_OF_WEEK,1);
+            openingHour1.set(Calendar.HOUR_OF_DAY, 6);
+            openingHour1.set(Calendar.MINUTE, 0);
+            openingHour1.set(Calendar.SECOND, 0);
+            openingHour1.set(Calendar.MILLISECOND, 0);
+
+            Calendar closingHour1 = Calendar.getInstance();
+            closingHour1.set(Calendar.DAY_OF_WEEK,1);
+            closingHour1.set(Calendar.HOUR_OF_DAY, 14);
+            closingHour1.set(Calendar.MINUTE, 0);
+            closingHour1.set(Calendar.SECOND, 0);
+            closingHour1.set(Calendar.MILLISECOND, 0);
+
+
             Calendar currentTime = Calendar.getInstance();
             int dayOfWeek = currentTime.get(Calendar.DAY_OF_WEEK);
-            if( dayOfWeek % 7 > 1  && currentTime.before(closingHour) && currentTime.after(openingHour)){
+            if( dayOfWeek % 7 > 1  && currentTime.before(closingHour) && currentTime.after(openingHour) || currentTime.before(closingHour1) && currentTime.after(openingHour1)){
+
+
                 if (cart.size() > 0) {
                     showAlertDialog();
                     radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
@@ -158,7 +174,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                 LayoutInflater factory = LayoutInflater.from(Cart.this);
                 final View view = factory.inflate(R.layout.sample, null);
                 builder.setView(view);
-                builder.setTitle("New boedo esta cerrado,abrira a las...");
+                builder.setTitle("New boedo esta cerrado,abrira a las 6 AM");
                 builder.setMessage("Mientras tanto puede mirar nuestro catalogo o ver los horarios");
                 builder.setPositiveButton("Mirar horarios", (dialog, which) -> {
                     Intent cart = new Intent(Cart.this, Horarios.class);
@@ -238,30 +254,37 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
                 );
 
-                    if (rbSendToAddress.isChecked()) {
+                if (rbSendToAddress.isChecked()) {
 
-                        if (edtAdress.getText().toString().isEmpty() || edtentrecalles.getText().toString().isEmpty() || edtLocalidad.getText().toString().isEmpty()) {
-                            Toast.makeText(Cart.this, "Recuerde no dejar en blanco los siguientes campos(direccion,entrecalles,localidad)", Toast.LENGTH_SHORT).show();
-
-                        } else {
-
-                            //enviar a firebase
-                            //usaremos System.CurrentMilli para llave
-
-                            String order_number = String.valueOf(System.currentTimeMillis());
-                            requests.child(order_number).setValue(request);
-
-                            Toast.makeText(Cart.this, "Muchas gracias por su orden.", Toast.LENGTH_SHORT).show();
-
-                            dialog.dismiss();
-                            sendNotificationOrder(order_number);
-
-                            //Eliminar carro
-                            //new Database(getBaseContext()).cleanCart();
-                            new Database(getBaseContext()).cleanCart(Common.currentuser.getPhone());
-                            finish();
-                        }
+                    if (edtAdress.length() == 0) {
+                        edtAdress.setError("Ingrese su Direccion");
+                    } else if (edtentrecalles.length() == 0) {
+                        edtentrecalles.setError("Ingrese entrecalles");
+                    } else if (edtLocalidad.length() == 0) {
+                        edtLocalidad.setError("Ingrese su Localidad");
                     }
+
+                     else {
+
+                        //enviar a firebase
+                        //usaremos System.CurrentMilli para llave
+
+                        String order_number = String.valueOf(System.currentTimeMillis());
+                        requests.child(order_number).setValue(request);
+
+                        Intent cart = new Intent(Cart.this, ThanksForOrderDelivery.class);
+                        startActivity(cart);
+                        //Toast.makeText(Cart.this, "Muchas gracias por su orden.", Toast.LENGTH_SHORT).show();
+
+                        dialog.dismiss();
+                        sendNotificationOrder(order_number);
+
+                        //Eliminar carro
+                        //new Database(getBaseContext()).cleanCart();
+                        new Database(getBaseContext()).cleanCart(Common.currentuser.getPhone());
+                        finish();
+                    }
+                }
 
                     if (rbGoToMarket.isChecked()) {
                         //Intent intent = new Intent(Cart.this, MercadoPago.class);
@@ -270,7 +293,9 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                         String order_number = String.valueOf(System.currentTimeMillis());
                         requests.child(order_number).setValue(request);
 
-                        Toast.makeText(Cart.this, "Muchas gracias por su orden.", Toast.LENGTH_SHORT).show();
+                        Intent cart = new Intent(Cart.this, ThanksForOrder.class);
+                        startActivity(cart);
+                        //Toast.makeText(Cart.this, "Muchas gracias por su orden.", Toast.LENGTH_SHORT).show();
 
                         sendNotificationOrder(order_number);
                         dialog.dismiss();

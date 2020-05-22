@@ -48,6 +48,8 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_activity);
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary)); //cambiar color de la barra del telefono
+
         //Firebase
         database=FirebaseDatabase.getInstance();
         foodList=database.getReference("Comidas");

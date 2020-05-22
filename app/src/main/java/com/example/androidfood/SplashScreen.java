@@ -22,6 +22,8 @@ public class SplashScreen extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash_screen);
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.white)); //cambiar color de la barra del telefono
+
         ActionBar actionbar = getSupportActionBar();
         actionbar.hide();
 

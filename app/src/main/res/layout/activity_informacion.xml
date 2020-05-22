@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="343dp"
-        android:layout_height="228dp"
+        android:layout_width="338dp"
+        android:layout_height="190dp"
         android:src="@drawable/newboeddoooresoluciooonnn222"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
@@ -42,9 +42,9 @@
 
     <ImageView
         android:id="@+id/imagenContacto"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="32dp"
         android:src="@drawable/ic_phone_black_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
@@ -55,6 +55,7 @@
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:text="Contacto"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="@+id/imagenContacto"
         app:layout_constraintHorizontal_bias="0.424"
         app:layout_constraintStart_toStartOf="@+id/imagenContacto"
@@ -62,32 +63,34 @@
 
     <ImageView
         android:id="@+id/imageemail"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginEnd="20dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="36dp"
         android:src="@drawable/ic_email_black_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <TextView
         android:id="@+id/textViewemali"
-        android:layout_width="105dp"
-        android:layout_height="16dp"
-        android:text="Nuestro Email"
+        android:layout_width="39dp"
+        android:layout_height="20dp"
+        android:text="Email"
         android:textColor="#000000"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="@+id/imageemail"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.612"
         app:layout_constraintStart_toStartOf="@+id/imageemail"
         app:layout_constraintTop_toBottomOf="@+id/imageemail" />
 
     <ImageView
         android:id="@+id/imagenface"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginStart="44dp"
         android:layout_marginEnd="44dp"
         android:src="@drawable/iconoface"
         app:layout_constraintEnd_toStartOf="@+id/imageemail"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toEndOf="@+id/imagenContacto"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
@@ -96,6 +99,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#000000"
+        android:textSize="13sp"
         android:text="Nuestro Facebook"
         app:layout_constraintEnd_toEndOf="@+id/imagenface"
         app:layout_constraintStart_toStartOf="@+id/imagenface"
@@ -103,10 +107,10 @@
 
     <ImageView
         android:id="@+id/imagenubica"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:src="@drawable/ic_location_on_black_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewcontac" />
@@ -117,19 +121,20 @@
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:text="Nuestra Ubicacion"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="@+id/imagenubica"
         app:layout_constraintStart_toStartOf="@+id/imagenubica"
         app:layout_constraintTop_toBottomOf="@+id/imagenubica" />
 
     <ImageView
         android:id="@+id/imgHora"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="44dp"
         app:layout_constraintEnd_toStartOf="@+id/imageAviso"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toEndOf="@+id/imagenubica"
         app:layout_constraintTop_toBottomOf="@+id/textViewface"
         app:srcCompat="@drawable/ic_access_alarm_black_24dp" />
@@ -149,6 +154,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Antes de comprar"
+        android:textSize="13sp"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="@+id/imageAviso"
         app:layout_constraintHorizontal_bias="0.533"
@@ -157,13 +163,35 @@
 
     <ImageView
         android:id="@+id/imageAviso"
-        android:layout_width="87dp"
-        android:layout_height="98dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="20dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewemali"
         app:srcCompat="@drawable/ic_warning_black_24dp" />
+
+    <ImageView
+        android:id="@+id/imageWhats"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewubicacion"
+        app:srcCompat="@drawable/ic_whatsapp_computer_icons_what_app_icon" />
+
+    <TextView
+        android:id="@+id/textViewWhats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nuestro Whatsapp"
+        android:textSize="13sp"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="@+id/imageWhats"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="@+id/imageWhats"
+        app:layout_constraintTop_toBottomOf="@+id/imageWhats" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -82,6 +82,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary)); //cambiar color de la barra del telefono
 
         SharedPreferences settings = getSharedPreferences("pref_name", 0); // Este codigo nos serviraa para que alert dialog aparezca la pimera vez instalada la app. luego no aparecera
         boolean installed = settings.getBoolean("installed", false);
@@ -119,8 +120,17 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             //Button
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
 
-                if (nombre.getText().toString().isEmpty() || apellido.getText().toString().isEmpty() || edtemail.getText().toString().isEmpty()) {
+               /* if (nombre.getText().toString().isEmpty() || apellido.getText().toString().isEmpty()) {
                     Toast.makeText(Home.this, "No Deje vacio los campos", Toast.LENGTH_SHORT).show();
+                }*/
+
+                if (nombre.length()==0)
+                {
+                    nombre.setError("Ingrese su Nombre");
+                }
+                else if (apellido.length()==0)
+                {
+                    apellido.setError("Ingrese su apellido");
                 }
 
                 else {
@@ -452,6 +462,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
 
 
+
         alertDialog.setView(layout_name);
 
 
@@ -466,9 +477,18 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         dialog.setCanceledOnTouchOutside(false);
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
 
-            if(nombre.getText().toString().isEmpty() || apellido.getText().toString().isEmpty()  || edtemail.getText().toString().isEmpty() ){
+            /*if(nombre.getText().toString().isEmpty() || apellido.getText().toString().isEmpty() ){
                     Toast.makeText(Home.this, "No dejar Campos en blanco", Toast.LENGTH_SHORT).show();
-                }
+                }*/
+
+            if (nombre.length()==0)
+            {
+                nombre.setError("Ingrese su Nombre");
+            }
+            else if (apellido.length()==0)
+            {
+                apellido.setError("Ingrese su apellido");
+            }
 
             else {
 

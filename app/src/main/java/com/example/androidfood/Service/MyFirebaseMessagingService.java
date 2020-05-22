@@ -87,7 +87,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             NotificationChannel channel = new NotificationChannel(Notification_channel_id,
-                    "Notification", NotificationManager.IMPORTANCE_DEFAULT);
+                    "Notification", NotificationManager.IMPORTANCE_HIGH);
 
             channel.setDescription("newboedo");
             channel.enableLights(true);
@@ -102,6 +102,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent intent = new Intent(this, OrderStatus.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_ONE_SHOT);
+
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder builder= new NotificationCompat.Builder(this,Notification_channel_id);
@@ -109,10 +110,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(notification.getTitle())
                 .setContentText(notification.getBody())
                 .setAutoCancel(true)
+                .setShowWhen(true)
                 .setSound(defaultSoundUri)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(contentIntent);
         NotificationManager notificationManager =(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(new Random().nextInt(),builder.build());
+        notificationManager.notify(0, builder.build());
+
+        //notificationManager.notify(new Random().nextInt(),builder.build());
     }
+
+
 }

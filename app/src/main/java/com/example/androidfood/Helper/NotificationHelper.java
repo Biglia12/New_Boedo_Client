@@ -32,7 +32,7 @@ public class NotificationHelper extends ContextWrapper {
         NotificationChannel newboedoChannel = new NotificationChannel(NEW_BOEDO_ID,
                 NEW_BOEDO_NAME,
                 NotificationManager.IMPORTANCE_DEFAULT);
-        newboedoChannel.enableLights(false);
+        newboedoChannel.enableLights(true);
         newboedoChannel.enableVibration(true);
         newboedoChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
 
@@ -53,10 +53,11 @@ public class NotificationHelper extends ContextWrapper {
                 .setContentText(body)
                 .setSmallIcon(R.drawable.ic_newboedonotification32323)
                 .setSound(soundUri)
-                .setAutoCancel(false);
+                .setShowWhen(true)
+                .setAutoCancel(true);
     }
 
-        @TargetApi(Build.VERSION_CODES.Q)
+        /*@TargetApi(Build.VERSION_CODES.Q)
         public Notification.Builder edtEatItChannelNotification(String title, String body, Uri soundUri) {
             return new Notification.Builder(getApplicationContext(),NEW_BOEDO_ID)
                     .setContentTitle(title)
@@ -64,5 +65,5 @@ public class NotificationHelper extends ContextWrapper {
                     .setSmallIcon(R.drawable.ic_newboedonotification32323)
                     .setSound(soundUri)
                     .setAutoCancel(false);
-    }
+    }*/
 }
